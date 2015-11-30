@@ -78,7 +78,7 @@
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;; Custom line number stuff
-(setq linum-format "%d  ")
+(setq linum-format 'dynamic)
 (setq-default left-fringe-width  12)
 (setq-default right-fringe-width  0)
 (set-face-attribute 'fringe nil)
