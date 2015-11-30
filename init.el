@@ -30,6 +30,9 @@
 (require 'helm)
 (require 'helm-config)
 (require 'jedi)
+(require 'go-autocomplete)
+(require 'go-eldoc)
+(require 'auto-complete-config)
 (require 'recentf)
 (require 'sr-speedbar)
 (require 'spaceline-config)
@@ -43,7 +46,11 @@
   (when (fboundp 'scroll-bar-mode)
     (scroll-bar-mode -1))
 
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-copy-env "GOPATH")
+  (exec-path-from-shell-initialize))
 
+(ac-config-default)
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
 (global-git-gutter+-mode)
 (global-linum-mode nil)
@@ -71,10 +78,10 @@
 (show-paren-mode 1)
 (which-key-mode)
 
-
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 (add-to-list 'ac-sources 'ac-source-jedi-direct)
 
+(add-hook 'go-mode-hook 'go-eldoc-setup)
 (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
 (add-hook 'python-mode-hook 'jedi:setup)
 (add-hook 'pip-requirements-mode-hook #'pip-requirements-auto-complete-setup)
