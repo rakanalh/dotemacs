@@ -1,3 +1,8 @@
+;;; package --- Main init file
+;;; Commentary:
+;;; This is my init file
+
+;;; Code:
 (require 'package)
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages/"))
@@ -18,22 +23,31 @@
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+ ;; If there is more than one, they won't work
+)
 
-(require 'powerline)
 (require 'helm)
 (require 'helm-config)
 (require 'jedi)
+(require 'recentf)
 (require 'sr-speedbar)
+(require 'spaceline-config)
+(require 'which-key)
 
-(global-linum-mode nil)
-(setq sr-speedbar-right-side nil)
-(powerline-default-theme)
-(projectile-global-mode)
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+(global-git-gutter+-mode)
+(global-linum-mode nil)
 (global-set-key (kbd "M-x") 'helm-M-x)
 (helm-mode 1)
+(projectile-global-mode)
+(recentf-mode 1)
+(spaceline-emacs-theme)
+(setq sr-speedbar-right-side nil)
+(setq make-backup-files nil)
+(setq jedi:setup-keys t)
+(setq jedi:complete-on-dot t)
+(which-key-mode)
+
 
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 (add-to-list 'ac-sources 'ac-source-jedi-direct)
@@ -62,3 +76,8 @@
 (setq interprogram-cut-function 'paste-to-osx)
 (setq interprogram-paste-function 'copy-from-osx)
 
+;; Custom Shortcuts
+(global-set-key (kbd "C-}")
+    (lambda () (interactive) (forward-line 5)))
+(global-set-key (kbd "C-{")
+    (lambda () (interactive) (forward-line -5)))
