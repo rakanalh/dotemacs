@@ -52,6 +52,8 @@
 (projectile-global-mode)
 (recentf-mode 1)
 (spaceline-emacs-theme)
+(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin/"))
+(setq exec-path (append exec-path '("/usr/local/bin/")))
 (setq inhibit-startup-message t)
 (setq sr-speedbar-right-side nil)
 (setq make-backup-files nil)
@@ -68,11 +70,12 @@
 					       "backups"))))
 (show-paren-mode 1)
 (which-key-mode)
-(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+
 
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 (add-to-list 'ac-sources 'ac-source-jedi-direct)
 
+(add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
 (add-hook 'python-mode-hook 'jedi:setup)
 (add-hook 'pip-requirements-mode-hook #'pip-requirements-auto-complete-setup)
 (add-hook 'after-init-hook #'global-flycheck-mode)
