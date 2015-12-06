@@ -7,7 +7,45 @@
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'load-path "~/.emacs.d/vendor/")
+
 (package-initialize)
+(when (not package-archive-contents)
+  (package-refresh-contents))
+
+(defvar packages
+  '(auto-complete
+    dockerfile-mode
+    epc
+    epl
+    exec-path-from-shell
+    flycheck
+    flymake-go
+    git-gutter+
+    go-autocomplete
+    go-eldoc
+    go-mode
+    helm
+    helm-projectile
+    jedi
+    magit-popup
+    neotree
+    page-break-lines
+    pip-requirements
+    projectile
+    py-autopep8
+    python-environment
+    spaceline
+    spacemacs-theme
+    sr-speedbar
+    virtualenv
+    virtualenvwrapper
+    which-key
+    yaml-mode))
+
+(mapc #'(lambda (package)
+    (unless (package-installed-p package)
+      (package-install package)))
+      packages)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -25,7 +63,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(widget-button ((t (:foreground "blue" :underline nil :weight bold)))))
+ '(widget-button ((t (:foreground "gray90" :underline nil :weight bold)))))
 
 (require 'helm)
 (require 'helm-config)
@@ -63,6 +101,7 @@
 (setq exec-path (append exec-path '("/usr/local/bin/")))
 (setq inhibit-startup-message t)
 (setq sr-speedbar-right-side nil)
+(setq speedbar-smart-directory-expand-flag t)
 (setq make-backup-files nil)
 (setq jedi:setup-keys t)
 (setq jedi:complete-on-dot t)
@@ -82,7 +121,7 @@
 (add-to-list 'ac-sources 'ac-source-jedi-direct)
 
 (add-hook 'go-mode-hook 'go-eldoc-setup)
-(add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
+;; (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
 (add-hook 'python-mode-hook 'jedi:setup)
 (add-hook 'pip-requirements-mode-hook #'pip-requirements-auto-complete-setup)
 (add-hook 'after-init-hook #'global-flycheck-mode)
@@ -129,6 +168,19 @@
 
 (require 'spacemacs-startup)
 (spacemacs/setup-startup-hook)
+
+(defun smart-beginning-of-line ()
+  "Move point to first non-whitespace character or beginning-of-line.
+
+Move point to the first non-whitespace character on this line.
+If point was already at that position, move point to beginning of line."
+  (interactive)
+  (let ((oldpos (point)))
+    (back-to-indentation)
+    (and (= oldpos (point))
+         (beginning-of-line))))
+(global-set-key [home] 'smart-beginning-of-line)
+(global-set-key "\C-a" 'smart-beginning-of-line)
 
 (provide 'init)
 ;;; init.el ends here
