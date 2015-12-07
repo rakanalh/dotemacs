@@ -33,11 +33,9 @@
     pip-requirements
     projectile
     py-autopep8
-    python-environment
     spaceline
     spacemacs-theme
     sr-speedbar
-    virtualenv
     virtualenvwrapper
     which-key
     yaml-mode))
@@ -76,6 +74,7 @@
 (require 'spaceline-config)
 (require 'which-key)
 (require 'py-autopep8)
+(require 'virtualenvwrapper)
 
 ;; Disable toolbar & menubar
 (menu-bar-mode -1)
@@ -125,6 +124,10 @@
 (add-hook 'python-mode-hook 'jedi:setup)
 (add-hook 'pip-requirements-mode-hook #'pip-requirements-auto-complete-setup)
 (add-hook 'after-init-hook #'global-flycheck-mode)
+(add-hook 'venv-postactivate-hook
+          (lambda ()
+            (setq jedi:environment-virtualenv (list (expand-file-name (concat "~/.virtualenvs/" venv-current-name))))
+            (message (concat "Set virtualenv to " venv-current-name))))
 
 ;; Custom line number stuff
 (setq linum-format 'dynamic)
