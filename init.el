@@ -1,3 +1,4 @@
+
 ;;; package --- Main init file
 ;;; Commentary:
 ;;; This is my init file
@@ -27,34 +28,38 @@
     helm
     helm-projectile
     jedi
+    magit
     magit-popup
     neotree
     page-break-lines
     pip-requirements
     projectile
     py-autopep8
+    shell-switcher
     spaceline
     spacemacs-theme
     sr-speedbar
     virtualenvwrapper
     which-key
-    yaml-mode))
+    yaml-mode
+    yasnippet))
 
 (mapc #'(lambda (package)
     (unless (package-installed-p package)
       (package-install package)))
       packages)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (spacemacs-dark)))
- '(custom-safe-themes
-   (quote
-    ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476")))
- '(menu-bar-mode nil))
+(if window-system
+      (custom-set-variables
+       ;; custom-set-variables was added by Custom.
+       ;; If you edit it by hand, you could mess it up, so be careful.
+       ;; Your init file should contain only one such instance.
+       ;; If there is more than one, they won't work right.
+       '(custom-enabled-themes (quote (spacemacs-dark)))
+       '(custom-safe-themes
+         (quote
+          ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476")))
+       '(menu-bar-mode nil)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -62,6 +67,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(widget-button ((t (:foreground "gray90" :underline nil :weight bold)))))
+
 
 (require 'helm)
 (require 'helm-config)
@@ -74,6 +80,7 @@
 (require 'spaceline-config)
 (require 'which-key)
 (require 'py-autopep8)
+(require 'shell-switcher)
 (require 'virtualenvwrapper)
 
 ;; Disable toolbar & menubar
@@ -92,18 +99,26 @@
 (global-git-gutter+-mode)
 (global-linum-mode nil)
 (global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "C-x v") 'helm-projectile)
+(global-set-key (kbd "C-x g s") 'magit-status)
 (helm-mode 1)
 (projectile-global-mode)
 (recentf-mode 1)
 (spaceline-emacs-theme)
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin/"))
 (setq exec-path (append exec-path '("/usr/local/bin/")))
+(setq backup-inhibited t)
+(setq auto-save-default nil)
 (setq inhibit-startup-message t)
 (setq sr-speedbar-right-side nil)
 (setq speedbar-smart-directory-expand-flag t)
 (setq make-backup-files nil)
 (setq jedi:setup-keys t)
 (setq jedi:complete-on-dot t)
+(setq flycheck-python-flake8-executable "/usr/local/bin/flake8")
+(setq explicit-shell-file-name "/bin/bash")
+(setq shell-switcher-mode t)
 (setq-default indent-tabs-mode nil)
 (setq x-select-enable-clipboard t
       save-interprogram-paste-before-kill t
@@ -127,6 +142,7 @@
 (add-hook 'venv-postactivate-hook
           (lambda ()
             (setq jedi:environment-virtualenv (list (expand-file-name (concat "~/.virtualenvs/" venv-current-name))))
+            (setq flycheck-python-pycompile-executable (concat jedi:environment-virtualenv "bin/python"))
             (message (concat "Set virtualenv to " venv-current-name))))
 
 ;; Custom line number stuff
@@ -134,7 +150,7 @@
 (setq-default left-fringe-width  12)
 (setq-default right-fringe-width  0)
 (set-face-attribute 'fringe nil)
-
+(venv-initialize-eshell)
 
 ;; COPY / PASTE on OSX
 (defun copy-from-osx ()
@@ -184,6 +200,50 @@ If point was already at that position, move point to beginning of line."
          (beginning-of-line))))
 (global-set-key [home] 'smart-beginning-of-line)
 (global-set-key "\C-a" 'smart-beginning-of-line)
+
+;; Delete trailing whitespace before save
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+
+(add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
+(defadvice web-mode-highlight-part (around tweak-jsx activate)
+  (if (equal web-mode-content-type "jsx")
+      (let ((web-mode-enable-part-face nil))
+        ad-do-it)
+    ad-do-it))
+
+(defun my-web-mode-hook ()
+  "Hooks for Web mode."
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-code-indent-offset 2)
+)
+(add-hook 'web-mode-hook  'my-web-mode-hook)
+
+(yas-global-mode 1)
+
+(defun eshell-clear-buffer ()
+  "Clear terminal"
+  (interactive)
+  (let ((inhibit-read-only t))
+    (erase-buffer)
+    (eshell-send-input)))
+(add-hook 'eshell-mode-hook
+      '(lambda()
+          (local-set-key (kbd "C-l") 'eshell-clear-buffer)))
+
+(defun shell-clear()
+  "Clear a shell buffer."
+  (interactive)
+  (when (equal mode-name "Shell")
+    (delete-region (point-min) (point-max))
+    (call-interactively 'comint-send-input)))
 
 (provide 'init)
 ;;; init.el ends here
