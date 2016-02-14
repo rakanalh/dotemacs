@@ -7,6 +7,8 @@
 (require 'package)
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages/"))
+(add-to-list 'package-archives
+             '("elpy" . "http://jorgenschaefer.github.io/packages/"))
 (add-to-list 'load-path "~/.emacs.d/vendor/")
 
 (package-initialize)
@@ -16,6 +18,7 @@
 (defvar packages
   '(auto-complete
     dockerfile-mode
+    elpy
     epc
     epl
     exec-path-from-shell
@@ -27,7 +30,6 @@
     go-mode
     helm
     helm-projectile
-    jedi
     magit
     magit-popup
     neotree
@@ -35,11 +37,11 @@
     pip-requirements
     projectile
     py-autopep8
+    pyenv-mode
     shell-switcher
     spaceline
     spacemacs-theme
     sr-speedbar
-    virtualenvwrapper
     which-key
     yaml-mode
     yasnippet))
@@ -68,10 +70,9 @@
  ;; If there is more than one, they won't work right.
  '(widget-button ((t (:foreground "gray90" :underline nil :weight bold)))))
 
-
+(require 'elpy)
 (require 'helm)
 (require 'helm-config)
-(require 'jedi)
 (require 'go-autocomplete)
 (require 'go-eldoc)
 (require 'auto-complete-config)
@@ -80,8 +81,8 @@
 (require 'spaceline-config)
 (require 'which-key)
 (require 'py-autopep8)
+(require 'pyenv-mode)
 (require 'shell-switcher)
-(require 'virtualenvwrapper)
 
 ;; Disable toolbar & menubar
 (menu-bar-mode -1)
@@ -93,6 +94,11 @@
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-copy-env "GOPATH")
   (exec-path-from-shell-initialize))
+
+(elpy-enable)
+(pyenv-mode)
+(add-to-list 'exec-path "~/.pyenv/shims")
+(setq elpy-rpc-backend "jedi")
 
 (ac-config-default)
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
@@ -114,9 +120,7 @@
 (setq sr-speedbar-right-side nil)
 (setq speedbar-smart-directory-expand-flag t)
 (setq make-backup-files nil)
-(setq jedi:setup-keys t)
-(setq jedi:complete-on-dot t)
-(setq flycheck-python-flake8-executable "/usr/local/bin/flake8")
+;(setq flycheck-python-flake8-executable "/usr/local/bin/flake8")
 (setq explicit-shell-file-name "/bin/bash")
 (setq shell-switcher-mode t)
 (setq-default indent-tabs-mode nil)
@@ -132,25 +136,17 @@
 (which-key-mode)
 
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
-(add-to-list 'ac-sources 'ac-source-jedi-direct)
 
 (add-hook 'go-mode-hook 'go-eldoc-setup)
 ;; (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
-(add-hook 'python-mode-hook 'jedi:setup)
 (add-hook 'pip-requirements-mode-hook #'pip-requirements-auto-complete-setup)
 (add-hook 'after-init-hook #'global-flycheck-mode)
-(add-hook 'venv-postactivate-hook
-          (lambda ()
-            (setq jedi:environment-virtualenv (list (expand-file-name (concat "~/.virtualenvs/" venv-current-name))))
-            (setq flycheck-python-pycompile-executable (concat jedi:environment-virtualenv "bin/python"))
-            (message (concat "Set virtualenv to " venv-current-name))))
 
 ;; Custom line number stuff
 (setq linum-format 'dynamic)
 (setq-default left-fringe-width  12)
 (setq-default right-fringe-width  0)
 (set-face-attribute 'fringe nil)
-(venv-initialize-eshell)
 
 ;; COPY / PASTE on OSX
 (defun copy-from-osx ()
@@ -204,28 +200,6 @@ If point was already at that position, move point to beginning of line."
 ;; Delete trailing whitespace before save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-(require 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-
-(add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
-(defadvice web-mode-highlight-part (around tweak-jsx activate)
-  (if (equal web-mode-content-type "jsx")
-      (let ((web-mode-enable-part-face nil))
-        ad-do-it)
-    ad-do-it))
-
-(defun my-web-mode-hook ()
-  "Hooks for Web mode."
-  (setq web-mode-markup-indent-offset 2)
-  (setq web-mode-code-indent-offset 2)
-)
-(add-hook 'web-mode-hook  'my-web-mode-hook)
-
 (yas-global-mode 1)
 
 (defun eshell-clear-buffer ()
@@ -244,6 +218,20 @@ If point was already at that position, move point to beginning of line."
   (when (equal mode-name "Shell")
     (delete-region (point-min) (point-max))
     (call-interactively 'comint-send-input)))
+
+(defun ssbb-pyenv-hook ()
+"Automatically activates pyenv version if .python-version file exists."
+(f-traverse-upwards
+ (lambda (path)
+    (let ((pyenv-version-path (f-expand ".python-version" path)))
+     (if (f-exists? pyenv-version-path)
+         (progn
+           (setq python-current-version (s-trim (f-read-text pyenv-version-path 'utf-8)))
+           (pyenv-mode-set python-current-version)
+           (setenv "WORKON_HOME" (concat "~/.pyenv/versions/" python-current-version "/envs"))
+           (message (concat "Setting virtualenv path to ~/.pyenv/versions/" python-current-version "/envs"))))))))
+
+(add-hook 'find-file-hook 'ssbb-pyenv-hook)
 
 (provide 'init)
 ;;; init.el ends here
