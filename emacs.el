@@ -75,18 +75,6 @@
 (setq-default right-fringe-width  0)
 (set-face-attribute 'fringe nil)
 
-
-;; Custom Shortcuts
-(global-set-key (kbd "C-}")
-                (lambda () (interactive) (forward-line 5)))
-(global-set-key (kbd "C-{")
-                (lambda () (interactive) (forward-line -5)))
-
-(global-set-key (kbd "C-f")
-                (lambda () (interactive) (forward-word)))
-(global-set-key (kbd "C-b")
-                (lambda () (interactive) (backward-word)))
-
 ;; Delete trailing whitespace before save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 ;; Flycheck enable
