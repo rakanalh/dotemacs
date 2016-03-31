@@ -24,12 +24,13 @@
 (f-traverse-upwards
  (lambda (path)
     (let ((pyenv-version-path (f-expand ".python-version" path)))
-     (if (f-exists? pyenv-version-path)
-         (progn
-           (defvar python-current-version (s-trim (f-read-text pyenv-version-path 'utf-8)))
-           (pyenv-mode-set python-current-version)
-           (setenv "WORKON_HOME" (concat "~/.pyenv/versions/" python-current-version "/envs"))
-           (message (concat "Setting virtualenv path to ~/.pyenv/versions/" python-current-version "/envs"))))))))
+      (if (f-exists? pyenv-version-path)
+          (progn
+           (message (concat "Found .python-version in path " pyenv-version-path))
+           (defvar pyenv-current-version (s-trim (f-read-text pyenv-version-path 'utf-8)))
+           (pyenv-mode-set pyenv-current-version)
+           (setenv "WORKON_HOME" (concat "~/.pyenv/versions/" pyenv-current-version "/envs"))
+           (message (concat "Setting virtualenv path to ~/.pyenv/versions/" pyenv-current-version "/envs"))))))))
 
 (add-hook 'find-file-hook 'ssbb-pyenv-hook)
 ;; (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
