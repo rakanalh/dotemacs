@@ -17,6 +17,7 @@
     epc
     epl
     exec-path-from-shell
+    expand-region
     flycheck
     flymake-go
     git-gutter+

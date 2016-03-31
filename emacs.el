@@ -1,10 +1,11 @@
+(require 'auto-complete-config)
+(require 'expand-region)
 (require 'helm)
 (require 'helm-config)
 (require 'sr-speedbar)
 (require 'recentf)
 (require 'spaceline-config)
 (require 'which-key)
-(require 'auto-complete-config)
 
 (if window-system
       (custom-set-variables

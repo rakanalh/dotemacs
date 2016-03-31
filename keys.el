@@ -5,6 +5,7 @@
 (global-set-key (kbd "C-x v") 'helm-projectile)
 (global-set-key (kbd "M-s") 'helm-occur)
 (global-set-key (kbd "C-x g s") 'magit-status)
+(global-set-key (kbd "C-=") 'er/expand-region)
 
 (define-key elpy-mode-map (kbd "<M-left>") nil)
 (define-key elpy-mode-map (kbd "<M-right>") nil)
