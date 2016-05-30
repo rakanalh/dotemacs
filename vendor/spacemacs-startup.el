@@ -36,14 +36,14 @@
       (when (spacemacs//insert-file-list "Recent Files:" (recentf-elements 5))
 	(spacemacs//insert--shortcut "r" "Recent Files:")
 	(insert list-separator))
-		
+
       (helm-mode)
       (when (spacemacs//insert-bookmark-list "Bookmarks:" (bookmark-all-names))
 	(spacemacs//insert--shortcut "m" "Bookmarks:")
 	(insert list-separator))
-               
+
       (projectile-mode)
-      (when (spacemacs//insert-file-list "Projects:" (projectile-relevant-known-projects))
+      (when (spacemacs//insert-project-list "Projects:" (projectile-relevant-known-projects))
 	(spacemacs//insert--shortcut "p" "Projects:")
 	(insert list-separator)))
     (spacemacs-mode)))
@@ -55,6 +55,21 @@
             (insert "\n    ")
             (widget-create 'push-button
                            :action `(lambda (&rest ignore) (find-file-existing ,el))
+                           :mouse-face 'highlight
+                           :follow-link "\C-m"
+                           :button-prefix ""
+                           :button-suffix ""
+                           :format "%[%t%]"
+                           (abbreviate-file-name el)))
+          list)))
+
+(defun spacemacs//insert-project-list (list-display-name list)
+  (when (car list)
+    (insert list-display-name)
+    (mapc (lambda (el)
+            (insert "\n    ")
+            (widget-create 'push-button
+                           :action `(lambda (&rest ignore) (projectile-switch-project-by-name ,el))
                            :mouse-face 'highlight
                            :follow-link "\C-m"
                            :button-prefix ""

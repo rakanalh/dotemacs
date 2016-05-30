@@ -25,6 +25,7 @@
 (load-user-file "web.el")
 (load-user-file "shell.el")
 (load-user-file "keys.el")
+(load-user-file "org.el")
 
 (provide 'init)
 ;;; init.el ends here

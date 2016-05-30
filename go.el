@@ -1,5 +1,6 @@
 (require 'go-autocomplete)
 (require 'go-eldoc)
+(require 'smartparens-config)
 
 ;; Add GOPATH to shell
 (when (memq window-system '(mac ns))
@@ -21,3 +22,4 @@
 
 (add-hook 'go-mode-hook 'go-eldoc-setup)
 (add-hook 'go-mode-hook 'my-go-mode-hook)
+(add-hook 'go-mode-hook #'smartparens-mode)

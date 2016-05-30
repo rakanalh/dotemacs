@@ -4,6 +4,7 @@
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-x v") 'helm-projectile)
 (global-set-key (kbd "M-s") 'helm-occur)
+(global-set-key (kbd "C-s") 'helm-occur)
 (global-set-key (kbd "C-x g s") 'magit-status)
 (global-set-key (kbd "C-=") 'er/expand-region)
 
@@ -29,3 +30,9 @@
                 (lambda () (interactive) (forward-line 5)))
 (global-set-key (kbd "C-{")
                 (lambda () (interactive) (forward-line -5)))
+
+;; make ctrl-z undo
+(global-set-key (kbd "C-z") 'undo)
+;; make ctrl-Z redo
+(defalias 'redo 'undo-tree-redo)
+(global-set-key (kbd "C-S-z") 'redo)

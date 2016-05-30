@@ -13,6 +13,8 @@
 (defvar packages
   '(auto-complete
     dockerfile-mode
+    desktop+
+    easy-kill
     elpy
     epc
     epl
@@ -36,10 +38,12 @@
     py-autopep8
     pyenv-mode
     shell-switcher
+    smartparens
     spaceline
     spacemacs-theme
     sr-speedbar
     tern
+    undo-tree
     which-key
     web-mode
     yaml-mode

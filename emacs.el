@@ -47,6 +47,8 @@
 (global-git-gutter+-mode)
 (yas-global-mode 1)
 (helm-mode 1)
+(global-undo-tree-mode 1)
+(desktop-save-mode 1)
 
 ;; Env vars
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin/"))
@@ -81,5 +83,6 @@
 ;; Flycheck enable
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
-; (require 'spacemacs-startup)
-; (spacemacs/setup-startup-hook)
+
+(require 'spacemacs-startup)
+(spacemacs/setup-startup-hook)
