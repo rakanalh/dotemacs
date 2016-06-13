@@ -18,8 +18,8 @@
   (load-file (expand-file-name file user-init-dir)))
 
 (load-user-file "packages.el")
-(load-user-file "emacs.el")
 (load-user-file "functions.el")
+(load-user-file "emacs.el")
 (load-user-file "python.el")
 (load-user-file "go.el")
 (load-user-file "web.el")

@@ -1,3 +1,5 @@
+(require 'org-projectile)
+
 (setq org-directory "~/DropBox/org-mode")
 
 (setq org-default-notes-file (concat org-directory "/notes.org"))

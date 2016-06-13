@@ -13,8 +13,7 @@
 (defvar packages
   '(auto-complete
     dockerfile-mode
-    desktop+
-    easy-kill
+    diminish
     elpy
     epc
     epl
@@ -28,11 +27,11 @@
     go-mode
     helm
     helm-projectile
-    js2-refactor
+    helm-ag
+    helm-git-grep
     magit
     magit-popup
-    neotree
-    page-break-lines
+    org-projectile
     pip-requirements
     projectile
     py-autopep8
@@ -41,8 +40,6 @@
     smartparens
     spaceline
     spacemacs-theme
-    sr-speedbar
-    tern
     undo-tree
     which-key
     web-mode

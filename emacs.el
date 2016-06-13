@@ -54,6 +54,8 @@
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin/"))
 
 ;; Variables
+(setq helm-split-window-in-side-p t)
+(setq helm-split-window-default-side 'below)
 (setq exec-path (append exec-path '("/usr/local/bin/")))
 (setq backup-inhibited t)
 (setq auto-save-default nil)
@@ -78,11 +80,30 @@
 (setq-default right-fringe-width  0)
 (set-face-attribute 'fringe nil)
 
+(diminish-minor-mode 'abbrev 'abbrev-mode)
+(diminish-minor-mode 'company 'company-mode)
+(diminish-minor-mode 'elpy 'elpy-mode)
+(diminish-minor-mode 'eldoc 'eldoc-mode)
+(diminish-minor-mode 'flycheck 'flycheck-mode)
+(diminish-minor-mode 'flyspell 'flyspell-mode)
+(diminish-minor-mode 'projectile 'projectile-mode)
+(diminish-minor-mode 'undo-tree 'undo-tree-mode)
+(diminish-minor-mode 'yasnippet 'yas-minor-mode)
+(diminish-minor-mode 'helm 'helm-mode)
+(diminish-minor-mode 'Auto-Complete 'auto-complete-mode)
+(diminish-minor-mode 'magit 'auto-revert-mode)
+(diminish-minor-mode 'Git-Gutter+ 'git-gutter+-mode)
+(diminish-minor-mode 'Which-Key 'which-key-mode)
+
+(diminish-major-mode 'emacs-lisp-mode-hook "el")
+(diminish-major-mode 'python-mode-hook "Py")
+
+
 ;; Delete trailing whitespace before save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 ;; Flycheck enable
 (add-hook 'after-init-hook #'global-flycheck-mode)
-
+(add-hook 'after-init-hook 'global-company-mode)
 
 (require 'spacemacs-startup)
 (spacemacs/setup-startup-hook)

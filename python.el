@@ -25,13 +25,14 @@
   (pyenv-mode-set global-pyenv)
   (defvar pyenv-current-version nil global-pyenv))
 
-(defun pyenv-hook ()
-"Automatically activates pyenv version if .python-version file exists."
-(f-traverse-upwards
- (lambda (path)
-    (message path)
-    (let ((pyenv-version-path (f-expand ".python-version" path)))
-      (if (f-exists? pyenv-version-path)
+(defun pyenv-activate-current-project ()
+  "Automatically activates pyenv version if .python-version file exists."
+  (interactive)
+  (f-traverse-upwards
+   (lambda (path)
+     (message path)
+     (let ((pyenv-version-path (f-expand ".python-version" path)))
+       (if (f-exists? pyenv-version-path)
           (progn
             (message (concat "Found .python-version in path " pyenv-version-path))
             (setq pyenv-current-version (s-trim (f-read-text pyenv-version-path 'utf-8)))
@@ -40,10 +41,10 @@
             (message (concat "Setting virtualenv path to ~/.pyenv/versions/" pyenv-current-version "/envs"))))))))
 
 (add-hook 'after-init-hook 'pyenv-init)
-(add-hook 'find-file-hook 'pyenv-hook)
-(add-hook 'projectile-switch-project-hook 'pyenv-hook)
-(add-hook 'projectile-find-file-hook 'pyenv-hook)
-(add-hook 'projectile-find-dir-hook 'pyenv-hook)
+(add-hook 'find-file-hook 'pyenv-activate-current-project)
+(add-hook 'projectile-switch-project-hook 'pyenv-activate-current-project)
+(add-hook 'projectile-find-file-hook 'pyenv-activate-current-project)
+(add-hook 'projectile-find-dir-hook 'pyenv-activate-current-project)
 ;; (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
 (add-hook 'pip-requirements-mode-hook #'pip-requirements-auto-complete-setup)
 

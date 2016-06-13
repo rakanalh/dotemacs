@@ -1,3 +1,4 @@
+;; Term mode
 (setq multi-term-program "/bin/bash")
 (setq term-buffer-maximum-size 10000)
 (setq show-trailing-whitespace nil)
