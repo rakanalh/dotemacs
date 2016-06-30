@@ -15,6 +15,12 @@
 (global-set-key (kbd "C-x 2") 'split-window-below-and-switch)
 (global-set-key (kbd "C-x 3") 'split-window-right-and-switch)
 
+;; Org mode
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key (kbd "C-c c") 'org-projectile:capture-for-current-project)
+(global-set-key (kbd "C-c n p") 'org-projectile:project-todo-completing-read)
+
 ;; Extensions
 
 ;; Helm

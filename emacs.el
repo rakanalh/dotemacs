@@ -28,6 +28,9 @@
  ;; If there is more than one, they won't work right.
  '(widget-button ((t (:foreground "gray90" :underline nil :weight bold)))))
 
+(fset 'yes-or-no-p 'y-or-n-p)
+(global-auto-revert-mode t)
+
 ;; Disable toolbar & menubar
 (menu-bar-mode -1)
   (when (fboundp 'tool-bar-mode)
