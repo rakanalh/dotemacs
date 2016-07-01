@@ -8,3 +8,4 @@ init_bash.sh
 places
 projectile-bookmarks.eld
 recentf
+.emacs.desktop*
