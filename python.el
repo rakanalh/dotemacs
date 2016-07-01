@@ -8,11 +8,13 @@
 (require 'py-autopep8)
 (require 'pyenv-mode)
 
-(elpy-enable)
-(pyenv-mode)
-
 (add-to-list 'exec-path "~/.pyenv/shims")
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
+
+(setenv "WORKON_HOME" "~/.pyenv/versions/")
+
+(elpy-enable)
+(pyenv-mode)
 
 (setq elpy-rpc-backend "jedi")
 
@@ -34,11 +36,10 @@
      (let ((pyenv-version-path (f-expand ".python-version" path)))
        (if (f-exists? pyenv-version-path)
           (progn
-            (message (concat "Found .python-version in path " pyenv-version-path))
             (setq pyenv-current-version (s-trim (f-read-text pyenv-version-path 'utf-8)))
             (pyenv-mode-set pyenv-current-version)
-            (setenv "WORKON_HOME" (concat "~/.pyenv/versions/" pyenv-current-version "/envs"))
-            (message (concat "Setting virtualenv path to ~/.pyenv/versions/" pyenv-current-version "/envs"))))))))
+            (pyvenv-workon pyenv-current-version)
+            (message (concat "Setting virtualenv to " pyenv-current-version))))))))
 
 (add-hook 'after-init-hook 'pyenv-init)
 (add-hook 'find-file-hook 'pyenv-activate-current-project)
