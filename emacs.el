@@ -2,7 +2,6 @@
 (require 'expand-region)
 (require 'helm)
 (require 'helm-config)
-(require 'sr-speedbar)
 (require 'recentf)
 (require 'spaceline-config)
 (require 'which-key)
@@ -63,8 +62,6 @@
 (setq backup-inhibited t)
 (setq auto-save-default nil)
 (setq inhibit-startup-message t)
-(setq sr-speedbar-right-side nil)
-(setq speedbar-smart-directory-expand-flag t)
 (setq make-backup-files nil)
 (setq-default indent-tabs-mode nil)
 
