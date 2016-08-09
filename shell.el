@@ -4,7 +4,7 @@
 (setq show-trailing-whitespace nil)
 (setq comint-prompt-read-only t)
 
-(setq explicit-shell-file-name "/bin/bash")
+(setq explicit-shell-file-name "/bin/zsh")
 
 (add-hook 'term-mode-hook (lambda()
                             (setq yas-dont-activate t)))

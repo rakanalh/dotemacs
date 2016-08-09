@@ -2,6 +2,7 @@
 (require 'expand-region)
 (require 'helm)
 (require 'helm-config)
+(require 'neotree)
 (require 'recentf)
 (require 'spaceline-config)
 (require 'which-key)
@@ -41,21 +42,26 @@
 ;; Enable modes
 (projectile-global-mode)
 (global-linum-mode nil)
+(hlinum-activate)
 (recentf-mode 1)
 (spaceline-emacs-theme)
 (show-paren-mode 1)
 (which-key-mode)
 (ac-config-default)
-(global-git-gutter+-mode)
+(global-git-gutter-mode t)
 (yas-global-mode 1)
 (helm-mode 1)
 (global-undo-tree-mode 1)
-(desktop-save-mode 1)
+(desktop-save-mode 0)
+(git-gutter:linum-setup)
 
 ;; Env vars
-(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin/"))
+(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin/:$GOPATH"))
+(setenv "SHELL" "/bin/zsh")
 
 ;; Variables
+(setq neotree-smart-optn t)
+(setq neo-theme 'arrow)
 (setq helm-split-window-in-side-p t)
 (setq helm-split-window-default-side 'below)
 (setq exec-path (append exec-path '("/usr/local/bin/")))
@@ -92,7 +98,7 @@
 (diminish-minor-mode 'helm 'helm-mode)
 (diminish-minor-mode 'Auto-Complete 'auto-complete-mode)
 (diminish-minor-mode 'magit 'auto-revert-mode)
-(diminish-minor-mode 'Git-Gutter+ 'git-gutter+-mode)
+(diminish-minor-mode 'Git-Gutter 'git-gutter-mode)
 (diminish-minor-mode 'Which-Key 'which-key-mode)
 
 (diminish-major-mode 'emacs-lisp-mode-hook "el")
@@ -104,6 +110,9 @@
 ;; Flycheck enable
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (add-hook 'after-init-hook 'global-company-mode)
+
+;; Disable linum for neotree
+(add-hook 'neo-after-create-hook 'my/neotree-hook)
 
 (require 'spacemacs-startup)
 (spacemacs/setup-startup-hook)

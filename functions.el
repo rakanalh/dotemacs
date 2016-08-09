@@ -55,3 +55,6 @@ If point was already at that position, move point to beginning of line."
   (interactive)
   (split-window-right)
   (other-window 1))
+
+(defun my/neotree-hook (_unused)
+  (linum-mode -1))

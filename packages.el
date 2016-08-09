@@ -21,7 +21,7 @@
     expand-region
     flycheck
     flymake-go
-    git-gutter+
+    git-gutter
     go-autocomplete
     go-eldoc
     go-mode
@@ -31,6 +31,7 @@
     helm-git-grep
     magit
     magit-popup
+    neotree
     org-projectile
     pip-requirements
     projectile

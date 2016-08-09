@@ -2,6 +2,10 @@
 
 (setq org-directory "~/DropBox/org-mode")
 
+(setq org-agenda-files (list "~/DropBox/org-mode/notes.org"
+                             "~/DropBox/org-mode/todo.org"
+                             "~/DropBox/org-mode/jordan-visit.org"))
+
 (setq org-default-notes-file (concat org-directory "/notes.org"))
 (setq org-hide-leading-stars t)
 
@@ -15,5 +19,3 @@
 (add-hook 'org-mode-hook
           (lambda ()
             (org-bullets-mode t)))
-
-(define-key global-map "\C-cc" 'org-capture)

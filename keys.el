@@ -22,6 +22,8 @@
 (global-set-key (kbd "C-c n p") 'org-projectile:project-todo-completing-read)
 
 ;; Extensions
+;; Neo tree
+(global-set-key (kbd "C-c C-d") 'neotree-toggle)
 
 ;; Helm
 (global-set-key (kbd "M-x") 'helm-M-x)
