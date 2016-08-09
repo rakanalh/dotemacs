@@ -42,7 +42,6 @@
 ;; Enable modes
 (projectile-global-mode)
 (global-linum-mode nil)
-(hlinum-activate)
 (recentf-mode 1)
 (spaceline-emacs-theme)
 (show-paren-mode 1)
