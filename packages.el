@@ -31,6 +31,7 @@
     helm-git-grep
     magit
     magit-popup
+    neotree
     org-projectile
     pip-requirements
     projectile
