@@ -68,7 +68,11 @@
 (setq auto-save-default nil)
 (setq inhibit-startup-message t)
 (setq make-backup-files nil)
+(setq warning-minimum-level :emergency)
 (setq-default indent-tabs-mode nil)
+(setq neo-window-fixed-size nil)
+(setq neo-theme 'arrow)
+
 
 (setq x-select-enable-clipboard t
       save-interprogram-paste-before-kill t

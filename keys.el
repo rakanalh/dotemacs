@@ -1,6 +1,11 @@
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
 ;; (define-key [remap backward-delete-char-untabify] 'backward-delete-char global-map)
 
+(global-set-key (kbd "C-x <up>") 'windmove-up)
+(global-set-key (kbd "C-x <down>") 'windmove-down)
+(global-set-key (kbd "C-x <left>") 'windmove-left)
+(global-set-key (kbd "C-x <right>") 'windmove-right)
+
 (global-set-key (kbd "<M-left>") 'backward-word)
 (global-set-key (kbd "<M-right>") 'forward-word)
 
@@ -45,6 +50,9 @@
 (define-key elpy-mode-map (kbd "M-,") 'pop-tag-mark)
 (define-key pyenv-mode-map (kbd "C-c C-s") nil)
 
+;; Neotree
+(global-set-key (kbd "C-c C-d") 'neotree-toggle)
+
 ;; Other Extensions
 (global-set-key (kbd "C-=") 'er/expand-region)
 (global-set-key (kbd "C-x C-b") 'switch-to-buffer)
@@ -52,3 +60,4 @@
 ;; Custom Emacs Shortcuts
 (global-set-key (kbd "C-}") (lambda () (interactive) (forward-line 5)))
 (global-set-key (kbd "C-{") (lambda () (interactive) (forward-line -5)))
+(global-set-key (kbd "C-x p") 'pyenv-activate-current-project)

@@ -35,4 +35,3 @@
 (load-user-file "org.el")
 
 (provide 'init)
-;;; init.el ends here
