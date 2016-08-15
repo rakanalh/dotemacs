@@ -3,7 +3,14 @@
 	     '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives
              '("elpy" . "http://jorgenschaefer.github.io/packages/"))
+
 (add-to-list 'load-path "~/.emacs.d/vendor/")
+
+;; Spacemacs theme
+;(add-to-list 'load-path "~/.emacs.d/vendor/spacemacs-theme/")
+;(add-to-list 'custom-theme-load-path "~/.emacs.d/vendor/spacemacs-theme/")
+;(add-to-list 'load-path "~/.emacs.d/vendor/emacs-doom-theme/")
+;(add-to-list 'custom-theme-load-path "~/.emacs.d/vendor/emacs-doom-theme")
 
 (package-initialize)
 
