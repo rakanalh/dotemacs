@@ -43,7 +43,7 @@
 (projectile-global-mode)
 (global-linum-mode nil)
 (recentf-mode 1)
-(spaceline-emacs-theme)
+(spaceline-spacemacs-theme)
 (show-paren-mode 1)
 (which-key-mode)
 (ac-config-default)
