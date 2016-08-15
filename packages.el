@@ -9,8 +9,8 @@
 ;; Spacemacs theme
 ;(add-to-list 'load-path "~/.emacs.d/vendor/spacemacs-theme/")
 ;(add-to-list 'custom-theme-load-path "~/.emacs.d/vendor/spacemacs-theme/")
-;(add-to-list 'load-path "~/.emacs.d/vendor/emacs-doom-theme/")
-;(add-to-list 'custom-theme-load-path "~/.emacs.d/vendor/emacs-doom-theme")
+(add-to-list 'load-path "~/.emacs.d/vendor/emacs-doom-theme/")
+(add-to-list 'custom-theme-load-path "~/.emacs.d/vendor/emacs-doom-theme")
 
 (package-initialize)
 
