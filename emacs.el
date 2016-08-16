@@ -17,7 +17,7 @@
        '(custom-enabled-themes (quote (doom-one)))
        '(custom-safe-themes
          (quote
-          ("45d403c0a4c170d7aba1c133fe3f9b816f2936ae84e65217637b3e1c7179ee07" "bd8a462608ca326957e1d9ba3bd165aed80959f6a584b9c5bd8c63e9ec42ed2e" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476")))))
+          ("25cffa29df7492beca455c31f853444a335bdb570363c458e02b972cb28e1e51")))))
 
 (custom-set-variables
  '(menu-bar-mode nil))
