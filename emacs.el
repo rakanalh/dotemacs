@@ -104,7 +104,7 @@
 					       "backups"))))
 
 ;; Custom line number stuff
-(setq linum-format "%3d ")
+(setq linum-format " %3d ")
 (set-face-attribute 'fringe nil)
 (set-face-foreground 'linum-highlight-face "#00B3EF")
 (set-face-background 'linum-highlight-face "#1f252b")
