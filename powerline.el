@@ -1,3 +1,15 @@
+(use-package hl-line
+  :init (add-hook! (prog-mode markdown-mode) 'hl-line-mode)
+  :config
+  ;; Doesn't seem to play nice in emacs 25+
+  (setq hl-line-sticky-flag nil
+        global-hl-line-sticky-flag nil)
+
+  (defvar-local hl-line-mode nil)
+  (defun doom|hl-line-on ()  (if doom--hl-line-mode (hl-line-mode +1)))
+  (defun doom|hl-line-off () (if doom--hl-line-mode (hl-line-mode -1)))
+  (add-hook! hl-line-mode (if hl-line-mode (setq doom--hl-line-mode t))))
+
 (defun doom-fix-unicode (font &rest chars)
   "Display certain unicode characters in a specific font.
 e.g. (doom-fix-unicode \"DejaVu Sans\" ?⚠ ?★ ?λ)"
@@ -200,8 +212,6 @@ e.g. (doom-fix-unicode \"DejaVu Sans\" ?⚠ ?★ ?λ)"
            (lhs (list (propertize " " 'display (if active mode-line-bar mode-line-inactive-bar))
                       (*flycheck)
                       (*macro-recording)
-                                        ;(*selection-info)
-                      (*anzu)
                       " "
                       (*buffer-path)
                       (*buffer-name)

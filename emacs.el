@@ -7,7 +7,6 @@
 (require 'powerline)
 (require 'recentf)
 (require 'which-key)
-(require 'doom)
 
 (if window-system
       (custom-set-variables
@@ -18,7 +17,7 @@
        '(custom-enabled-themes (quote (doom-one)))
        '(custom-safe-themes
          (quote
-          ("bd8a462608ca326957e1d9ba3bd165aed80959f6a584b9c5bd8c63e9ec42ed2e" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476")))))
+          ("45d403c0a4c170d7aba1c133fe3f9b816f2936ae84e65217637b3e1c7179ee07" "bd8a462608ca326957e1d9ba3bd165aed80959f6a584b9c5bd8c63e9ec42ed2e" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476")))))
 
 (custom-set-variables
  '(menu-bar-mode nil))
@@ -54,7 +53,7 @@
 (helm-mode 1)
 (global-undo-tree-mode 1)
 (desktop-save-mode 0)
-(git-gutter:linum-setup)
+;(git-gutter:linum-setup)
 (hlinum-activate)
 
 ;; Env vars
@@ -64,7 +63,7 @@
 ;; Variables
 (setq fringes-outside-margins t)
 (setq cursor-in-non-selected-windows nil)
-(setq  highlight-nonselected-windows nil)
+(setq highlight-nonselected-windows nil)
 (setq neotree-smart-optn t)
 (setq neo-theme 'arrow)
 (setq helm-split-window-in-side-p t)
@@ -78,8 +77,22 @@
 (setq-default indent-tabs-mode nil)
 (setq neo-window-fixed-size nil)
 (setq neo-theme 'arrow)
+(setq flycheck-indication-mode 'right-fringe
+      ;; Removed checks on idle/change for snappiness
+      flycheck-check-syntax-automatically '(save mode-enabled)
+      flycheck-highlighting-mode 'symbols
+      flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc make)
+      ;; `flycheck-pos-tip'
+      flycheck-pos-tip-timeout 10
+      flycheck-display-errors-delay 0.5)
 
 
+(define-fringe-bitmap 'flycheck-fringe-bitmap-double-arrow
+  [0 0 0 0 0 4 12 28 60 124 252 124 60 28 12 4 0 0 0 0])
+
+(when (eq window-system 'mac)
+  (require 'flycheck-pos-tip)
+  (flycheck-pos-tip-mode +1))
 
 (setq x-select-enable-clipboard t
       save-interprogram-paste-before-kill t
@@ -91,9 +104,7 @@
 					       "backups"))))
 
 ;; Custom line number stuff
-(setq linum-format 'dynamic)
-(setq-default left-fringe-width  12)
-(setq-default right-fringe-width  12)
+(setq linum-format "%3d ")
 (set-face-attribute 'fringe nil)
 (set-face-foreground 'linum-highlight-face "#00B3EF")
 (set-face-background 'linum-highlight-face "#1f252b")
@@ -128,24 +139,6 @@
 
 (advice-add 'neo-buffer--insert-fold-symbol :override 'neo-insert-fold-symbol)
 (advice-add 'neo-buffer--insert-root-entry :filter-args 'neo-insert-root-entry)
-
-(use-package hl-line
-  :init (add-hook! (prog-mode markdown-mode) 'hl-line-mode)
-  :config
-  ;; Doesn't seem to play nice in emacs 25+
-  (setq hl-line-sticky-flag nil
-        global-hl-line-sticky-flag nil)
-
-  (defvar-local doom--hl-line-mode nil)
-  (defun doom|hl-line-on ()  (if doom--hl-line-mode (hl-line-mode +1)))
-  (defun doom|hl-line-off () (if doom--hl-line-mode (hl-line-mode -1)))
-  (add-hook! hl-line-mode (if hl-line-mode (setq doom--hl-line-mode t))))
-
-(use-package visual-fill-column :defer t
-  :config
-  (setq-default visual-fill-column-center-text nil
-                visual-fill-column-width fill-column
-                split-window-preferred-function 'visual-line-mode-split-window-sensibly))
 
 (require 'spacemacs-startup)
 (spacemacs/setup-startup-hook)
