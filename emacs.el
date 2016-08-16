@@ -4,8 +4,8 @@
 (require 'helm-config)
 (require 'hlinum)
 (require 'neotree)
+(require 'powerline)
 (require 'recentf)
-(require 'spaceline-config)
 (require 'which-key)
 (require 'doom)
 
@@ -44,8 +44,8 @@
 ;; Enable modes
 (projectile-global-mode)
 (global-linum-mode nil)
+(global-hl-line-mode)
 (recentf-mode 1)
-(spaceline-emacs-theme)
 (show-paren-mode 1)
 (which-key-mode)
 (ac-config-default)
@@ -63,6 +63,8 @@
 
 ;; Variables
 (setq fringes-outside-margins t)
+(setq cursor-in-non-selected-windows nil)
+(setq  highlight-nonselected-windows nil)
 (setq neotree-smart-optn t)
 (setq neo-theme 'arrow)
 (setq helm-split-window-in-side-p t)
@@ -137,10 +139,7 @@
   (defvar-local doom--hl-line-mode nil)
   (defun doom|hl-line-on ()  (if doom--hl-line-mode (hl-line-mode +1)))
   (defun doom|hl-line-off () (if doom--hl-line-mode (hl-line-mode -1)))
-  (add-hook! hl-line-mode (if hl-line-mode (setq doom--hl-line-mode t)))
-  ;; Disable line highlight in visual mode
-  (add-hook 'evil-visual-state-entry-hook 'doom|hl-line-off)
-  (add-hook 'evil-visual-state-exit-hook  'doom|hl-line-on))
+  (add-hook! hl-line-mode (if hl-line-mode (setq doom--hl-line-mode t))))
 
 (use-package visual-fill-column :defer t
   :config

@@ -33,5 +33,6 @@
 (load-user-file "shell.el")
 (load-user-file "keys.el")
 (load-user-file "org.el")
+(load-user-file "powerline.el")
 
 (provide 'init)

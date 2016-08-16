@@ -36,18 +36,18 @@
     helm-projectile
     helm-ag
     helm-git-grep
+    hl-line
     magit
     magit-popup
     neotree
     org-projectile
     pip-requirements
+    powerline
     projectile
     py-autopep8
     pyenv-mode
     shell-switcher
     smartparens
-    spaceline
-    spacemacs-theme
     undo-tree
     which-key
     web-mode
