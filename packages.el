@@ -37,10 +37,12 @@
     helm-ag
     helm-git-grep
     hl-line
+    hlinum
     magit
     magit-popup
     neotree
     org-projectile
+    page-break-lines
     pip-requirements
     powerline
     projectile
