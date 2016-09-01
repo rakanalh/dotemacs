@@ -49,8 +49,10 @@
     py-autopep8
     pyenv-mode
     shell-switcher
+    syntax-subword
     smartparens
     undo-tree
+    use-package
     which-key
     web-mode
     yaml-mode
