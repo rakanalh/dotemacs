@@ -6,8 +6,8 @@
 (global-set-key (kbd "C-x <left>") 'windmove-left)
 (global-set-key (kbd "C-x <right>") 'windmove-right)
 
-(global-set-key (kbd "<M-left>") 'backward-word)
-(global-set-key (kbd "<M-right>") 'forward-word)
+(global-set-key (kbd "<M-left>") 'syntax-subword-backward)
+(global-set-key (kbd "<M-right>") 'syntax-subword-forward)
 
 (global-set-key (kbd "C-f") (lambda () (interactive) (forward-word)))
 (global-set-key (kbd "C-b") (lambda () (interactive) (backward-word)))

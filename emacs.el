@@ -55,6 +55,7 @@
 (desktop-save-mode 0)
 ;(git-gutter:linum-setup)
 (hlinum-activate)
+(syntax-subword-mode)
 
 ;; Env vars
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin/:$GOPATH"))

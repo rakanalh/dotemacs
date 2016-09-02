@@ -38,18 +38,22 @@
     helm-ag
     helm-git-grep
     hl-line
+    hlinum
     magit
     magit-popup
     neotree
     org-projectile
+    page-break-lines
     pip-requirements
     powerline
     projectile
     py-autopep8
     pyenv-mode
     shell-switcher
+    syntax-subword
     smartparens
     undo-tree
+    use-package
     which-key
     web-mode
     yaml-mode
