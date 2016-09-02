@@ -19,6 +19,7 @@
 
 (defvar packages
   '(auto-complete
+    ace-jump-mode
     dockerfile-mode
     diminish
     elpy

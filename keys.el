@@ -39,6 +39,9 @@
 (global-set-key (kbd "C-S-s") 'helm-projectile-ag)
 (global-set-key (kbd "C-S-v") 'helm-show-kill-ring)
 
+;; Ace-jump
+(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+
 ;; Magic
 (global-set-key (kbd "C-x g s") 'magit-status)
 
