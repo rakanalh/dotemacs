@@ -44,6 +44,9 @@
 
 ;; Magic
 (global-set-key (kbd "C-x g s") 'magit-status)
+(global-set-key (kbd "C-x g c") 'magit-commit)
+(global-set-key (kbd "C-x g p") 'magit-push)
+(global-set-key (kbd "C-x g u") 'magit-pull)
 
 ;; Elpy
 (define-key elpy-mode-map (kbd "<M-left>") nil)
