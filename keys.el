@@ -48,6 +48,12 @@
 (global-set-key (kbd "C-x g p") 'magit-push)
 (global-set-key (kbd "C-x g u") 'magit-pull)
 
+;; Multiple Cursors
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+
 ;; Elpy
 (define-key elpy-mode-map (kbd "<M-left>") nil)
 (define-key elpy-mode-map (kbd "<M-right>") nil)

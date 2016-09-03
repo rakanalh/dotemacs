@@ -41,6 +41,7 @@
     hlinum
     magit
     magit-popup
+    multiple-cursors
     neotree
     org-projectile
     page-break-lines
@@ -54,6 +55,7 @@
     smartparens
     undo-tree
     use-package
+    wgrep
     which-key
     web-mode
     yaml-mode
