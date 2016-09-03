@@ -1,0 +1,30 @@
+* Keys to Remember
+
+| App              | Function                   | Shortcut  |
+|------------------+----------------------------+-----------|
+| Emacs            | Remove Empty Line          | C-x C-o   |
+| Emacs            | Delete Indentation         | M-\       |
+| Emacs            | Initial Caps for words     | M-c       |
+| Emacs            | Just one space             | M-space   |
+|                  |                            |           |
+| Wgrep            | Change Grep or Ag to Wgrep | C-c C-p   |
+| Wgrep            | Write Changes              | C-x C-s   |
+|                  |                            |           |
+| Multiple-Cursors | Mark next line like this   | C->       |
+| Multiple-Cursors | Mark prev line like this   | C-<       |
+| Multiple-Cursors | Mark all lines like this   | C-c C-<   |
+|                  |                            |           |
+| Magit            | Commit                     | C-x g c   |
+| Magit            | Status                     | C-x g s   |
+| Magit            | Push                       | C-x g p   |
+| Magit            | Pull (Update)              | C-x g u   |
+|                  |                            |           |
+| Helm             | Show kill Ring             | C-S-v     |
+|                  |                            |           |
+| Acejump          | Activate mode              | C-c Space |
+|                  |                            |           |
+| NeoTree          | Toggle                     | C-c C-d   |
+|                  |                            |           |
+| expand-region    | Expand region              | C-=       |
+|                  |                            |           |
+| Python           | Pyenv switch current env   | C-x p     |
