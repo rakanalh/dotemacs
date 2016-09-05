@@ -1,16 +1,12 @@
 ;; Term mode
+(setq explicit-shell-file-name "/bin/bash")
 (setq multi-term-program "/bin/bash")
 (setq term-buffer-maximum-size 10000)
 (setq show-trailing-whitespace nil)
 (setq comint-prompt-read-only t)
 
-(setq explicit-shell-file-name "/bin/zsh")
-
-(add-hook 'term-mode-hook (lambda()
-                            (setq yas-dont-activate t)))
-
 (defvar my-local-shells
-  '("*shell0*" "*shell1*" "*shell2*" "*shell3*" "*music*"))
+  '("*shell0*" "*shell1*" "*shell2*" "*shell3*"))
 (defvar my-remote-shells
   '("*snarfed*" "*heaven0*" "*heaven1*" "*heaven2*" "*heaven3*"))
 (defvar my-shells (append my-local-shells my-remote-shells))
@@ -35,8 +31,19 @@
 
 (setenv "PAGER" "cat")
 
-;; truncate buffers continuously
+(add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
+
+(add-hook 'shell-mode-hook 'set-scroll-conservatively)
+;; make it harder to kill my shell buffers
+(add-hook 'shell-mode-hook 'protect-process-buffer-from-kill-mode)
+(add-hook 'comint-output-filter-functions 'make-my-shell-output-read-only)
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+(add-hook 'shell-mode-hook 'my-dirtrack-mode)
 (add-hook 'comint-output-filter-functions 'comint-truncate-buffer)
+(add-hook 'term-mode-hook (lambda()
+                            (setq yas-dont-activate t)))
+
+;; truncate buffers continuously
 
 (defun make-my-shell-output-read-only (text)
   "Add to comint-output-filter-functions to make stdout read only in my shells."
@@ -44,7 +51,6 @@
       (let ((inhibit-read-only t)
             (output-end (process-mark (get-buffer-process (current-buffer)))))
         (put-text-property comint-last-output-start output-end 'read-only t))))
-(add-hook 'comint-output-filter-functions 'make-my-shell-output-read-only)
 
 (defun my-dirtrack-mode ()
   "Add to shell-mode-hook to use dirtrack mode in my shell buffers."
@@ -52,26 +58,11 @@
     (shell-dirtrack-mode 0)
     (set-variable 'dirtrack-list '("^.*[^ ]+:\\(.*\\)>" 1 nil))
     (dirtrack-mode 1)))
-(add-hook 'shell-mode-hook 'my-dirtrack-mode)
 
 ; interpret and use ansi color codes in shell output windows
-(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-
 (defun set-scroll-conservatively ()
   "Add to shell-mode-hook to prevent jump-scrolling on newlines in shell buffers."
   (set (make-local-variable 'scroll-conservatively) 10))
-(add-hook 'shell-mode-hook 'set-scroll-conservatively)
-
-;; i think this is wrong, and it buries the shell when you run emacsclient from
-;; it. temporarily removing.
-;; (defun unset-display-buffer-reuse-frames ()
-;;   "Add to shell-mode-hook to prevent switching away from the shell buffer
-;; when emacsclient opens a new buffer."
-;;   (set (make-local-variable 'display-buffer-reuse-frames) t))
-;; (add-hook 'shell-mode-hook 'unset-display-buffer-reuse-frames)
-
-;; make it harder to kill my shell buffers
-(add-hook 'shell-mode-hook 'protect-process-buffer-from-kill-mode)
 
 (defun make-comint-directory-tracking-work-remotely ()
   "Add this to comint-mode-hook to make directory tracking work
@@ -114,72 +105,3 @@ the line, to capture multiline input. (This only has effect if
 
 ;; for other code, e.g. emacsclient in TRAMP ssh shells and automatically
 ;; closing completions buffers, see the links above.
-
-(defun eshell-clear-buffer ()
-  "Clear terminal"
-  (interactive)
-  (let ((inhibit-read-only t))
-    (erase-buffer)
-    (eshell-send-input)))
-
-(add-hook 'eshell-mode-hook
-      '(lambda()
-         (local-set-key (kbd "C-l") 'eshell-clear-buffer)))
-
-(defun pwd-repl-home (pwd)
-  (interactive)
-  (let* ((home (expand-file-name (getenv "HOME")))
-	 (home-len (length home)))
-    (if (and
-	 (>= (length pwd) home-len)
-	 (equal home (substring pwd 0 home-len)))
-	(concat "~" (substring pwd home-len))
-      pwd)))
-
-(defun curr-dir-git-branch-string (pwd)
-  "Returns current git branch as a string, or the empty string if
-PWD is not in a git repo (or the git command is not found)."
-  (interactive)
-  (when (and (eshell-search-path "git")
-             (locate-dominating-file pwd ".git"))
-    (let ((git-output (shell-command-to-string (concat "git branch | grep '\\*' | sed -e 's/^\\* //'"))))
-      (concat "[g:"
-              (if (> (length git-output) 0)
-                  (substring git-output 0 -1)
-                "(no branch)")
-              "] "))))
-
-(defun curr-dir-svn-string (pwd)
-  (interactive)
-  (when (and (eshell-search-path "svn")
-             (locate-dominating-file pwd ".svn"))
-    (concat "[s:"
-            (cond ((string-match-p "/trunk\\(/.*\\)?" pwd)
-                   "trunk")
-                  ((string-match "/branches/\\([^/]+\\)\\(/.*\\)?" pwd)
-                   (match-string 1 pwd))
-                  (t
-                   "(no branch)"))
-            "] ")))
-
-(setq eshell-prompt-function
-      (lambda ()
-        (concat
-         (or (curr-dir-git-branch-string (eshell/pwd))
-             (curr-dir-svn-string (eshell/pwd)))
-         ((lambda (p-lst)
-            (if (> (length p-lst) 3)
-                (concat
-                 (mapconcat (lambda (elm) (if (zerop (length elm)) ""
-                                            (substring elm 0 1)))
-                            (butlast p-lst 3)
-                            "/")
-                 "/"
-                 (mapconcat (lambda (elm) elm)
-                            (last p-lst 3)
-                            "/"))
-              (mapconcat (lambda (elm) elm)
-                         p-lst
-                         "/")))
-          (split-string (pwd-repl-home (eshell/pwd)) "/"))
-         "> ")))

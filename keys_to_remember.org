@@ -6,6 +6,7 @@
 | Emacs            | Delete Indentation         | M-\       |
 | Emacs            | Initial Caps for words     | M-c       |
 | Emacs            | Just one space             | M-space   |
+| Emacs            | Show *Messages*            | C-h e     |
 |                  |                            |           |
 | Wgrep            | Change Grep or Ag to Wgrep | C-c C-p   |
 | Wgrep            | Write Changes              | C-x C-s   |
