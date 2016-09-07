@@ -1,0 +1,6 @@
+[submodule "vendor/emacs-doom-theme"]
+	path = vendor/emacs-doom-theme
+	url = git@github.com:hlissner/emacs-doom-theme.git
+[submodule "vendor/all-the-icons.el"]
+	path = vendor/all-the-icons.el
+	url = git@github.com:domtronn/all-the-icons.el.git

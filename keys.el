@@ -54,14 +54,6 @@
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
-;; Elpy
-(define-key elpy-mode-map (kbd "<M-left>") nil)
-(define-key elpy-mode-map (kbd "<M-right>") nil)
-(define-key elpy-mode-map (kbd "<M-S-left>") 'elpy-nav-indent-shift-left)
-(define-key elpy-mode-map (kbd "<M-S-right>") 'elpy-nav-indent-shift-right)
-(define-key elpy-mode-map (kbd "M-,") 'pop-tag-mark)
-(define-key pyenv-mode-map (kbd "C-c C-s") nil)
-
 ;; Neotree
 (global-set-key (kbd "C-c C-d") 'neotree-toggle)
 
@@ -72,4 +64,3 @@
 ;; Custom Emacs Shortcuts
 (global-set-key (kbd "C-}") (lambda () (interactive) (forward-line 5)))
 (global-set-key (kbd "C-{") (lambda () (interactive) (forward-line -5)))
-(global-set-key (kbd "C-x p") 'pyenv-activate-current-project)

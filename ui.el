@@ -1,14 +1,20 @@
-(use-package hl-line
-  :init (add-hook! (prog-mode markdown-mode) 'hl-line-mode)
+(use-package doom-theme
   :config
-  ;; Doesn't seem to play nice in emacs 25+
-  (setq hl-line-sticky-flag nil
-        global-hl-line-sticky-flag nil)
+  (load-theme doom-one t))
 
-  (defvar-local hl-line-mode nil)
-  (defun doom|hl-line-on ()  (if doom--hl-line-mode (hl-line-mode +1)))
-  (defun doom|hl-line-off () (if doom--hl-line-mode (hl-line-mode -1)))
-  (add-hook! hl-line-mode (if hl-line-mode (setq doom--hl-line-mode t))))
+(use-package powerline
+  :ensure t)
+
+(setq fringes-outside-margins t
+      highlight-nonselected-windows nil)
+
+(define-fringe-bitmap 'flycheck-fringe-bitmap-double-arrow
+  [0 0 0 0 0 4 12 28 60 124 252 124 60 28 12 4 0 0 0 0])
+
+;; Custom line number stuff
+(set-face-attribute 'fringe nil)
+(set-face-foreground 'linum-highlight-face "#00B3EF")
+(set-face-background 'linum-highlight-face "#1f252b")
 
 (defun doom-fix-unicode (font &rest chars)
   "Display certain unicode characters in a specific font.

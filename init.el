@@ -11,6 +11,15 @@
 ;; You may delete these explanatory comments.
 (package-initialize)
 
+(add-to-list 'package-archives
+	     '("melpa" . "https://melpa.org/packages/")
+             '("elpy" . "http://jorgenschaefer.github.io/packages/"))
+
+(setq load-path '("~/.emacs.d/vendor/"
+                 "~/.emacs.d/vendor/emacs-doom-theme/"))
+
+(add-to-list 'custom-theme-load-path "~/.emacs.d/vendor/emacs-doom-theme")
+
 (defconst user-init-dir
   (cond ((boundp 'user-emacs-directory)
          user-emacs-directory)
@@ -24,15 +33,21 @@
   "Load a file in current user's configuration directory"
   (load-file (expand-file-name file user-init-dir)))
 
-(load-user-file "packages.el")
+
+(when (not package-archive-contents)
+  (package-refresh-contents))
+
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+
+(load-user-file "core.el")
 (load-user-file "functions.el")
-(load-user-file "emacs.el")
 (load-user-file "python.el")
 (load-user-file "go.el")
 (load-user-file "web.el")
 (load-user-file "shell.el")
 (load-user-file "keys.el")
 (load-user-file "org.el")
-(load-user-file "powerline.el")
+(load-user-file "ui.el")
 
 (provide 'init)

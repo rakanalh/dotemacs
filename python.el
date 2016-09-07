@@ -4,22 +4,38 @@
 
 ;;; Code:
 
-(require 'elpy)
-(require 'py-autopep8)
-(require 'pyenv-mode)
+(use-package pip-requirements
+  :ensure t
+  :config
+  (add-hook 'pip-requirements-mode-hook #'pip-requirements-auto-complete-setup))
 
-(add-to-list 'exec-path "~/.pyenv/shims")
-(add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
+(use-package pyenv-mode
+  :ensure t
+  :init
+  (add-to-list 'exec-path "~/.pyenv/shims")
+  (setenv "WORKON_HOME" "~/.pyenv/versions/")
+  :config
+  (pyenv-mode)
+  :bind
+  ("C-x p" . pyenv-activate-current-project))
 
-(setenv "WORKON_HOME" "~/.pyenv/versions/")
-
-(elpy-enable)
-(pyenv-mode)
-
-(setq elpy-rpc-backend "jedi")
-
-;;(setq flycheck-python-flake8-executable "/usr/local/bin/flake8")
-(setq ac-modes (delq 'python-mode ac-modes))
+(use-package elpy
+  :ensure t
+  :init
+  (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
+  :config
+  (elpy-enable)
+  ;; (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
+  (setq elpy-rpc-backend "jedi"
+        ;;flycheck-python-flake8-executable "/usr/local/bin/flake8"
+        ac-modes (delq 'python-mode (and )c-modes))
+  :bind (:map elpy-mode-map
+              ("<M-left>" . nil)
+              ("<M-right>" . nil)
+              ("<M-S-left>" . elpy-nav-indent-shift-left)
+              ("<M-S-right>" . elpy-nav-indent-shift-right)
+              ("M-," . pop-tag-mark)
+              ("C-c C-s" . nil)))
 
 (defun pyenv-init()
   (setq global-pyenv (replace-regexp-in-string "\n" "" (shell-command-to-string "pyenv global")))
@@ -46,11 +62,5 @@
 (add-hook 'projectile-switch-project-hook 'pyenv-activate-current-project)
 (add-hook 'projectile-find-file-hook 'pyenv-activate-current-project)
 (add-hook 'projectile-find-dir-hook 'pyenv-activate-current-project)
-;; (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
-(add-hook 'pip-requirements-mode-hook #'pip-requirements-auto-complete-setup)
-
-;(defadvice auto-complete-mode (around disable-auto-complete-for-python)
-;  (unless (eq major-mode 'python-mode) ad-do-it))
-;(ad-activate 'auto-complete-mode)
 
 ;;; python.el ends here
