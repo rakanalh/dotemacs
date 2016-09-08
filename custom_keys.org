@@ -25,6 +25,7 @@
 | Helm             | Occur                      | C-x c o   |
 | Helm             | Find in project            | C-x c p   |
 | Helm             | Swoop                      | C-x c s   |
+| Helm             | Swoop resume               | C-x c b   |
 |                  |                            |           |
 | Acejump          | Activate mode              | C-c Space |
 |                  |                            |           |

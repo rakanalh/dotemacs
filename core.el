@@ -13,7 +13,8 @@
 (prefer-coding-system        'utf-8)   ; with sugar on top
 (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
 
-(setq confirm-nonexistent-file-or-buffer t
+(setq confirm-kill-emacs                  'y-or-n-p
+      confirm-nonexistent-file-or-buffer  t
       save-interprogram-paste-before-kill t
       mouse-yank-at-point                 t
       require-final-newline              nil
