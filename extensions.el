@@ -115,10 +115,8 @@
 (use-package org
   :config
   (setq org-directory "~/DropBox/org-mode"
-        org-agenda-files (list "~/DropBox/org-mode/notes.org"
-                             "~/DropBox/org-mode/todo.org"
-                             "~/DropBox/org-mode/jordan-visit.org")
-        org-default-notes-file (concat org-directory "/notes.org"))
+        org-agenda-files (list "~/DropBox/org-mode/ideas.org")
+        org-default-notes-file (concat org-directory "/todo.org"))
   (org-babel-do-load-languages
    'org-babel-load-languages '((python . t)))
   :bind
@@ -127,9 +125,9 @@
 
 (use-package org-projectile
   :config
-  (setq org-projectile:per-repo-filename "todo.org")
   (org-projectile:per-repo)
-  org-agenda-files (append org-agenda-files (org-projectile:todo-files))
+  (setq org-projectile:per-repo-filename "todo.org"
+	org-agenda-files (append org-agenda-files (org-projectile:todo-files)))
   :bind
   ("C-c c" . org-projectile:capture-for-current-project)
   ("C-c n p" . org-projectile:project-todo-completing-read))
