@@ -3,6 +3,24 @@
   :config
   (load-theme 'doom-one t))
 
+(use-package git-gutter-fringe)
+
+(use-package git-gutter
+  :config
+  (require 'git-gutter-fringe)
+  (global-git-gutter-mode +1)
+  (define-fringe-bitmap 'git-gutter-fr:added
+    [224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224]
+    nil nil 'center)
+  (define-fringe-bitmap 'git-gutter-fr:modified
+    [224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224 224]
+    nil nil 'center)
+  (define-fringe-bitmap 'git-gutter-fr:deleted
+    [0 0 0 0 0 0 0 0 0 0 0 0 0 128 192 224 240 248]
+    nil nil 'center)
+
+  (add-hook 'focus-in-hook 'git-gutter:update-all-windows))
+
 (use-package powerline)
 
 (setq fringes-outside-margins t
