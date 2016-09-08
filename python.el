@@ -4,23 +4,7 @@
 
 ;;; Code:
 
-(use-package pip-requirements
-  :ensure t
-  :config
-  (add-hook 'pip-requirements-mode-hook #'pip-requirements-auto-complete-setup))
-
-(use-package pyenv-mode
-  :ensure t
-  :init
-  (add-to-list 'exec-path "~/.pyenv/shims")
-  (setenv "WORKON_HOME" "~/.pyenv/versions/")
-  :config
-  (pyenv-mode)
-  :bind
-  ("C-x p" . pyenv-activate-current-project))
-
 (use-package elpy
-  :ensure t
   :init
   (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
   :config
@@ -36,6 +20,21 @@
               ("<M-S-right>" . elpy-nav-indent-shift-right)
               ("M-," . pop-tag-mark)
               ("C-c C-s" . nil)))
+
+(use-package pip-requirements
+  :config
+  (add-hook 'pip-requirements-mode-hook #'pip-requirements-auto-complete-setup))
+
+(use-package py-autopep8)
+
+(use-package pyenv-mode
+  :init
+  (add-to-list 'exec-path "~/.pyenv/shims")
+  (setenv "WORKON_HOME" "~/.pyenv/versions/")
+  :config
+  (pyenv-mode)
+  :bind
+  ("C-x p" . pyenv-activate-current-project))
 
 (defun pyenv-init()
   (setq global-pyenv (replace-regexp-in-string "\n" "" (shell-command-to-string "pyenv global")))

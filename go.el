@@ -1,5 +1,4 @@
 (use-package go-mode
-  :ensure t
   :config
   ; Use goimports instead of go-fmt
   (setq gofmt-command "goimports")
@@ -10,16 +9,11 @@
   (add-hook 'go-mode-hook #'smartparens-mode))
 
 (use-package go-autocomplete
-  :ensure t
   :bind (:map go-mode-map
   ; Godef jump key binding
   ("M-." . godef-jump)))
 
-(use-package go-eldoc
-  :ensure t)
-
-(use-package smartparens
-  :ensure t)
+(use-package go-eldoc)
 
 ;; Add GOPATH to shell
 (when (memq window-system '(mac ns))
@@ -31,5 +25,3 @@
   (if (not (string-match "go" compile-command))
       (set (make-local-variable 'compile-command)
            "go build -v && go test -v && go vet")))
-
-(provide 'go)

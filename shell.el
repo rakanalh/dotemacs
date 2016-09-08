@@ -92,12 +92,12 @@ comint-replace-by-expanded-history-before-point."
       (progn (fset 'message 'ignore) ad-do-it)
     (fset 'message old-message))))
 
-(defadvice comint-send-input (around go-to-end-of-multiline activate)
-  "When I press enter, jump to the end of the *buffer*, instead of the end of
-the line, to capture multiline input. (This only has effect if
-`comint-eol-on-send' is non-nil."
-  (flet ((end-of-line () (end-of-buffer)))
-    ad-do-it))
+;;(defadvice comint-send-input (around go-to-end-of-multiline activate)
+;;  "When I press enter, jump to the end of the *buffer*, instead of the end of
+;;the line, to capture multiline input. (This only has effect if
+;;`comint-eol-on-send' is non-nil."
+;;  (flet ((end-of-line () (end-of-buffer)))
+;;    ad-do-it))
 
 ;; not sure why, but comint needs to be reloaded from the source (*not*
 ;; compiled) elisp to make the above advise stick.

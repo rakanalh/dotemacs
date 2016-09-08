@@ -1,16 +1,23 @@
+(use-package ace-jump-mode
+  :bind
+  ("C-c SPC" . ace-jump-mode))
+
 (use-package company
-  :ensure t
   :init
   (require 'auto-complete-config)
   :config
   (ac-config-default)
   (add-hook 'after-init-hook 'global-company-mode))
 
+(use-package dockerfile-mode)
+
+(use-package exec-path-from-shell)
+
 (use-package expand-region
-  :ensure t)
+  :bind
+  ("C-=" . er/expand-region))
 
 (use-package flycheck
-  :ensure t
   :config
   (setq flycheck-indication-mode 'right-fringe
       ;; Removed checks on idle/change for snappiness
@@ -26,25 +33,36 @@
   ;; Enable flycheck
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
+(use-package flymake-go)
+
+(use-package git-gutter)
+
 (use-package helm
-  :ensure t
   :init
   (require 'helm-config)
   :config
   (setq helm-split-window-in-side-p t
         helm-split-window-default-side 'below)
-  (helm-mode 1))
+  (helm-mode 1)
+  :bind (("M-x" . helm-M-x)
+         ("C-x C-f" . helm-find-files)
+         ("C-x v" . helm-projectile)
+         ("M-s" . helm-occur)
+         ("C-s" . helm-occur)
+         ("C-S-s" . helm-projectile-ag)
+         ("C-S-v" . helm-show-kill-ring)
+         :map helm-map
+         ("<tab>" . helm-execute-persistent-action)))
 
-(use-package helm-ag
-  :ensure t)
+(use-package helm-ag)
+
+(use-package helm-git-grep)
 
 (use-package hlinum
-  :ensure t
   :config
   (hlinum-activate))
 
 (use-package hl-line
-  :init (add-hook! (prog-mode markdown-mode) 'hl-line-mode)
   :config
   ;; Doesn't seem to play nice in emacs 25+
   (setq hl-line-sticky-flag nil
@@ -53,17 +71,34 @@
   (defvar-local current-hl-line-mode nil)
   (defun hl-line-on ()  (if current-hl-line-mode (hl-line-mode +1)))
   (defun hl-line-off () (if current-hl-line-mode (hl-line-mode -1)))
-  (add-hook! hl-line-mode (if current-hl-line-mode (setq current-hl-line-mode t)))
+  ;;(add-hook hl-line-mode (lambda () (if current-hl-line-mode (setq current-hl-line-mode t))))
   (global-hl-line-mode))
 
-(use-package linum-mode
-  :ensure t
+(use-package linum
   :config
   (setq linum-format " %3d ")
   (global-linum-mode nil))
 
+(use-package magit
+  :bind
+  ;; Magic
+  ("C-x g s" . magit-status)
+  ("C-x g c" . magit-commit)
+  ("C-x g p" . magit-push)
+  ("C-x g u" . magit-pull))
+
+(use-package magit-popup)
+
+(use-package markdown-mode)
+
+(use-package multiple-cursors
+  :bind
+  ("C-S-c C-S-c" . mc/edit-lines)
+  ("C->" . mc/mark-next-like-this)
+  ("C-<" . mc/mark-previous-like-this)
+  ("C-c C-<" . mc/mark-all-like-this))
+
 (use-package neotree
-  :ensure t
   :config
   (setq neo-theme 'arrow
         neotree-smart-optn t
@@ -71,44 +106,84 @@
   (advice-add 'neo-buffer--insert-fold-symbol :override 'neo-insert-fold-symbol)
   (advice-add 'neo-buffer--insert-root-entry :filter-args 'neo-insert-root-entry)
   ;; Disable linum for neotree
-  (add-hook 'neo-after-create-hook 'my/neotree-hook))
+  (add-hook 'neo-after-create-hook 'my/neotree-hook)
+  :bind
+  ("C-x C-t" . neotree-toggle))
+
+(use-package org
+  :config
+  (setq org-directory "~/DropBox/org-mode"
+        org-agenda-files (list "~/DropBox/org-mode/notes.org"
+                             "~/DropBox/org-mode/todo.org"
+                             "~/DropBox/org-mode/jordan-visit.org")
+        org-default-notes-file (concat org-directory "/notes.org")
+        org-agenda-files (append org-agenda-files (org-projectile:todo-files)))
+  (org-babel-do-load-languages
+   'org-babel-load-languages '((python . t)))
+  :bind
+  ("\C-cl" . org-store-link)
+  ("\C-ca" . org-agenda))
+
+(use-package org-projectile
+  :config
+  (setq org-projectile:per-repo-filename "todo.org")
+  (org-projectile:per-repo)
+  :bind
+  ("C-c c" . org-projectile:capture-for-current-project)
+  ("C-c n p" . org-projectile:project-todo-completing-read))
+
+(use-package org-bullets
+  :config
+  (setq org-hide-leading-stars t)
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (org-bullets-mode t))))
+
+(use-package page-break-lines)
 
 (use-package projectile
-  :ensure t
   :config
   (projectile-global-mode))
 
 (use-package recentf
-  :ensure t
   :config
   (recentf-mode 1))
+
+(use-package smartparens)
 
 (use-package spacemacs-startup
   :config
   (spacemacs/setup-startup-hook))
 
 (use-package syntax-subword
-  :ensure t
   :config
-  (syntax-subword-mode))
+  (syntax-subword-mode)
+  :bind
+  ("<M-left>" . syntax-subword-backward)
+  ("<M-right>" . syntax-subword-forward))
 
-(use-package undotree
-  :ensure t
+(use-package undo-tree
   :config
   (global-undo-tree-mode 1))
 
 (use-package which-key
-  :ensure t
   :config
   (which-key-mode))
 
+(use-package windmove
+  :bind
+  ("C-x <up>" . windmove-up)
+  ("C-x <down>" . windmove-down)
+  ("C-x <left>" . windmove-left)
+  ("C-x <right>" . windmove-right))
+
+(use-package wgrep)
+
 (use-package yasnippet
-  :ensure t
   :config
   (yas-global-mode 1))
 
-(use-package diminish-minor-mode
-  :ensure t
+(use-package diminish
   :config
   (diminish-minor-mode 'abbrev 'abbrev-mode)
   (diminish-minor-mode 'company 'company-mode)

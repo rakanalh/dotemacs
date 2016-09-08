@@ -10,3 +10,5 @@ places
 projectile-bookmarks.eld
 recentf
 .emacs.desktop*
+.custom.el
+private/

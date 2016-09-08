@@ -15,10 +15,10 @@
 	     '("melpa" . "https://melpa.org/packages/")
              '("elpy" . "http://jorgenschaefer.github.io/packages/"))
 
-(setq load-path '("~/.emacs.d/vendor/"
-                 "~/.emacs.d/vendor/emacs-doom-theme/"))
+(add-to-list 'load-path "~/.emacs.d/vendor/")
+(add-to-list 'load-path "~/.emacs.d/vendor/doom-theme")
 
-(add-to-list 'custom-theme-load-path "~/.emacs.d/vendor/emacs-doom-theme")
+(add-to-list 'custom-theme-load-path "~/.emacs.d/vendor/doom-theme")
 
 (defconst user-init-dir
   (cond ((boundp 'user-emacs-directory)
@@ -42,12 +42,10 @@
 
 (load-user-file "core.el")
 (load-user-file "functions.el")
+(load-user-file "extensions.el")
+(load-user-file "ui.el")
 (load-user-file "python.el")
 (load-user-file "go.el")
 (load-user-file "web.el")
 (load-user-file "shell.el")
 (load-user-file "keys.el")
-(load-user-file "org.el")
-(load-user-file "ui.el")
-
-(provide 'init)

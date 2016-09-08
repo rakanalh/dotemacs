@@ -1,40 +1,14 @@
-(defconst private-dir  (eval-when-compile (expand-file-name "private" user-emacs-directory)))
+(defconst private-dir  (expand-file-name "private" user-emacs-directory))
 (defconst temp-dir
-  (eval-when-compile (format "%s/cache/%s" private-dir (system-name)))
+  (format "%s/cache/%s" private-dir (system-name))
   "Hostname-based elisp temp directories")
 
-;; UTF-8 please
-(set-charset-priority 'unicode)
-(setq locale-coding-system   'utf-8)   ; pretty
-(set-terminal-coding-system  'utf-8)   ; pretty
-(set-keyboard-coding-system  'utf-8)   ; pretty
-(set-selection-coding-system 'utf-8)   ; please
-(prefer-coding-system        'utf-8)   ; with sugar on top
-(setq default-process-coding-system '(utf-8-unix . utf-8-unix))
-
 ;; Core settings
-(setq byte-compile-warnings              nil
-      ad-redefinition-action            'accept      ; silence the advised function warnings
-      apropos-do-all                     t
-      compilation-always-kill            t           ; kill compl. process before spawning another
-      compilation-ask-about-save         nil         ; save all buffers before compiling
-      compilation-scroll-output          t           ; scroll with output while compiling
-      confirm-nonexistent-file-or-buffer t
-      delete-by-moving-to-trash          t
-      echo-keystrokes                    0.02        ; show me what I type
-      ediff-diff-options                 "-w"
-      ediff-split-window-function       'split-window-horizontally  ; side-by-side diffs
-      ediff-window-setup-function       'ediff-setup-windows-plain  ; no extra frames
-      enable-recursive-minibuffers       nil         ; no minibufferception
-      idle-update-delay                  5           ; update a little less often
-      major-mode                        'text-mode
-      ring-bell-function                'ignore      ; silence of the bells!
+(setq confirm-nonexistent-file-or-buffer t
       save-interprogram-paste-before-kill t
       mouse-yank-at-point                 t
-      sentence-end-double-space          nil
       require-final-newline              nil
       visible-bell                       nil
-      load-prefer-newer                  t
       custom-file                        "~/.emacs.d/.custom.el"
       ;; http://ergoemacs.org/emacs/emacs_stop_cursor_enter_prompt.html
       minibuffer-prompt-properties
@@ -44,7 +18,6 @@
       bookmark-default-file              (concat temp-dir "/bookmarks")
       ;; Disable backups (that's what git/dropbox are for)
       history-length                     1000
-      vc-make-backup-files               nil
       auto-save-default                  nil
       auto-save-list-file-name           (concat temp-dir "/autosave")
       make-backup-files                  nil
@@ -61,11 +34,11 @@
       ;; Backups disabled
       backup-inhibited                   t
       make-backup-files                  nil
-      warning-minimum-level              :emergency
       indent-tabs-mode                   nil
       inhibit-startup-message            t
       fringes-outside-margins            t
-      x-select-enable-clipboard          t)
+      x-select-enable-clipboard          t
+      use-package-always-ensure          t)
 
 (fset 'yes-or-no-p 'y-or-n-p)
 (global-auto-revert-mode t)
@@ -86,6 +59,3 @@
 
 ;; Delete trailing whitespace before save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-
-(provide 'core)

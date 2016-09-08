@@ -1,9 +1,8 @@
 (use-package doom-theme
   :config
-  (load-theme doom-one t))
+  (load-theme 'doom-one t))
 
-(use-package powerline
-  :ensure t)
+(use-package powerline)
 
 (setq fringes-outside-margins t
       highlight-nonselected-windows nil)
