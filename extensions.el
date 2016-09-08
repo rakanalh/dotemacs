@@ -42,21 +42,28 @@
   (require 'helm-config)
   :config
   (setq helm-split-window-in-side-p t
-        helm-split-window-default-side 'below)
+        helm-split-window-default-side 'below
+	helm-idle-delay 0.0
+	helm-input-idle-delay 0.01
+	helm-quick-update t
+	helm-ff-skip-boring-files t)
   (helm-mode 1)
   :bind (("M-x" . helm-M-x)
          ("C-x C-f" . helm-find-files)
          ("C-x v" . helm-projectile)
-         ("M-s" . helm-occur)
-         ("C-s" . helm-occur)
-         ("C-S-s" . helm-projectile-ag)
-         ("C-S-v" . helm-show-kill-ring)
+         ("C-x c o" . helm-occur)
+         ("C-x c p" . helm-projectile-ag)
+         ("C-x c k" . helm-show-kill-ring)
          :map helm-map
          ("<tab>" . helm-execute-persistent-action)))
 
 (use-package helm-ag)
 
 (use-package helm-git-grep)
+
+(use-package helm-swoop
+  :bind
+  ("C-x c s" . helm-swoop))
 
 (use-package hlinum
   :config
@@ -106,7 +113,7 @@
   (advice-add 'neo-buffer--insert-fold-symbol :override 'neo-insert-fold-symbol)
   (advice-add 'neo-buffer--insert-root-entry :filter-args 'neo-insert-root-entry)
   ;; Disable linum for neotree
-  (add-hook 'neo-after-create-hook 'my/neotree-hook)
+  (add-hook 'neo-after-create-hook 'disable-neotree-hook)
   :bind
   ("C-x C-t" . neotree-toggle))
 
@@ -116,8 +123,7 @@
         org-agenda-files (list "~/DropBox/org-mode/notes.org"
                              "~/DropBox/org-mode/todo.org"
                              "~/DropBox/org-mode/jordan-visit.org")
-        org-default-notes-file (concat org-directory "/notes.org")
-        org-agenda-files (append org-agenda-files (org-projectile:todo-files)))
+        org-default-notes-file (concat org-directory "/notes.org"))
   (org-babel-do-load-languages
    'org-babel-load-languages '((python . t)))
   :bind
@@ -128,6 +134,7 @@
   :config
   (setq org-projectile:per-repo-filename "todo.org")
   (org-projectile:per-repo)
+  org-agenda-files (append org-agenda-files (org-projectile:todo-files))
   :bind
   ("C-c c" . org-projectile:capture-for-current-project)
   ("C-c n p" . org-projectile:project-todo-completing-read))
@@ -143,15 +150,19 @@
 
 (use-package projectile
   :config
+  (setq projectile-known-projects-file
+        (expand-file-name "projectile-bookmarks.eld" temp-dir))
   (projectile-global-mode))
 
 (use-package recentf
   :config
+  (setq recentf-save-file (recentf-expand-file-name "~/.emacs.d/private/cache/recentf"))
   (recentf-mode 1))
 
 (use-package smartparens)
 
 (use-package spacemacs-startup
+  :ensure nil
   :config
   (spacemacs/setup-startup-hook))
 

@@ -1,4 +1,5 @@
 (use-package doom-theme
+  :ensure nil
   :config
   (load-theme 'doom-one t))
 

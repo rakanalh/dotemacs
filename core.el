@@ -1,9 +1,18 @@
 (defconst private-dir  (expand-file-name "private" user-emacs-directory))
 (defconst temp-dir
-  (format "%s/cache/%s" private-dir (system-name))
+  (format "%s/cache" private-dir)
   "Hostname-based elisp temp directories")
 
 ;; Core settings
+;; UTF-8 please
+(set-charset-priority 'unicode)
+(setq locale-coding-system   'utf-8)   ; pretty
+(set-terminal-coding-system  'utf-8)   ; pretty
+(set-keyboard-coding-system  'utf-8)   ; pretty
+(set-selection-coding-system 'utf-8)   ; please
+(prefer-coding-system        'utf-8)   ; with sugar on top
+(setq default-process-coding-system '(utf-8-unix . utf-8-unix))
+
 (setq confirm-nonexistent-file-or-buffer t
       save-interprogram-paste-before-kill t
       mouse-yank-at-point                 t
@@ -23,6 +32,7 @@
       make-backup-files                  nil
       create-lockfiles                   nil
       backup-directory-alist            `((".*" . ,(concat temp-dir "/backup/")))
+      auto-save-file-name-transforms    `((".*" ,(concat temp-dir "/auto-save-list/") t))
       ;; Remember undo history
       undo-tree-auto-save-history        nil
       undo-tree-history-directory-alist `(("." . ,(concat temp-dir "/undo/")))
