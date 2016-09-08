@@ -3,10 +3,7 @@
   ("C-c SPC" . ace-jump-mode))
 
 (use-package company
-  :init
-  (require 'auto-complete-config)
   :config
-  (ac-config-default)
   (add-hook 'after-init-hook 'global-company-mode))
 
 (use-package dockerfile-mode)
@@ -32,8 +29,6 @@
     (flycheck-pos-tip-mode +1))
   ;; Enable flycheck
   (add-hook 'after-init-hook #'global-flycheck-mode))
-
-(use-package flymake-go)
 
 (use-package git-gutter)
 
@@ -206,7 +201,6 @@
   (diminish-minor-mode 'undo-tree 'undo-tree-mode)
   (diminish-minor-mode 'yasnippet 'yas-minor-mode)
   (diminish-minor-mode 'helm 'helm-mode)
-  (diminish-minor-mode 'Auto-Complete 'auto-complete-mode)
   (diminish-minor-mode 'magit 'auto-revert-mode)
   (diminish-minor-mode 'Git-Gutter 'git-gutter-mode)
   (diminish-minor-mode 'Which-Key 'which-key-mode)
