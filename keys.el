@@ -16,3 +16,6 @@
 ;; Custom Emacs Shortcuts
 (global-set-key (kbd "C-}") (lambda () (interactive) (forward-line 5)))
 (global-set-key (kbd "C-{") (lambda () (interactive) (forward-line -5)))
+
+;; iTerm2
+(global-set-key (kbd "C-'") 'iterm-focus)

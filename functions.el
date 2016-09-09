@@ -68,3 +68,9 @@ If point was already at that position, move point to beginning of line."
   (or (and (eq name 'open)  (neo-buffer--insert-with-face " -  " 'neo-expand-btn-face))
       (and (eq name 'close) (neo-buffer--insert-with-face " +  " 'neo-expand-btn-face))
       (and (eq name 'leaf)  (neo-buffer--insert-with-face "   " 'neo-expand-btn-face))))
+
+(defun iterm-focus ()
+  (interactive)
+  (do-applescript
+   " do shell script \"open -a iTerm\"\n"
+   ))
