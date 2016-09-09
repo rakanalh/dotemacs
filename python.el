@@ -12,7 +12,8 @@
   ;; (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
   (setq elpy-rpc-backend "jedi"
         ;;flycheck-python-flake8-executable "/usr/local/bin/flake8"
-        ac-modes (delq 'python-mode (and )c-modes))
+	ac-modes (delq 'python-mode ac-modes))
+
   :bind (:map elpy-mode-map
               ("<M-left>" . nil)
               ("<M-right>" . nil)
