@@ -10,8 +10,10 @@
 (global-set-key (kbd "C-x 2") 'split-window-below-and-switch)
 (global-set-key (kbd "C-x 3") 'split-window-right-and-switch)
 
-
 (global-set-key (kbd "C-x C-b") 'switch-to-buffer)
+
+;; rgrep
+(global-set-key (kbd "C-S-s" 'rgrep))
 
 ;; Custom Emacs Shortcuts
 (global-set-key (kbd "C-}") (lambda () (interactive) (forward-line 5)))

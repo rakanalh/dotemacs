@@ -48,4 +48,5 @@
 (load-user-file "go.el")
 (load-user-file "web.el")
 (load-user-file "shell.el")
+(load-user-file "aliases.el")
 (load-user-file "keys.el")
