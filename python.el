@@ -18,6 +18,7 @@
               ("<M-right>" . nil)
               ("<M-S-left>" . elpy-nav-indent-shift-left)
               ("<M-S-right>" . elpy-nav-indent-shift-right)
+	      ("M-." . elpy-goto-definition)
               ("M-," . pop-tag-mark)
               ("C-c C-s" . nil)))
 
