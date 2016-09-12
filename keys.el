@@ -12,9 +12,6 @@
 
 (global-set-key (kbd "C-x C-b") 'switch-to-buffer)
 
-;; rgrep
-(global-set-key (kbd "C-S-s" 'rgrep))
-
 ;; Custom Emacs Shortcuts
 (global-set-key (kbd "C-}") (lambda () (interactive) (forward-line 5)))
 (global-set-key (kbd "C-{") (lambda () (interactive) (forward-line -5)))
