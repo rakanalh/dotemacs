@@ -45,6 +45,7 @@
 	helm-boring-file-regexp-list '("\\.DS_Store" "\\.git" "__pycache__" "\\undo-tree-history"))
   (helm-mode 1)
   :bind (("M-x" . helm-M-x)
+         ("C-x C-m" . helm-M-x)
          ("C-x C-f" . helm-find-files)
          ("C-x v" . helm-projectile)
          ("C-x c o" . helm-occur)

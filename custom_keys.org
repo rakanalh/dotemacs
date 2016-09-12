@@ -2,6 +2,7 @@
 
 | App              | Function                   | Shortcut          |
 |------------------+----------------------------+-------------------|
+| Emacs            | M-x                        | C-x C-m           |
 | Emacs            | Remove Empty Line          | C-x C-o           |
 | Emacs            | Delete Indentation         | M-\               |
 | Emacs            | Initial Caps for words     | M-c               |
