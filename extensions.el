@@ -8,6 +8,10 @@
 
 (use-package dockerfile-mode)
 
+(use-package ediff
+  :config
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain))
+
 (use-package exec-path-from-shell)
 
 (use-package expand-region
