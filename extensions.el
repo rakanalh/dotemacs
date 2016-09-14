@@ -62,6 +62,8 @@
 
 (use-package helm-git-grep)
 
+(use-package helm-projectile)
+
 (use-package helm-swoop
   :bind
   ("C-x c s" . helm-swoop))
