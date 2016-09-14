@@ -113,8 +113,6 @@
   (setq neo-theme 'arrow
         neotree-smart-optn t
         neo-window-fixed-size nil)
-  (advice-add 'neo-buffer--insert-fold-symbol :override 'neo-insert-fold-symbol)
-  (advice-add 'neo-buffer--insert-root-entry :filter-args 'neo-insert-root-entry)
   ;; Disable linum for neotree
   (add-hook 'neo-after-create-hook 'disable-neotree-hook)
   :bind

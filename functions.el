@@ -59,16 +59,6 @@ If point was already at that position, move point to beginning of line."
 (defun disable-neotree-hook (_unused)
   (linum-mode -1))
 
-(defun neo-insert-root-entry (node)
-  "Pretty-print pwd in neotree"
-  (list (concat "  " (projectile-project-name))))
-
-(defun neo-insert-fold-symbol (name)
-  "Custom hybrid unicode theme with leading whitespace."
-  (or (and (eq name 'open)  (neo-buffer--insert-with-face " -  " 'neo-expand-btn-face))
-      (and (eq name 'close) (neo-buffer--insert-with-face " +  " 'neo-expand-btn-face))
-      (and (eq name 'leaf)  (neo-buffer--insert-with-face "   " 'neo-expand-btn-face))))
-
 (defun iterm-focus ()
   (interactive)
   (do-applescript
