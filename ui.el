@@ -4,7 +4,7 @@
   :config
   (load-theme 'doom-one t)
   (require 'doom-neotree)
-  (setq  doom-neotree-folder-size 120))
+  (setq  doom-neotree-folder-size 150))
 
 (use-package git-gutter-fringe)
 
