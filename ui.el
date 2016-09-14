@@ -1,5 +1,6 @@
-(use-package doom-theme
-  :ensure nil
+(use-package all-the-icons)
+
+(use-package doom-themes
   :config
   (load-theme 'doom-one t))
 
