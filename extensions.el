@@ -113,6 +113,7 @@
   (setq neo-theme 'arrow
         neotree-smart-optn t
         neo-window-fixed-size nil)
+  (neotree-projectile-action)
   ;; Disable linum for neotree
   (add-hook 'neo-after-create-hook 'disable-neotree-hook)
   :bind
