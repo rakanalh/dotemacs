@@ -19,6 +19,7 @@
       mouse-yank-at-point                 t
       require-final-newline              nil
       visible-bell                       nil
+      ring-bell-function                 'ignore
       custom-file                        "~/.emacs.d/.custom.el"
       ;; http://ergoemacs.org/emacs/emacs_stop_cursor_enter_prompt.html
       minibuffer-prompt-properties
