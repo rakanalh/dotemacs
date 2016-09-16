@@ -4,7 +4,8 @@
   :config
   (load-theme 'doom-one t)
   (require 'doom-neotree)
-  (add-hook 'minibuffer-setup-hook 'doom-brighten-minibuffer))
+  (add-hook 'minibuffer-setup-hook 'doom-brighten-minibuffer)
+  (add-hook 'find-file-hook 'doom-buffer-mode))
 
 (use-package git-gutter-fringe)
 
