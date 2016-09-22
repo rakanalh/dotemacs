@@ -1,3 +1,13 @@
+;; `window-divider-mode' gives us finer control over the border between windows.
+;; The native border "consumes" a pixel of the fringe on righter-most splits (in
+;; Yamamoto's emacs-mac at least), window-divider does not. You can also control
+;; vertical borders between windows (introduced in Emacs 25.1+)
+(when (boundp 'window-divider-mode)
+  (setq window-divider-default-places t
+        window-divider-default-bottom-width 1
+        window-divider-default-right-width 1)
+  (window-divider-mode +1))
+
 (use-package all-the-icons)
 
 (use-package doom-themes

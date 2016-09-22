@@ -11,6 +11,8 @@
 | Emacs            | Add Bookmark               | C-x r m           |
 | Emacs            | Go to bookmark             | C-x r b           |
 |                  |                            |                   |
+| Projectile       | helm-projectile-grep       | C-c p s g         |
+|                  |                            |                   |
 | Wgrep            | Change Grep or Ag to Wgrep | C-c C-p           |
 | Wgrep            | Write Changes              | C-x C-s           |
 |                  |                            |                   |
@@ -18,10 +20,13 @@
 | Multiple-Cursors | Mark prev line like this   | C-<               |
 | Multiple-Cursors | Mark all lines like this   | C-c C-<           |
 |                  |                            |                   |
+| Magit            | Checkout                   | C-x g x           |
 | Magit            | Commit                     | C-x g c           |
 | Magit            | Status                     | C-x g s           |
 | Magit            | Push                       | C-x g p           |
 | Magit            | Pull (Update)              | C-x g u           |
+| Magit            | Resolve conflicts          | C-x g e           |
+| Magit            | Rebase interactive         |                   |
 |                  |                            |                   |
 | Helm             | Show kill Ring             | C-x c k           |
 | Helm             | Show definitions           | C-x c i           |
