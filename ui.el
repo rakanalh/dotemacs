@@ -48,6 +48,10 @@
 (set-face-foreground 'linum-highlight-face "#00B3EF")
 (set-face-background 'linum-highlight-face "#1f252b")
 
+(setq org-fontify-whole-heading-line t
+      org-fontify-done-headline t
+      org-fontify-quote-and-verse-blocks t)
+
 (defun doom-fix-unicode (font &rest chars)
   "Display certain unicode characters in a specific font.
 e.g. (doom-fix-unicode \"DejaVu Sans\" ?⚠ ?★ ?λ)"
