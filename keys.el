@@ -1,3 +1,4 @@
+(setq ns-function-modifier 'control)
 ;; Set global keys not specific to a certain package
 (global-set-key (kbd "C-f") (lambda () (interactive) (forward-word)))
 (global-set-key (kbd "C-b") (lambda () (interactive) (backward-word)))
