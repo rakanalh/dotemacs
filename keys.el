@@ -19,3 +19,6 @@
 
 ;; iTerm2
 (global-set-key (kbd "C-'") 'iterm-focus)
+
+;; rgrep
+(global-set-key (kbd "C-x c g") (lambda () (interactive) (call-interactively 'rgrep)))
