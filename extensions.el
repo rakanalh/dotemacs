@@ -1,3 +1,9 @@
+(eval-after-load 'grep
+  '(progn
+    (add-to-list 'grep-find-ignored-directories "local")
+    (add-to-list 'grep-find-ignored-directories "build")))
+(add-hook 'grep-mode-hook (lambda() (toggle-truncate-lines 1)))
+
 (use-package ace-jump-mode
   :bind
   ("C-c SPC" . ace-jump-mode))
