@@ -31,11 +31,6 @@
   :config
   (add-hook 'go-mode-hook 'go-eldoc-setup))
 
-;; Add GOPATH to shell
-(when (memq window-system '(mac ns))
-  (exec-path-from-shell-copy-env "GOPATH")
-  (exec-path-from-shell-initialize))
-
 (defun setup-go-mode-compile ()
   ; Customize compile command to run go build
   (if (not (string-match "go" compile-command))
