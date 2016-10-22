@@ -165,6 +165,11 @@
 
 (use-package page-break-lines)
 
+(use-package persp-mode
+  :init
+  (persp-mode)
+  (setq persp-save-dir (concat private-dir "/persp-confs/")))
+
 (use-package projectile
   :config
   (setq projectile-known-projects-file

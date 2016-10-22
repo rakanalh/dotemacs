@@ -1,3 +1,7 @@
+(require 'magit-git)
+(require 'magit-process)
+(require 'persp-mode)
+
 ;; Delete words
 (defun delete-word (arg)
   "Delete characters forward until encountering the end of a word.
@@ -64,3 +68,55 @@ If point was already at that position, move point to beginning of line."
   (do-applescript
    " do shell script \"open -a iTerm\"\n"
    ))
+
+(defun custom-kill-buffer-fn (&optional arg)
+(interactive "P")
+  (cond
+    ((and (consp arg) (equal arg '(4)))
+      (mapc
+        (lambda (x)
+          (let ((name (buffer-name x)))
+            (unless (eq ?\s (aref name 0))
+              (kill-buffer x))))
+        (buffer-list)))
+    (t
+      (kill-buffer (current-buffer)))))
+
+(defun close-all-buffers ()
+  (interactive)
+  (mapc 'kill-buffer (buffer-list)))
+
+(defun persp/get-root (branch-name)
+  (let ((current-project (projectile-project-name)))
+    (message current-project)
+    (message branch-name)
+    (if (and (not current-project) (not branch-name))
+      (error "Could not find persp root"))
+
+    (if (and current-project branch-name)
+	(concat current-project "-" branch-name)
+      (if current-project
+	  current-project
+	branch-name))))
+
+
+(defun persp/close-perspective (&optional closed-branch)
+  (interactive)
+  (let* ((current-branch (if closed-branch
+			    closed-branch
+			  (magit-get-current-branch)))
+	(persp-project-root (persp/get-root current-branch)))
+    (if persp-project-root
+	(progn
+	  (message (concat "Saving " persp-project-root ".persp"))
+	  (persp-save-state-to-file (concat persp-project-root ".persp"))
+	  (close-all-buffers)))))
+
+(defun persp/switch-to-current-branch-persp ()
+  (interactive)
+  (let ((closed-branch (magit-get-previous-branch)))
+    (persp/close-perspective closed-branch))
+  (message "Closed perspective")
+  (let ((persp-project-root (persp/get-root (magit-get-current-branch))))
+    (message (concat "Loading " persp-project-root ".persp"))
+    (persp-load-state-from-file (concat persp-project-root ".persp"))))
