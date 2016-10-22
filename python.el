@@ -37,7 +37,7 @@
   :config
   (pyenv-mode)
   :bind
-  ("C-x p" . pyenv-activate-current-project))
+  ("C-x p e" . pyenv-activate-current-project))
 
 (defun pyenv-init()
   (setq global-pyenv (replace-regexp-in-string "\n" "" (shell-command-to-string "pyenv global")))
