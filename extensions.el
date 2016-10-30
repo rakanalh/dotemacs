@@ -186,6 +186,11 @@
   (setq recentf-save-file (recentf-expand-file-name "~/.emacs.d/private/cache/recentf"))
   (recentf-mode 1))
 
+(use-package restclient
+  :init
+  (setq restclient-log-request t
+	restclient-same-buffer-response t))
+
 (use-package smartparens)
 
 (use-package spacemacs-startup
