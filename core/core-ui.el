@@ -13,6 +13,19 @@
 (use-package doom-themes
   :config
   (load-theme 'doom-one t)
+  (let ((c '((class color) (min-colors 89)))
+      (black          "#181e26")
+      (white          "#DFDFDF"))
+
+    (custom-theme-set-faces
+     'doom-one
+     ;; Doom faces
+     ;; org-mode
+     `(org-level-2               ((,c (:foreground ,white))))
+     `(org-level-3               ((,c (:foreground ,white))))
+     `(org-level-4               ((,c (:foreground ,white))))
+     `(org-level-5               ((,c (:foreground ,white))))
+     `(org-level-6               ((,c (:foreground ,white))))))
   (require 'doom-neotree)
   (add-hook 'minibuffer-setup-hook 'doom-brighten-minibuffer)
   (add-hook 'find-file-hook 'doom-buffer-mode))
@@ -272,3 +285,5 @@ e.g. (doom-fix-unicode \"DejaVu Sans\" ?⚠ ?★ ?λ)"
       (list lhs middle rhs))))
 
 (setq-default mode-line-format (doom-mode-line))
+
+(provide 'core-ui)

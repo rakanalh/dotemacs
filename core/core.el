@@ -72,3 +72,6 @@
 ;; Delete trailing whitespace before save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-to-list 'auto-mode-alist '("\\.psql$" . sql-mode))
+
+(provide 'core)
+;;; core ends here

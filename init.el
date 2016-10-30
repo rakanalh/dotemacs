@@ -15,24 +15,9 @@
 	     '("melpa" . "https://melpa.org/packages/")
              '("elpy" . "http://jorgenschaefer.github.io/packages/"))
 
+(add-to-list 'load-path (concat user-emacs-directory "core"))
 (add-to-list 'load-path "~/.emacs.d/vendor/")
 (add-to-list 'load-path "~/.emacs.d/vendor/doom-theme")
-
-(add-to-list 'custom-theme-load-path "~/.emacs.d/vendor/doom-theme")
-
-(defconst user-init-dir
-  (cond ((boundp 'user-emacs-directory)
-         user-emacs-directory)
-        ((boundp 'user-init-directory)
-         user-init-directory)
-        (t "~/.emacs.d/")))
-
-
-(defun load-user-file (file)
-  (interactive "f")
-  "Load a file in current user's configuration directory"
-  (load-file (expand-file-name file user-init-dir)))
-
 
 (when (not package-archive-contents)
   (package-refresh-contents))
@@ -40,13 +25,13 @@
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 
-(load-user-file "core.el")
-(load-user-file "functions.el")
-(load-user-file "extensions.el")
-(load-user-file "python.el")
-(load-user-file "go.el")
-(load-user-file "web.el")
-(load-user-file "shell.el")
-(load-user-file "aliases.el")
-(load-user-file "keys.el")
-(load-user-file "ui.el")
+(require 'core)
+(require 'core-functions)
+(require 'core-extensions)
+(require 'core-python)
+(require 'core-go)
+(require 'core-web)
+(require 'core-shell)
+(require 'core-aliases)
+(require 'core-keys)
+(require 'core-ui)
