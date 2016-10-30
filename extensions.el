@@ -56,12 +56,15 @@
   :config
   (setq helm-split-window-in-side-p t
         helm-split-window-default-side 'below
+	helm-autoresize-min-height 30
+	helm-autoresize-max-height 30
 	helm-idle-delay 0.0
 	helm-input-idle-delay 0.01
 	helm-quick-update t
 	helm-ff-skip-boring-files t
 	helm-boring-file-regexp-list '("\\.DS_Store" "\\.git" "__pycache__" "\\undo-tree-history"))
   (helm-mode 1)
+  (helm-autoresize-mode 1)
   :bind (("M-x" . helm-M-x)
          ("C-x C-m" . helm-M-x)
          ("C-x C-f" . helm-find-files)
