@@ -50,40 +50,25 @@
 
 (use-package git-gutter)
 
-(use-package helm
-  :init
-  (require 'helm-config)
+(use-package counsel
   :config
-  (setq helm-split-window-in-side-p t
-        helm-split-window-default-side 'below
-	helm-autoresize-min-height 30
-	helm-autoresize-max-height 30
-	helm-idle-delay 0.0
-	helm-input-idle-delay 0.01
-	helm-quick-update t
-	helm-ff-skip-boring-files t
-	helm-boring-file-regexp-list '("\\.DS_Store" "\\.git" "__pycache__" "\\undo-tree-history"))
-  (helm-mode 1)
-  (helm-autoresize-mode 1)
-  :bind (("M-x" . helm-M-x)
-         ("C-x C-m" . helm-M-x)
-         ("C-x C-f" . helm-find-files)
-         ("C-x v" . helm-projectile)
-         ("C-x c o" . helm-occur)
-         ("C-x c p" . helm-projectile-ag)
-         ("C-x c k" . helm-show-kill-ring)
-         :map helm-map
-         ("<tab>" . helm-execute-persistent-action)))
+  (global-set-key (kbd "M-x") 'counsel-M-x)
+  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+  (global-set-key (kbd "C-x c k") 'counsel-yank-pop))
 
-(use-package helm-ag)
+(use-package counsel-projectile
+  :config
+  (global-set-key (kbd "C-x v") 'counsel-projectile)
+  (global-set-key (kbd "C-x c p") 'counsel-projectile-ag))
 
-(use-package helm-git-grep)
+(use-package ivy
+  :config
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (global-set-key (kbd "C-x s") 'swiper)
+  (global-set-key (kbd "C-c C-r") 'ivy-resume)
+  (define-key read-expression-map (kbd "C-r") 'counsel-expression-history))
 
-(use-package helm-projectile)
-
-(use-package helm-swoop
-  :bind
-  ("C-x c s" . helm-swoop))
 
 (use-package hlinum
   :config
@@ -240,11 +225,10 @@
   (diminish-minor-mode 'projectile 'projectile-mode)
   (diminish-minor-mode 'undo-tree 'undo-tree-mode)
   (diminish-minor-mode 'yasnippet 'yas-minor-mode)
-  (diminish-minor-mode 'helm 'helm-mode)
   (diminish-minor-mode 'magit 'auto-revert-mode)
   (diminish-minor-mode 'Git-Gutter 'git-gutter-mode)
   (diminish-minor-mode 'Which-Key 'which-key-mode)
-
+  (diminish-minor-mode 'ivy 'ivy-mode)
   (diminish-major-mode 'emacs-lisp-mode-hook "el")
   (diminish-major-mode 'python-mode-hook "Py"))
 

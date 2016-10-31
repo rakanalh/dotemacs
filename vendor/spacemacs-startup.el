@@ -3,6 +3,9 @@
 ;; Spacemacs startup screen
 
 ;;; Code:
+
+(require 'bookmark)
+
 ;; Custom splash screen
 (defvar spacemacs-mode-map
   (let ((map (make-sparse-keymap)))
@@ -37,7 +40,6 @@
 	(spacemacs//insert--shortcut "r" "Recent Files:")
 	(insert list-separator))
 
-      (helm-mode)
       (when (spacemacs//insert-bookmark-list "Bookmarks:" (bookmark-all-names))
 	(spacemacs//insert--shortcut "m" "Bookmarks:")
 	(insert list-separator))
