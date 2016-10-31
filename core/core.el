@@ -75,7 +75,7 @@
 
 ;; Env vars
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin/:$GOPATH"))
-(setenv "SHELL" "/bin/bash")
+(setenv "SHELL" "/bin/zsh")
 
 (show-paren-mode 1)
 (desktop-save-mode 0)
