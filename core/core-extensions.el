@@ -53,11 +53,13 @@
 (use-package counsel
   :config
   (global-set-key (kbd "M-x") 'counsel-M-x)
+  (global-set-key (kbd "C-x C-m") 'counsel-M-x)
   (global-set-key (kbd "C-x C-f") 'counsel-find-file)
   (global-set-key (kbd "C-x c k") 'counsel-yank-pop))
 
 (use-package counsel-projectile
   :config
+  (counsel-projectile-on)
   (global-set-key (kbd "C-x v") 'counsel-projectile)
   (global-set-key (kbd "C-x c p") 'counsel-projectile-ag))
 
@@ -66,7 +68,7 @@
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)
   (global-set-key (kbd "C-x s") 'swiper)
-  (global-set-key (kbd "C-c C-r") 'ivy-resume)
+  (global-set-key (kbd "C-x C-r") 'ivy-resume)
   (define-key read-expression-map (kbd "C-r") 'counsel-expression-history))
 
 
@@ -92,6 +94,8 @@
   (global-linum-mode nil))
 
 (use-package magit
+  :config
+  (setq magit-completing-read-function 'ivy-completing-read)
   :bind
   ;; Magic
   ("C-x g s" . magit-status)
@@ -167,6 +171,7 @@
   :config
   (setq projectile-known-projects-file
         (expand-file-name "projectile-bookmarks.eld" temp-dir))
+  (setq projectile-completion-system 'ivy)
   (projectile-global-mode))
 
 (use-package recentf
