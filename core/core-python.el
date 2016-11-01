@@ -59,7 +59,15 @@
             (pyvenv-workon pyenv-current-version)
             (message (concat "Setting virtualenv to " pyenv-current-version))))))))
 
+(defun pyenv-check-if-current-project ()
+  (let ((current-project (projectile-project-name)))
+    (if (and current-project (not (equal current-project "-")))
+	(progn
+	  (message (concat "Current project " current-project))
+	  (pyenv-activate-current-project)))))
+
 (add-hook 'after-init-hook 'pyenv-init)
+(add-hook 'find-file-hook 'pyenv-check-if-current-project)
 (add-hook 'projectile-after-switch-project-hook 'pyenv-activate-current-project)
 
 (provide 'core-python)
