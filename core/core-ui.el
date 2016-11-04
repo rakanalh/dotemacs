@@ -15,11 +15,14 @@
   (load-theme 'doom-one t)
   (let ((c '((class color) (min-colors 89)))
       (black          "#181e26")
-      (white          "#DFDFDF"))
+      (white          "#DFDFDF")
+      (blue           "#1f5582"))
 
     (custom-theme-set-faces
      'doom-one
      ;; Doom faces
+     ;; Ivy
+     `(ivy-current-match           ((,c (:background ,blue))))
      ;; org-mode
      `(org-level-2               ((,c (:foreground ,white))))
      `(org-level-3               ((,c (:foreground ,white))))

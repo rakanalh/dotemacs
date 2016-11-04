@@ -66,7 +66,7 @@
 (use-package ivy
   :config
   (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t)
+  (setq ivy-use-virtual-buffers nil)
   (global-set-key (kbd "C-x s") 'swiper)
   (global-set-key (kbd "C-x C-r") 'ivy-resume)
   (define-key read-expression-map (kbd "C-r") 'counsel-expression-history))
@@ -115,7 +115,8 @@
   ("C-S-c C-S-c" . mc/edit-lines)
   ("C->" . mc/mark-next-like-this)
   ("C-<" . mc/mark-previous-like-this)
-  ("C-c C-<" . mc/mark-all-like-this))
+  ("C-c C->" . mc/mark-all-like-this)
+  ("C-c ;" . mc/skip-to-next-like-this))
 
 (use-package neotree
   :config
