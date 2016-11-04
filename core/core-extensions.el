@@ -1,7 +1,8 @@
 (eval-after-load 'grep
   '(progn
     (add-to-list 'grep-find-ignored-directories "local")
-    (add-to-list 'grep-find-ignored-directories "build")))
+    (add-to-list 'grep-find-ignored-directories "build")
+    (add-to-list 'grep-find-ignored-directories "media")))
 (add-hook 'grep-mode-hook (lambda() (toggle-truncate-lines 1)))
 
 (use-package ace-jump-mode
@@ -51,24 +52,26 @@
 (use-package git-gutter)
 
 (use-package counsel
-  :config
-  (global-set-key (kbd "M-x") 'counsel-M-x)
-  (global-set-key (kbd "C-x C-m") 'counsel-M-x)
-  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-  (global-set-key (kbd "C-x c k") 'counsel-yank-pop))
+  :bind
+  ("M-x" . counsel-M-x)
+  ("C-x C-m" . counsel-M-x)
+  ("C-x C-f" . counsel-find-file)
+  ("C-x c k" . counsel-yank-pop))
 
 (use-package counsel-projectile
+  :bind
+  ("C-x v" . counsel-projectile)
+  ("C-x c p" . counsel-projectile-ag)
   :config
-  (counsel-projectile-on)
-  (global-set-key (kbd "C-x v") 'counsel-projectile)
-  (global-set-key (kbd "C-x c p") 'counsel-projectile-ag))
+  (counsel-projectile-on))
 
 (use-package ivy
+  :bind
+  ("C-x s" . swiper)
+  ("C-x C-r" . ivy-resume)
   :config
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers nil)
-  (global-set-key (kbd "C-x s") 'swiper)
-  (global-set-key (kbd "C-x C-r") 'ivy-resume)
   (define-key read-expression-map (kbd "C-r") 'counsel-expression-history))
 
 
@@ -187,10 +190,10 @@
 
 (use-package smartparens)
 
-(use-package spacemacs-startup
+(use-package dashboard
   :ensure nil
   :config
-  (spacemacs/setup-startup-hook))
+  (dashboard/setup-startup-hook))
 
 (use-package syntax-subword
   :config

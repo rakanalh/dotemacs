@@ -19,7 +19,6 @@
 
 (add-to-list 'load-path (concat user-emacs-directory "core"))
 (add-to-list 'load-path "~/.emacs.d/vendor/")
-(add-to-list 'load-path "~/.emacs.d/vendor/doom-theme")
 
 (require 'core)
 (require 'core-functions)

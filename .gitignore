@@ -12,3 +12,4 @@ recentf
 .emacs.desktop*
 .custom.el
 private/
+vendor/
