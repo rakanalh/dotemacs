@@ -193,7 +193,7 @@
 (use-package dashboard
   :ensure nil
   :config
-  (dashboard/setup-startup-hook))
+  (dashboard-setup-startup-hook))
 
 (use-package syntax-subword
   :config
@@ -222,6 +222,12 @@
 (use-package yasnippet
   :config
   (yas-global-mode 1))
+
+(use-package zoom-window
+  :bind
+  ("C-x C-z" . zoom-window-zoom)
+  :config
+  (setq zoom-window-mode-line-color "#22252c"))
 
 (use-package diminish
   :config
