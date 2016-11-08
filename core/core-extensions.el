@@ -13,6 +13,27 @@
   :config
   (add-hook 'after-init-hook 'global-company-mode))
 
+(use-package counsel
+  :bind
+  ("M-x" . counsel-M-x)
+  ("C-x C-m" . counsel-M-x)
+  ("C-x C-f" . counsel-find-file)
+  ("C-x c k" . counsel-yank-pop))
+
+(use-package counsel-projectile
+  :bind
+  ("C-x v" . counsel-projectile)
+  ("C-x c p" . counsel-projectile-ag)
+  :config
+  (counsel-projectile-on))
+
+
+(use-package dashboard
+  :ensure nil
+  :config
+  (projectile-mode)
+  (dashboard-setup-startup-hook))
+
 (use-package dockerfile-mode)
 
 (use-package ediff
@@ -51,19 +72,21 @@
 
 (use-package git-gutter)
 
-(use-package counsel
-  :bind
-  ("M-x" . counsel-M-x)
-  ("C-x C-m" . counsel-M-x)
-  ("C-x C-f" . counsel-find-file)
-  ("C-x c k" . counsel-yank-pop))
-
-(use-package counsel-projectile
-  :bind
-  ("C-x v" . counsel-projectile)
-  ("C-x c p" . counsel-projectile-ag)
+(use-package hl-line
   :config
-  (counsel-projectile-on))
+  ;; Doesn't seem to play nice in emacs 25+
+  (setq hl-line-sticky-flag nil
+        global-hl-line-sticky-flag nil)
+
+  (defvar-local current-hl-line-mode nil)
+  (defun hl-line-on ()  (if current-hl-line-mode (hl-line-mode +1)))
+  (defun hl-line-off () (if current-hl-line-mode (hl-line-mode -1)))
+  ;;(add-hook hl-line-mode (lambda () (if current-hl-line-mode (setq current-hl-line-mode t))))
+  (global-hl-line-mode))
+
+(use-package hungry-delete
+  :config
+  (add-hook 'python-mode-hook #'(lambda() (hungry-keyboard python-mode-map))))
 
 (use-package ivy
   :bind
@@ -78,18 +101,6 @@
 (use-package hlinum
   :config
   (hlinum-activate))
-
-(use-package hl-line
-  :config
-  ;; Doesn't seem to play nice in emacs 25+
-  (setq hl-line-sticky-flag nil
-        global-hl-line-sticky-flag nil)
-
-  (defvar-local current-hl-line-mode nil)
-  (defun hl-line-on ()  (if current-hl-line-mode (hl-line-mode +1)))
-  (defun hl-line-off () (if current-hl-line-mode (hl-line-mode -1)))
-  ;;(add-hook hl-line-mode (lambda () (if current-hl-line-mode (setq current-hl-line-mode t))))
-  (global-hl-line-mode))
 
 (use-package linum
   :config
@@ -189,11 +200,6 @@
 	restclient-same-buffer-response t))
 
 (use-package smartparens)
-
-(use-package dashboard
-  :ensure nil
-  :config
-  (dashboard-setup-startup-hook))
 
 (use-package syntax-subword
   :config
