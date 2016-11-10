@@ -27,13 +27,6 @@
   :config
   (counsel-projectile-on))
 
-
-(use-package dashboard
-  :ensure nil
-  :config
-  (projectile-mode)
-  (dashboard-setup-startup-hook))
-
 (use-package dockerfile-mode)
 
 (use-package ediff
@@ -188,6 +181,10 @@
         (expand-file-name "projectile-bookmarks.eld" temp-dir))
   (setq projectile-completion-system 'ivy)
   (projectile-global-mode))
+
+(use-package dashboard
+  :config
+  (dashboard-setup-startup-hook))
 
 (use-package recentf
   :config
