@@ -22,5 +22,6 @@
 
 ;; rgrep
 (global-set-key (kbd "C-x c g") (lambda () (interactive) (call-interactively 'rgrep)))
+(define-key ctl-x-r-map "b" 'bookmark-jump-or-find-file)
 
 (provide 'core-keys)

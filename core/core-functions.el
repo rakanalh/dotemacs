@@ -49,6 +49,15 @@ If point was already at that position, move point to beginning of line."
     (and (= oldpos (point))
          (beginning-of-line))))
 
+(defun bookmark-jump-or-find-file (bookmark)
+  "Jump to BOOKMARK, but if it's a directory, start a 'find-file' from there."
+  (interactive
+   (list (bookmark-completing-read "Jump to bookmark")))
+  (if (file-directory-p (bookmark-get-filename bookmark))
+      (let ((default-directory (bookmark-get-filename bookmark)))
+        (counsel-find-file))
+    (bookmark-jump bookmark)))
+
 (defmacro diminish-minor-mode (filename mode &optional abbrev)
   `(eval-after-load (symbol-name ,filename)
      '(diminish ,mode ,abbrev)))
