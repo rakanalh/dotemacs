@@ -79,7 +79,7 @@
 
 (use-package hungry-delete
   :config
-  (add-hook 'python-mode-hook #'(lambda() (hungry-keyboard python-mode-map))))
+  (global-hungry-delete-mode))
 
 (use-package ivy
   :bind
