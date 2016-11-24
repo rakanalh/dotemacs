@@ -184,6 +184,9 @@
 
 (use-package dashboard
   :config
+  (setq dashboard-items '((recents  . 5)
+			  (bookmarks . 5)
+			  (projects . 5)))
   (dashboard-setup-startup-hook))
 
 (use-package recentf
