@@ -198,6 +198,8 @@
 
 (use-package smartparens)
 
+(use-package smex)
+
 (use-package syntax-subword
   :config
   (syntax-subword-mode)
