@@ -199,6 +199,11 @@
   (setq restclient-log-request t
 	restclient-same-buffer-response t))
 
+(use-package rotate
+  :bind
+  ("C-c C-r w" . rotate-window)
+  ("C-c C-r l" . rotate-layout))
+
 (use-package smartparens)
 
 (use-package smex)
