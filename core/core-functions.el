@@ -58,14 +58,6 @@ If point was already at that position, move point to beginning of line."
         (counsel-find-file))
     (bookmark-jump bookmark)))
 
-(defmacro diminish-minor-mode (filename mode &optional abbrev)
-  `(eval-after-load (symbol-name ,filename)
-     '(diminish ,mode ,abbrev)))
-
-(defmacro diminish-major-mode (mode-hook abbrev)
-  `(add-hook ,mode-hook
-             (lambda () (setq mode-name ,abbrev))))
-
 (defun split-window-below-and-switch ()
   "Split the window horizontally, then switch to the new pane."
   (interactive)

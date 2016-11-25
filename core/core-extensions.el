@@ -244,6 +244,14 @@
 
 (use-package diminish
   :config
+  (defmacro diminish-minor-mode (filename mode &optional abbrev)
+    `(eval-after-load (symbol-name ,filename)
+       '(diminish ,mode ,abbrev)))
+
+  (defmacro diminish-major-mode (mode-hook abbrev)
+    `(add-hook ,mode-hook
+	       (lambda () (setq mode-name ,abbrev))))
+  
   (diminish-minor-mode 'abbrev 'abbrev-mode)
   (diminish-minor-mode 'company 'company-mode)
   (diminish-minor-mode 'elpy 'elpy-mode)
