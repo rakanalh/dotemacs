@@ -23,6 +23,8 @@
 (require 'core)
 (require 'core-functions)
 (require 'core-extensions)
+(require 'core-c)
+(require 'core-python)
 (require 'core-go)
 (require 'core-haskell)
 (require 'core-python)

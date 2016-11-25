@@ -62,7 +62,8 @@
       fringes-outside-margins            t
       x-select-enable-clipboard          t
       use-package-always-ensure          t
-      vc-follow-symlinks                 t)
+      vc-follow-symlinks                 t
+      auto-revert-check-vc-info          t)
 
 (fset 'yes-or-no-p 'y-or-n-p)
 (global-auto-revert-mode t)
