@@ -23,6 +23,7 @@
 (require 'core)
 (require 'core-extensions)
 (require 'core-functions)
+(require 'core-dired)
 (require 'core-c)
 (require 'core-python)
 (require 'core-go)

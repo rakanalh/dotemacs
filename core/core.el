@@ -46,9 +46,6 @@
       create-lockfiles                   nil
       backup-directory-alist            `((".*" . ,(concat temp-dir "/backup/")))
       auto-save-file-name-transforms    `((".*" ,(concat temp-dir "/auto-save-list/") t))
-      ;; Remember undo history
-      undo-tree-auto-save-history        nil
-      undo-tree-history-directory-alist `(("." . ,(concat temp-dir "/undo/")))
       ;; Disable non selected window highlight
       cursor-in-non-selected-windows     nil
       highlight-nonselected-windows      nil

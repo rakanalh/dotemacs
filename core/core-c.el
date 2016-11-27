@@ -60,8 +60,7 @@
 
 ;; git@github.com:syohex/emacs-counsel-gtags.git
 (use-package counsel-gtags
-  :load-path "vendor/emacs-counsel-gtags/"
-  :ensure nil
+  :ensure t
   :config
   (add-hook 'c-mode-hook 'counsel-gtags-mode)
   (add-hook 'c++-mode-hook counsel-gtags-mode)

@@ -217,7 +217,10 @@
 
 (use-package undo-tree
   :config
-  (global-undo-tree-mode 1))
+  (global-undo-tree-mode 1)
+  ;; Remember undo history
+  (setq undo-tree-auto-save-history        nil
+	undo-tree-history-directory-alist `(("." . ,(concat temp-dir "/undo/")))))
 
 (use-package which-key
   :config
@@ -251,7 +254,7 @@
   (defmacro diminish-major-mode (mode-hook abbrev)
     `(add-hook ,mode-hook
 	       (lambda () (setq mode-name ,abbrev))))
-  
+
   (diminish-minor-mode 'abbrev 'abbrev-mode)
   (diminish-minor-mode 'company 'company-mode)
   (diminish-minor-mode 'elpy 'elpy-mode)

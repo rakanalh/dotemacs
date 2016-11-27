@@ -21,8 +21,9 @@
     (custom-theme-set-faces
      'doom-one
      ;; Doom faces
+     `(show-paren-match          ((,c (:foreground ,black :background ,white))))
      ;; Ivy
-     `(ivy-current-match           ((,c (:background ,blue))))
+     `(ivy-current-match         ((,c (:background ,blue))))
      ;; org-mode
      `(org-level-2               ((,c (:foreground ,white))))
      `(org-level-3               ((,c (:foreground ,white))))
