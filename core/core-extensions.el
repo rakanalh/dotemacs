@@ -9,6 +9,13 @@
   :bind
   ("C-c SPC" . ace-jump-mode))
 
+
+(use-package anzu
+  :config
+  (global-anzu-mode +1)
+  (global-set-key [remap query-replace] 'anzu-query-replace)
+  (global-set-key [remap query-replace-regexp] 'anzu-query-replace-regexp))
+
 (use-package company
   :config
   (add-hook 'after-init-hook 'global-company-mode))
