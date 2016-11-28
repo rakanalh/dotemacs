@@ -30,6 +30,11 @@
 
 (use-package ggtags
   :config
+  ;; Please note `file-truename' must be used!
+  (setenv "GTAGSLIBPATH" (concat "/usr/include"
+                               ":"
+                               "/usr/local/include"))
+  (setenv "MAKEOBJDIRPREFIX" (file-truename "~/.obj/"))
   (ggtags-mode 1)
   (add-hook 'c-mode-common-hook
 	    (lambda ()
