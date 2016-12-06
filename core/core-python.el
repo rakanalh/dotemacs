@@ -4,16 +4,9 @@
 
 ;;; Code:
 
-(use-package python
-  :mode ("\\.py" . python-mode)
-  :config
-  (use-package elpy
+(use-package elpy
     :init
     (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
-    :config
-    (setq elpy-rpc-backend "jedi")
-    ;; (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
-    ;;flycheck-python-flake8-executable "/usr/local/bin/flake8"
     :bind (:map elpy-mode-map
 	      ("<M-left>" . nil)
 	      ("<M-right>" . nil)
@@ -21,7 +14,15 @@
 	      ("<M-S-right>" . elpy-nav-indent-shift-right)
 	      ("M-." . elpy-goto-definition)
 	      ("M-," . pop-tag-mark)
-	      ("C-c C-s" . nil)))
+	      ("C-c C-s" . nil))
+    :config
+    ;; (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
+    ;;flycheck-python-flake8-executable "/usr/local/bin/flake8"
+    (setq elpy-rpc-backend "jedi"))
+
+(use-package python
+  :mode ("\\.py" . python-mode)
+  :config
   (elpy-enable))
 
 (use-package pip-requirements
