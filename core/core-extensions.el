@@ -198,7 +198,11 @@
 
 (use-package recentf
   :config
-  (setq recentf-save-file (recentf-expand-file-name "~/.emacs.d/private/cache/recentf"))
+  (setq recentf-exclude '("/elpa/" ;; ignore all files in elpa directory
+                          ".*?autoloads.el$"
+                          "/tmp/" ;; ignore temporary files
+			  )
+	recentf-save-file (recentf-expand-file-name "~/.emacs.d/private/cache/recentf"))
   (recentf-mode 1))
 
 (use-package restclient
