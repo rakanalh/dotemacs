@@ -24,6 +24,9 @@
 (prefer-coding-system        'utf-8)   ; with sugar on top
 (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
 
+(fset 'yes-or-no-p 'y-or-n-p)
+(global-auto-revert-mode t)
+
 (setq
  confirm-kill-emacs 'y-or-n-p
  confirm-nonexistent-file-or-buffer  t
@@ -61,10 +64,8 @@
  x-select-enable-clipboard          t
  use-package-always-ensure          t
  vc-follow-symlinks                 t
- auto-revert-check-vc-info          t)
-
-(fset 'yes-or-no-p 'y-or-n-p)
-(global-auto-revert-mode t)
+ auto-revert-check-vc-info          t
+ frame-resize-pixelwise             t)
 
 ;; Disable toolbar & menubar
 (menu-bar-mode -1)

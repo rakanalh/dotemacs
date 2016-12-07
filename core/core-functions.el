@@ -110,7 +110,7 @@ If point was already at that position, move point to beginning of line."
 	branch-name))))
 
 
-(defun persp/close-perspective (&optional project-root &optional closed-branch)
+(defun persp/close-perspective (&optional project-root closed-branch)
   (interactive)
   (let* ((current-branch (if closed-branch
 			    closed-branch
