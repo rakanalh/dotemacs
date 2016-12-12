@@ -68,7 +68,6 @@
 	  (pyenv-activate-current-project)))))
 
 (add-hook 'after-init-hook 'pyenv-init)
-(add-hook 'find-file-hook 'pyenv-check-if-current-project)
 (add-hook 'projectile-after-switch-project-hook 'pyenv-activate-current-project)
 
 (provide 'core-python)
