@@ -17,6 +17,8 @@
   (global-set-key [remap query-replace-regexp] 'anzu-query-replace-regexp))
 
 (use-package company
+  :bind
+  ("M-TAB" . company-complete)
   :config
   (add-hook 'after-init-hook 'global-company-mode))
 
@@ -335,6 +337,9 @@
 (use-package wgrep)
 
 (use-package yasnippet
+  :bind
+  ("C-c y s" . yas-insert-snippet)
+  ("C-c y v" . yas-visit-snippet-file)
   :config
   (yas-global-mode 1))
 
