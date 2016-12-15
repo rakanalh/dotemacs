@@ -56,7 +56,7 @@
 
 ;; company-c-headers
 (use-package company-c-headers
-  :init
+  :config
   (add-to-list 'company-backends 'company-c-headers))
 
 (defun enable-semantic-shortcuts ()
