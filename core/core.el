@@ -64,7 +64,7 @@
  x-select-enable-clipboard          t
  use-package-always-ensure          t
  vc-follow-symlinks                 t
- auto-revert-check-vc-info          t
+ auto-revert-check-vc-info          nil
  frame-resize-pixelwise             t)
 
 ;; Disable toolbar & menubar
