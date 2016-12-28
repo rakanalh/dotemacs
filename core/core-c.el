@@ -18,6 +18,7 @@
 
 (use-package semantic
   :config
+  (setq semanticdb-default-save-directory (expand-file-name "semanticdb/" temp-dir))
   (add-hook 'c-mode-common-hook (lambda ()
 	    (semantic-mode 1)
 	    ;(global-semanticdb-minor-mode 1)
@@ -26,6 +27,7 @@
 
 (use-package ede
   :config
+  (setq ede-project-placeholder-cache-file (expand-file-name "ede-projects.el" temp-dir))
   ;; Enable EDE only in C/C++
   (add-hook 'c-mode-common-hook (lambda ()
 				  (global-ede-mode))))

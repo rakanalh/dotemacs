@@ -127,6 +127,8 @@
 (use-package markdown-mode)
 
 (use-package multiple-cursors
+  :config
+  (setq mc/list-file (concat temp-dir "/.mc-lists.el"))
   :bind
   ("C-S-c C-S-c" . mc/edit-lines)
   ("C->" . mc/mark-next-like-this)
@@ -186,8 +188,9 @@
 
 (use-package projectile
   :config
-  (setq projectile-known-projects-file
-        (expand-file-name "projectile-bookmarks.eld" temp-dir))
+  (setq projectile-enable-caching t
+	projectile-cache-file (expand-file-name "projectile.cache" temp-dir)
+	projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" temp-dir))
   (setq projectile-completion-system 'ivy)
   (projectile-global-mode))
 
@@ -307,7 +310,9 @@
 
 (use-package smartparens)
 
-(use-package smex)
+(use-package smex
+  :config
+  (setq smex-save-file (expand-file-name "smex-items" temp-dir)))
 
 (use-package syntax-subword
   :config
