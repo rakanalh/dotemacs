@@ -23,6 +23,7 @@
 (use-package python
   :mode ("\\.py" . python-mode)
   :config
+  (setq python-indent-offset 4)
   (elpy-enable))
 
 (use-package pip-requirements

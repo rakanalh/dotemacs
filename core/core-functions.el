@@ -58,6 +58,21 @@ If point was already at that position, move point to beginning of line."
         (counsel-find-file))
     (bookmark-jump bookmark)))
 
+(defun beginning-of-buffer-record ()
+  "Record the current position in buffer and move to beginning."
+  (point-to-register 9)
+  (beginning-of-buffer))
+
+(defun end-of-buffer-record ()
+  "Record the current position in buffer and move to end."
+  (point-to-register 9)
+  (end-of-buffer))
+
+(defun go-back-to-point ()
+  "Go back to the point before navigating to beginning or end of buffer."
+  (interactive)
+  (jump-to-register 9))
+
 (defun split-window-below-and-switch ()
   "Split the window horizontally, then switch to the new pane."
   (interactive)

@@ -14,6 +14,9 @@
 (global-set-key (kbd "C-x C-b") 'switch-to-buffer)
 
 ;; Custom Emacs Shortcuts
+(global-set-key (kbd "M-<") (lambda () (interactive) (beginning-of-buffer-record)))
+(global-set-key (kbd "M->") (lambda () (interactive) (end-of-buffer-record)))
+(global-set-key (kbd "M-/") (lambda () (interactive) (go-back-to-point)))
 (global-set-key (kbd "C-}") (lambda () (interactive) (forward-line 5)))
 (global-set-key (kbd "C-{") (lambda () (interactive) (forward-line -5)))
 
