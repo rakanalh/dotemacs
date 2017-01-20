@@ -1,3 +1,7 @@
+(require 'cl)
+(require 'thingatpt)
+(require 'imenu)
+(require 'counsel)
 (require 'magit-git)
 (require 'magit-process)
 ;(require 'persp-mode)
@@ -134,5 +138,51 @@ If point was already at that position, move point to beginning of line."
 ;;     (message "Closed perspective")
 ;;     (message (concat "Loading " persp-project-root ".persp"))
 ;;     (persp-load-state-from-file (concat persp-project-root ".persp"))))
+
+(defun codenav-get-candidates ()
+  "Fetch list of sorted imenu candidates."
+  (let* ((items (counsel-imenu-get-candidates-from (imenu--make-index-alist)))
+	 (items (delete (assoc "*Rescan*" items) items)))
+    items))
+
+(defun codenav-current-symbol (names-and-pos)
+  "Figure out current definition by checking positions of NAMES-AND-POS against current position."
+  (interactive)
+  (let ((current-index 0))
+    (dolist (symbol names-and-pos)
+      (let* ((current-line (point))
+	     (current-symbol-pos (marker-position (cdr (cdr symbol))))
+	     ;; If we reaches the end, just return the last element
+	     ;; instead of returning index+1
+	     (selected-index (if (< (1+ current-index) (length names-and-pos))
+				 (1+ current-index)
+			       current-index))
+	     (next-symbol-pos
+	      (marker-position (cdr (cdr (nth selected-index names-and-pos))))))
+	(if (and (>= current-line current-symbol-pos) (< current-line next-symbol-pos))
+	    (return current-index)))
+      (setq current-index (1+ current-index)))
+    ;; If last item, decrement index
+    (if (eq current-index (length names-and-pos))
+	(1- current-index)
+      current-index)))
+
+
+(defun codenav-next-definition ()
+  "Navigate to next function/class definition."
+  (interactive)
+  (let* ((names-and-pos (codenav-get-candidates))
+	 (current-symbol (codenav-current-symbol names-and-pos))
+	 (next-symbol (cdr (nth (1+ current-symbol) names-and-pos))))
+    (imenu next-symbol)))
+
+
+(defun codenav-prev-definition ()
+  "Navigate to previous function/class definition."
+  (interactive)
+  (let* ((names-and-pos (codenav-get-candidates))
+	 (current-symbol (codenav-current-symbol names-and-pos))
+	 (prev-symbol (cdr (nth (1- current-symbol) names-and-pos))))
+    (imenu prev-symbol)))
 
 (provide 'core-functions)
