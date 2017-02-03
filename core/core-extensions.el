@@ -23,6 +23,8 @@
   (add-hook 'after-init-hook 'global-company-mode))
 
 (use-package counsel
+  :config
+  (setq counsel-find-file-ignore-regexp ".*\.egg-info\\|__pycache__\\|.cache")
   :bind
   ("M-x" . counsel-M-x)
   ("C-x C-m" . counsel-M-x)
