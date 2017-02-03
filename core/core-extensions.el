@@ -230,8 +230,8 @@
   :config
   (syntax-subword-mode)
   :bind
-  ("<M-left>" . syntax-subword-backward)
-  ("<M-right>" . syntax-subword-forward))
+  ("M-j" . syntax-subword-backward)
+  ("M-l" . syntax-subword-forward))
 
 (use-package undo-tree
   :config
@@ -246,10 +246,10 @@
 
 (use-package windmove
   :bind
-  ("C-x <up>" . windmove-up)
-  ("C-x <down>" . windmove-down)
-  ("C-x <left>" . windmove-left)
-  ("C-x <right>" . windmove-right))
+  ("C-c i" . windmove-up)
+  ("C-c k" . windmove-down)
+  ("C-c j" . windmove-left)
+  ("C-c l" . windmove-right))
 
 (use-package wgrep)
 
