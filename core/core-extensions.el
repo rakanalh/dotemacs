@@ -211,6 +211,11 @@
 			  (projects . 5)))
   (dashboard-setup-startup-hook))
 
+(use-package dash-at-point
+  :bind
+  ("C-c d" . dash-at-point)
+  ("C-c e" . dash-at-point-with-docset))
+
 (use-package recentf
   :config
   (setq recentf-exclude '("/elpa/" ;; ignore all files in elpa directory
