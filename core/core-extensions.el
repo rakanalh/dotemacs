@@ -9,6 +9,7 @@
   :bind
   ("C-c SPC" . ace-jump-mode))
 
+(use-package ag)
 
 (use-package anzu
   :config
@@ -201,7 +202,9 @@
 	projectile-cache-file (expand-file-name "projectile.cache" temp-dir)
 	projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" temp-dir))
   (setq projectile-completion-system 'ivy)
-  (projectile-global-mode))
+  (projectile-global-mode)
+  :bind
+  ("C-x c a" . projectile-ag))
 
 (use-package dashboard
   :config
