@@ -7,20 +7,20 @@
   (add-hook 'before-save-hook 'gofmt-before-save)
   (add-hook 'go-mode-hook 'setup-go-mode-compile)
   (add-hook 'go-mode-hook #'smartparens-mode)
-  (add-hook 'go-mode-hook '(lambda ()
-			     (local-set-key (kbd "C-c C-r") 'go-remove-unused-imports)))
-  (add-hook 'go-mode-hook '(lambda ()
-			     (local-set-key (kbd "C-c C-g") 'go-goto-imports)))
+  (add-hook 'go-mode-hook #'go-guru-hl-identifier-mode)
   (add-hook 'go-mode-hook (lambda ()
-			    (message "Entering GO MODe")
-			    (set (make-local-variable 'company-backends) '(company-go))
-			    (company-mode))))
+			     (setq tab-width 4)
+			     (local-set-key (kbd "C-c C-r") 'go-remove-unused-imports)
+  			     (local-set-key (kbd "C-c C-g") 'go-goto-imports)
+			     (set (make-local-variable 'company-backends) '(company-go))
+			     (company-mode))))
+
+(use-package go-errcheck)
+
+(use-package go-add-tags)
 
 (use-package company-go
   :after go-mode
-  :config
-  (setq tab-width 4)
-
   :bind (:map go-mode-map
   ; Godef jump key binding
   ("M-." . godef-jump)))

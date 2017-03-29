@@ -25,36 +25,28 @@
 	    (global-semantic-idle-scheduler-mode 1)
 	    (global-semantic-stickyfunc-mode 1))))
 
-(use-package ede
+(use-package irony
   :config
-  (setq ede-project-placeholder-cache-file (expand-file-name "ede-projects.el" temp-dir))
-  ;; Enable EDE only in C/C++
-  (add-hook 'c-mode-common-hook (lambda ()
-				  (global-ede-mode))))
+  ;; replace the `completion-at-point' and `complete-symbol' bindings in
+  ;; irony-mode's buffers by irony-mode's function
+  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
 
-(use-package ggtags
+(use-package company-irony
+  :after company-mode
   :config
-  ;; Please note `file-truename' must be used!
-  (setenv "GTAGSLIBPATH" (concat "/usr/include"
-                               ":"
-                               "/usr/local/include"))
-  (setenv "MAKEOBJDIRPREFIX" (file-truename "~/.obj/"))
-  (add-hook 'c-mode-common-hook
-	    (lambda ()
-	      (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'asm-mode)
-		(ggtags-mode 1))))
+  (add-to-list 'company-backends 'company-irony))
 
-  (dolist (map (list ggtags-mode-map))
-    (define-key map (kbd "C-c g s") 'ggtags-find-other-symbol)
-    (define-key map (kbd "C-c g h") 'ggtags-view-tag-history)
-    (define-key map (kbd "C-c g r") 'ggtags-find-reference)
-    (define-key map (kbd "C-c g f") 'ggtags-find-file)
-    (define-key map (kbd "C-c g c") 'ggtags-create-tags)
-    (define-key map (kbd "C-c g u") 'ggtags-update-tags)
-    (define-key map (kbd "M-.")     'ggtags-find-tag-dwim)
-    (define-key map (kbd "M-,")     'pop-tag-mark)
-    (define-key map (kbd "C-c <")   'ggtags-prev-mark)
-    (define-key map (kbd "C-c >")   'ggtags-next-mark)))
+(use-package company-irony-c-headers
+  :after company-mode
+  :config
+  (add-to-list
+    'company-backends '(company-irony-c-headers company-irony)))
+
+
+(use-package flycheck-irony
+  :after flycheck-mode
+  :config
+  (add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
 
 ;; company-c-headers
 (use-package company-c-headers
@@ -70,5 +62,7 @@
 (add-hook 'c-mode-common-hook 'enable-semantic-shortcuts)
 (add-hook 'c-mode-hook 'enable-semantic-shortcuts)
 (add-hook 'c++-mode-hook 'alexott/cedet-hook)
+(add-hook 'c++-mode-hook 'irony-mode)
+(add-hook 'c-mode-hook 'irony-mode)
 
 (provide 'core-c)

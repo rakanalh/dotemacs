@@ -75,11 +75,13 @@
   (scroll-bar-mode -1))
 
 ;; Env vars
-(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin/:$GOPATH"))
+(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin/"))
 (setenv "SHELL" "/bin/zsh")
 
 (show-paren-mode 1)
 (desktop-save-mode 0)
+
+(set-frame-font "Hack")
 
 ;; Delete trailing whitespace before save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)

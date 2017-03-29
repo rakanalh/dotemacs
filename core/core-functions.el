@@ -30,8 +30,9 @@ With argument, do this that many times."
       (process-send-string proc text)
       (process-send-eof proc))))
 
-(setq interprogram-cut-function 'paste-to-osx)
-(setq interprogram-paste-function 'copy-from-osx)
+(when (memq window-system '(mac ns))
+  (setq interprogram-cut-function 'paste-to-osx)
+  (setq interprogram-paste-function 'copy-from-osx))
 
 (defun copy-file-name-to-clipboard ()
   "Copy the current buffer file name to the clipboard."
