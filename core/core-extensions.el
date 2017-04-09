@@ -160,7 +160,7 @@
 (use-package org
   :config
   (setq org-directory "~/DropBox/org-mode"
-        org-agenda-files (list "~/DropBox/org-mode/ideas.org")
+        org-agenda-files (list "~/Google Drive/org-mode/ideas.org")
         org-default-notes-file (concat org-directory "/todo.org"))
   (org-babel-do-load-languages
    'org-babel-load-languages '((python . t)))
@@ -208,9 +208,10 @@
 
 (use-package dashboard
   :config
-  (setq dashboard-items '((recents  . 5)
-			  (bookmarks . 5)
-			  (projects . 5)))
+  (setq dashboard-items '((agenda . 5)
+			  (recents  . 5)
+			  (projects . 5)
+			  (bookmarks . 5)))
   (dashboard-setup-startup-hook))
 
 (use-package dash-at-point
