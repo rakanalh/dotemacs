@@ -81,6 +81,7 @@
 (show-paren-mode 1)
 (desktop-save-mode 0)
 
+(set-default-font "Hack-11")
 (set-frame-font "Hack")
 
 ;; Delete trailing whitespace before save

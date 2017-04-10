@@ -6,7 +6,7 @@
   ;; mark symlinks
   (setq dired-ls-F-marks-symlinks t)
   ;; fix `ls' for macOS.
-  (when (memq window-system '(mac ns x))
+  (when (memq window-system '(mac ns))
     (setq insert-directory-program "gls" dired-use-ls-dired t))
   ;; Never prompt for recursive copies of a directory
   (setq dired-recursive-copies 'always)
