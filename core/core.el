@@ -81,8 +81,10 @@
 (show-paren-mode 1)
 (desktop-save-mode 0)
 
-(set-default-font "Hack-11")
-(set-frame-font "Hack")
+(if (eq system-type 'darwin)
+    (set-default-font "-*-Hack-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
+  (set-default-font "Hack-11")
+  (set-frame-font "Hack"))
 
 ;; Delete trailing whitespace before save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)

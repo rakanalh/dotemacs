@@ -9,6 +9,7 @@
   :bind
   ("C-c SPC" . ace-jump-mode))
 
+(use-package ag)
 
 (use-package anzu
   :config
@@ -159,7 +160,7 @@
 (use-package org
   :config
   (setq org-directory "~/DropBox/org-mode"
-        org-agenda-files (list "~/DropBox/org-mode/ideas.org")
+        org-agenda-files (list "~/Google Drive/org-mode/ideas.org")
         org-default-notes-file (concat org-directory "/todo.org"))
   (org-babel-do-load-languages
    'org-babel-load-languages '((python . t)))
@@ -201,13 +202,16 @@
 	projectile-cache-file (expand-file-name "projectile.cache" temp-dir)
 	projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" temp-dir))
   (setq projectile-completion-system 'ivy)
-  (projectile-global-mode))
+  (projectile-global-mode)
+  :bind
+  ("C-x c a" . projectile-ag))
 
 (use-package dashboard
   :config
-  (setq dashboard-items '((recents  . 5)
-			  (bookmarks . 5)
-			  (projects . 5)))
+  (setq dashboard-items '((agenda . 5)
+			  (recents  . 5)
+			  (projects . 5)
+			  (bookmarks . 5)))
   (dashboard-setup-startup-hook))
 
 (use-package dash-at-point
