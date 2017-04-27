@@ -1,3 +1,9 @@
+;; REQUIREMENTS:
+;; go get -u golang.org/x/tools/cmd/...
+;; go get -u github.com/rogpeppe/godef
+;; go get -u github.com/nsf/gocode
+;; go get -u github.com/kisielk/errcheck
+
 (use-package go-mode
   :config
   ; Use goimports instead of go-fmt

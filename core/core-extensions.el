@@ -214,10 +214,14 @@
 			  (bookmarks . 5)))
   (dashboard-setup-startup-hook))
 
-(use-package dash-at-point
-  :bind
-  ("C-c d" . dash-at-point)
-  ("C-c e" . dash-at-point-with-docset))
+(if (memq window-system '(mac ns))
+    (use-package dash-at-point
+      :bind
+      ("C-c d" . dash-at-point)
+      ("C-c e" . dash-at-point-with-docset))
+  (use-package zeal-at-point
+    :bind
+    ("C-c d" . zeal-at-point)))
 
 (use-package recentf
   :config
