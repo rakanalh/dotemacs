@@ -96,8 +96,8 @@
 (use-package imenu-list
   :config
   (setq imenu-list-focus-after-activation t
-	imenu-list-size 0.2
-	imenu-list-auto-resize nil)
+        imenu-list-size 0.2
+        imenu-list-auto-resize nil)
   :bind
   ("C-c m l" . imenu-list-minor-mode))
 
@@ -161,13 +161,14 @@
 (use-package org
   :config
   (setq org-directory "~/DropBox/org-mode"
-        org-agenda-files (list "~/Google Drive/org-mode/ideas.org")
+        org-agenda-files (list "~/Google Drive/org-mode/ideas.org"
+                               "~/Google Drive/org-mode/calendar.org")
         org-default-notes-file (concat org-directory "/todo.org"))
   (org-babel-do-load-languages
    'org-babel-load-languages '((python . t)))
   (add-hook 'org-finalize-agenda-hook (lambda ()
-					(setq org-agenda-tags-column (- 6 (window-width)))
-					(org-agenda-align-tags)))
+                                        (setq org-agenda-tags-column (- 6 (window-width)))
+                                        (org-agenda-align-tags)))
   :bind
   ("\C-cl" . org-store-link)
   ("\C-ca" . org-agenda))
@@ -179,12 +180,19 @@
       (setq alert-default-style 'osx-notifier)
     (setq alert-default-style 'libnotify)))
 
+(use-package org-gcal
+  :config
+  (setq org-gcal-client-id (getenv "ORG_GCAL_CLIENT_ID")
+        org-gcal-client-secret (getenv "ORG_GCAL_CLIENT_SECRET")
+        org-gcal-file-alist '(("rakan.alhneiti@gmail.com" .  "~/Google Drive/org-mode/calendar.org")))
+  (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync) ))
+  (add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync))))
 
 (use-package org-projectile
   :config
   (org-projectile:per-repo)
   (setq org-projectile:per-repo-filename "todo.org"
-	org-agenda-files (append org-agenda-files (org-projectile:todo-files)))
+        org-agenda-files (append org-agenda-files (org-projectile:todo-files)))
   :bind
   ("C-c c" . org-projectile:capture-for-current-project)
   ("C-c n p" . org-projectile:project-todo-completing-read))
@@ -202,7 +210,7 @@
 ;;   :init
 ;;   (persp-mode)
 ;;   (setq persp-save-dir (concat private-dir "/persp-confs/")
-;; 	persp-auto-save-opt 0)
+;;      persp-auto-save-opt 0)
 ;;   :config
 ;;   (add-hook 'kill-emacs-hook 'persp/close-perspective)
 ;;   :bind
@@ -211,8 +219,8 @@
 (use-package projectile
   :config
   (setq projectile-enable-caching t
-	projectile-cache-file (expand-file-name "projectile.cache" temp-dir)
-	projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" temp-dir))
+        projectile-cache-file (expand-file-name "projectile.cache" temp-dir)
+        projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" temp-dir))
   (setq projectile-completion-system 'ivy)
   (projectile-global-mode)
   :bind
@@ -221,9 +229,9 @@
 (use-package dashboard
   :config
   (setq dashboard-items '((agenda . 5)
-			  (recents  . 5)
-			  (projects . 5)
-			  (bookmarks . 5)))
+                          (recents  . 5)
+                          (projects . 5)
+                          (bookmarks . 5)))
   (dashboard-setup-startup-hook))
 
 (if (memq window-system '(mac ns))
@@ -240,14 +248,14 @@
   (setq recentf-exclude '("/elpa/" ;; ignore all files in elpa directory
                           ".*?autoloads.el$"
                           "/tmp/" ;; ignore temporary files
-			  )
-	recentf-save-file (recentf-expand-file-name "~/.emacs.d/private/cache/recentf"))
+                          )
+        recentf-save-file (recentf-expand-file-name "~/.emacs.d/private/cache/recentf"))
   (recentf-mode 1))
 
 (use-package restclient
   :init
   (setq restclient-log-request t
-	restclient-same-buffer-response t))
+        restclient-same-buffer-response t))
 
 (use-package rotate
   :bind
@@ -272,7 +280,7 @@
   (global-undo-tree-mode 1)
   ;; Remember undo history
   (setq undo-tree-auto-save-history        nil
-	undo-tree-history-directory-alist `(("." . ,(concat temp-dir "/undo/")))))
+        undo-tree-history-directory-alist `(("." . ,(concat temp-dir "/undo/")))))
 
 (use-package which-key
   :config
@@ -308,7 +316,7 @@
 
   (defmacro diminish-major-mode (mode-hook abbrev)
     `(add-hook ,mode-hook
-	       (lambda () (setq mode-name ,abbrev))))
+               (lambda () (setq mode-name ,abbrev))))
 
   (diminish-minor-mode 'abbrev 'abbrev-mode)
   (diminish-minor-mode 'company 'company-mode)
