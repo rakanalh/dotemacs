@@ -30,7 +30,8 @@
   ("M-x" . counsel-M-x)
   ("C-x C-m" . counsel-M-x)
   ("C-x C-f" . counsel-find-file)
-  ("C-x c k" . counsel-yank-pop))
+  ("C-x c k" . counsel-yank-pop)
+  ("M-;" . counsel-imenu))
 
 (use-package counsel-projectile
   :bind
@@ -164,9 +165,20 @@
         org-default-notes-file (concat org-directory "/todo.org"))
   (org-babel-do-load-languages
    'org-babel-load-languages '((python . t)))
+  (add-hook 'org-finalize-agenda-hook (lambda ()
+					(setq org-agenda-tags-column (- 6 (window-width)))
+					(org-agenda-align-tags)))
   :bind
   ("\C-cl" . org-store-link)
   ("\C-ca" . org-agenda))
+
+
+(use-package org-alert
+  :config
+  (if (memq window-system '(mac ns))
+      (setq alert-default-style 'osx-notifier)
+    (setq alert-default-style 'libnotify)))
+
 
 (use-package org-projectile
   :config
