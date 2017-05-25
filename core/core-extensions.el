@@ -101,16 +101,6 @@
   :bind
   ("C-c m l" . imenu-list-minor-mode))
 
-(use-package ivy
-  :bind
-  ("C-x s" . swiper)
-  ("C-x C-r" . ivy-resume)
-  :config
-  (ivy-mode 1)
-  (setq ivy-use-virtual-buffers nil)
-  (define-key read-expression-map (kbd "C-r") 'counsel-expression-history))
-
-
 (use-package hlinum
   :config
   (hlinum-activate))
