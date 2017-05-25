@@ -29,6 +29,7 @@
 (require 'core-aliases)
 (require 'core-keys)
 (require 'core-ui)
+(require 'core-modeline)
 
 (require 'core-c)
 (require 'core-elixir)

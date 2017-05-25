@@ -71,7 +71,7 @@
 (menu-bar-mode -1)
 (when (fboundp 'tool-bar-mode)
   (tool-bar-mode -1))
-(when (  fboundp 'scroll-bar-mode)
+(when (fboundp 'scroll-bar-mode)
   (scroll-bar-mode -1))
 
 ;; Env vars
@@ -82,9 +82,9 @@
 (desktop-save-mode 0)
 
 (if (eq system-type 'darwin)
-    (set-default-font "-*-Hack-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
-  (set-default-font "Hack-11")
-  (set-frame-font "Hack"))
+    (set-default-font "-*-Hack-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1" t t)
+  (set-default-font "Fire Sans 12" t t)
+  (set-frame-font "Fira Sans 12" t t))
 
 ;; Delete trailing whitespace before save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
