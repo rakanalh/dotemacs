@@ -10,8 +10,7 @@
   (let ((current-project (projectile-project-name)))
     (if (not current-project)
 	(return "")
-      current-project
-    )))
+      current-project)))
 
 (defun +ivy--get-buffers (&optional buffer-list)
   (let ((min-name 5)

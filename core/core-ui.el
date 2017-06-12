@@ -30,9 +30,20 @@
      `(org-level-4               ((,c (:foreground ,white))))
      `(org-level-5               ((,c (:foreground ,white))))
      `(org-level-6               ((,c (:foreground ,white))))))
-  (require 'doom-neotree)
-  (add-hook 'minibuffer-setup-hook 'doom-brighten-minibuffer)
+  ;(require 'doom-neotree)
+  ;(add-hook 'minibuffer-setup-hook 'doom-brighten-minibuffer)
   (add-hook 'find-file-hook 'doom-buffer-mode))
+
+(use-package solaire-mode
+  :config
+  ;; brighten buffers (that represent real files)
+  (add-hook 'after-change-major-mode-hook #'turn-on-solaire-mode)
+
+  ;; You can do similar with the minibuffer when it is activated:
+  (add-hook 'minibuffer-setup-hook #'solaire-mode-in-minibuffer)
+
+  ;; To enable solaire-mode unconditionally for certain modes:
+  (add-hook 'ediff-prepare-buffer-hook #'solaire-mode))
 
 (use-package git-gutter-fringe)
 
@@ -71,8 +82,8 @@
   (push (cons 'left-fringe  '4) default-frame-alist)
   (push (cons 'right-fringe '4) default-frame-alist)
   ;; no fringe in the minibuffer
-
   (set-window-fringes (minibuffer-window) 0 0 nil))
+
 ;; because git-gutter is in the left fringe
 (setq flycheck-indication-mode 'right-fringe)
 ;; A non-descript, left-pointing arrow

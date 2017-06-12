@@ -14,7 +14,10 @@
   ;; "user": When you want to define your own style
   (setq c-default-style "linux") ;; set style to "linux"
   (setq gdb-many-windows t ;; use gdb-many-windows by default
-	gdb-show-main t))
+	gdb-show-main t
+	c-basic-offset 4
+	tab-width 4
+	indent-tabs-mode t))
 
 (use-package semantic
   :config
