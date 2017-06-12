@@ -83,8 +83,8 @@
 
 (if (eq system-type 'darwin)
     (set-default-font "-*-Hack-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1" t t)
-  (set-default-font "Fire Sans 12" t t)
-  (set-frame-font "Fira Sans 12" t t))
+  (set-default-font "Hack 11" t t)
+  (set-frame-font "Hack 11" t t))
 
 ;; Delete trailing whitespace before save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)

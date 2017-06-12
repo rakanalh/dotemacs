@@ -218,10 +218,10 @@
 
 (use-package dashboard
   :config
-  (setq dashboard-items '((agenda . 5)
+  (setq dashboard-items '((agenda . 10)
                           (recents  . 5)
                           (projects . 5)
-                          (bookmarks . 5)))
+                          (bookmarks . 15)))
   (dashboard-setup-startup-hook))
 
 (if (memq window-system '(mac ns))

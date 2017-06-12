@@ -75,7 +75,8 @@ limit to buffers in the current workspace."
                       '+ivy--select-buffer-action)
             :matcher 'ivy--switch-buffer-matcher
             :keymap ivy-switch-buffer-map
-            :caller '+ivy/switch-workspace-buffer))
+            :caller '+ivy/switch-workspace-buffer
+	    :preselect 1))
 
 (use-package ivy
   :bind
