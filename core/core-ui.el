@@ -31,7 +31,7 @@
      `(org-level-5               ((,c (:foreground ,white))))
      `(org-level-6               ((,c (:foreground ,white))))))
   ;(require 'doom-neotree)
-  ;(add-hook 'minibuffer-setup-hook 'doom-brighten-minibuffer)
+  (doom-themes-neotree-config)  ; all-the-icons fonts must be installed!
   (add-hook 'find-file-hook 'doom-buffer-mode))
 
 (use-package solaire-mode
