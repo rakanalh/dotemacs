@@ -35,5 +35,6 @@
 (require 'core-elixir)
 (require 'core-go)
 (require 'core-haskell)
+(require 'core-javascript)
 (require 'core-python)
 (require 'core-web)

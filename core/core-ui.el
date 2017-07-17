@@ -12,24 +12,8 @@
 
 (use-package doom-themes
   :config
-  (load-theme 'doom-one t)
-  (let ((c '((class color) (min-colors 89)))
-      (black          "#181e26")
-      (white          "#DFDFDF")
-      (blue           "#51afef"))
+  (load-theme 'doom-tomorrow-night t)
 
-    (custom-theme-set-faces
-     'doom-one
-     ;; Doom faces
-     `(show-paren-match          ((,c (:foreground ,black :background ,white))))
-     ;; Ivy
-     `(ivy-current-match         ((,c (:background ,blue))))
-     ;; org-mode
-     `(org-level-2               ((,c (:foreground ,blue))))
-     `(org-level-3               ((,c (:foreground ,white))))
-     `(org-level-4               ((,c (:foreground ,white))))
-     `(org-level-5               ((,c (:foreground ,white))))
-     `(org-level-6               ((,c (:foreground ,white))))))
   ;(require 'doom-neotree)
   (doom-themes-neotree-config)  ; all-the-icons fonts must be installed!
   (add-hook 'find-file-hook 'doom-buffer-mode))
