@@ -4,7 +4,18 @@
 (require 'counsel)
 (require 'magit-git)
 (require 'magit-process)
+(require 'projectile)
 ;(require 'persp-mode)
+
+(defun core-project-root (&optional strict-p)
+  "Get the path to the root of your project."
+  (let ((projectile-require-project-root strict-p))
+    (ignore-errors (projectile-project-root))))
+
+(defun core*project-root (&rest _)
+  "An advice function used to replace project-root-detection functions in other
+libraries."
+  (core-project-root))
 
 ;; Delete words
 (defun delete-word (arg)

@@ -27,6 +27,7 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 (global-auto-revert-mode t)
 
+(setq-default indent-tabs-mode nil)
 (setq
  confirm-kill-emacs 'y-or-n-p
  confirm-nonexistent-file-or-buffer  t
