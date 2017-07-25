@@ -5,10 +5,6 @@
     (add-to-list 'grep-find-ignored-directories "media")))
 (add-hook 'grep-mode-hook (lambda() (toggle-truncate-lines 1)))
 
-(use-package ace-jump-mode
-  :bind
-  ("C-c SPC" . ace-jump-mode))
-
 (use-package ag)
 
 (use-package anzu
@@ -16,6 +12,10 @@
   (global-anzu-mode +1)
   (global-set-key [remap query-replace] 'anzu-query-replace)
   (global-set-key [remap query-replace-regexp] 'anzu-query-replace-regexp))
+
+(use-package avy
+  :bind
+  ("C-c SPC" . avy-goto-char))
 
 (use-package company
   :bind
@@ -100,6 +100,10 @@
         imenu-list-auto-resize nil)
   :bind
   ("C-c m l" . imenu-list-minor-mode))
+
+(use-package kill-or-bury-alive
+  :bind
+  ("C-x k" . kill-or-bury-alive))
 
 (use-package hlinum
   :config
@@ -241,6 +245,8 @@
                           )
         recentf-save-file (recentf-expand-file-name "~/.emacs.d/private/cache/recentf"))
   (recentf-mode 1))
+
+(use-package resize-window)
 
 (use-package restclient
   :init
