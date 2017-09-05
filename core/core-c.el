@@ -28,6 +28,13 @@
 	    (global-semantic-idle-scheduler-mode 1)
 	    (global-semantic-stickyfunc-mode 1))))
 
+(use-package ggtags
+  :config
+  (add-hook 'c-mode-common-hook
+          (lambda ()
+            (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
+              (ggtags-mode 1)))))
+
 (use-package irony
   :config
   ;; replace the `completion-at-point' and `complete-symbol' bindings in
