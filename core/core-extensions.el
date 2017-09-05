@@ -40,6 +40,11 @@
   :config
   (counsel-projectile-on))
 
+(use-package dired-subtree
+  :config
+  (define-key dired-mode-map "i" 'dired-subtree-insert)
+  (define-key dired-mode-map ";" 'dired-subtree-remove))
+
 (use-package dockerfile-mode)
 
 (use-package ediff
