@@ -81,6 +81,7 @@
 
 (show-paren-mode 1)
 (desktop-save-mode 0)
+(winner-mode 1)
 
 (if (eq system-type 'darwin)
     (set-default-font "-*-Hack-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1" t t)
