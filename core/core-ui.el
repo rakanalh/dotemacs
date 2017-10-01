@@ -16,8 +16,7 @@
 
   ;(require 'doom-neotree)
   (doom-themes-neotree-config)  ; all-the-icons fonts must be installed!
-  (doom-themes-org-config)
-  (add-hook 'find-file-hook 'doom-buffer-mode))
+  (doom-themes-org-config))
 
 (use-package solaire-mode
   :config
