@@ -4,6 +4,10 @@
 
 ;;; Code:
 
+(require 'f)
+
+(defvar pyenv-current-version nil nil)
+
 (use-package elpy
     :init
     (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
@@ -46,10 +50,11 @@
   (add-hook 'before-save-hook 'py-isort-before-save))
 
 (defun pyenv-init()
-  (setq global-pyenv (replace-regexp-in-string "\n" "" (shell-command-to-string "pyenv global")))
-  (message (concat "Setting pyenv version to " global-pyenv))
-  (pyenv-mode-set global-pyenv)
-  (defvar pyenv-current-version nil global-pyenv))
+  "Initialize pyenv's current version to the global one."
+  (let ((global-pyenv (replace-regexp-in-string "\n" "" (shell-command-to-string "pyenv global"))))
+    (message (concat "Setting pyenv version to " global-pyenv))
+    (pyenv-mode-set global-pyenv)
+    (setq pyenv-current-version global-pyenv)))
 
 (defun pyenv-activate-current-project ()
   "Automatically activates pyenv version if .python-version file exists."
@@ -59,18 +64,18 @@
      (message path)
      (let ((pyenv-version-path (f-expand ".python-version" path)))
        (if (f-exists? pyenv-version-path)
-          (progn
-            (setq pyenv-current-version (s-trim (f-read-text pyenv-version-path 'utf-8)))
-            (pyenv-mode-set pyenv-current-version)
-            (pyvenv-workon pyenv-current-version)
-            (message (concat "Setting virtualenv to " pyenv-current-version))))))))
+            (let ((pyenv-current-version (s-trim (f-read-text pyenv-version-path 'utf-8))))
+              (pyenv-mode-set pyenv-current-version)
+              (message (concat "Setting virtualenv to " pyenv-current-version))))))))
 
-(defun pyenv-check-if-current-project ()
-  (let ((current-project (projectile-project-name)))
-    (if (and current-project (not (equal current-project "-")))
-	(progn
-	  (message (concat "Current project " current-project))
-	  (pyenv-activate-current-project)))))
+(use-package pyenv-mode
+  :init
+  (add-to-list 'exec-path "~/.pyenv/shims")
+  (setenv "WORKON_HOME" "~/.pyenv/versions/")
+  :config
+  (pyenv-mode)
+  :bind
+  ("C-x p e" . pyenv-activate-current-project))
 
 (add-hook 'after-init-hook 'pyenv-init)
 (add-hook 'projectile-after-switch-project-hook 'pyenv-activate-current-project)
