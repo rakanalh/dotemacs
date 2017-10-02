@@ -41,6 +41,10 @@
   :bind
   ("C-x p e" . pyenv-activate-current-project))
 
+(use-package py-isort
+  :config
+  (add-hook 'before-save-hook 'py-isort-before-save))
+
 (defun pyenv-init()
   (setq global-pyenv (replace-regexp-in-string "\n" "" (shell-command-to-string "pyenv global")))
   (message (concat "Setting pyenv version to " global-pyenv))

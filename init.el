@@ -21,8 +21,8 @@
 (add-to-list 'load-path "~/.emacs.d/vendor/")
 
 (require 'core)
-(require 'core-ivy)
 (require 'core-extensions)
+(require 'core-ivy)
 (require 'core-functions)
 (require 'core-dired)
 (require 'core-shell)
