@@ -1,5 +1,4 @@
 (require 'cl)
-(require 'thingatpt)
 (require 'imenu)
 (require 'counsel)
 (require 'magit-git)
@@ -114,64 +113,89 @@ If point was already at that position, move point to beginning of line."
   (interactive)
   (mapc 'kill-buffer (buffer-list)))
 
-;; (defun persp/get-root (branch-name)
-;;   (let ((current-project (projectile-project-name)))
-;;     (message current-project)
-;;     (message branch-name)
-;;     (if (and (not current-project) (not branch-name))
-;;       (error "Could not find persp root"))
+(defun persp/get-root (branch-name)
+  (let ((current-project (projectile-project-name)))
+    (if (and (not current-project) (not branch-name))
+      (error "Could not find persp root"))
 
-;;     (if (and current-project branch-name)
-;; 	(concat current-project "-" branch-name)
-;;       (if current-project
-;; 	  current-project
-;; 	branch-name))))
+    (if (and current-project branch-name)
+	(concat current-project "-" branch-name)
+      (if current-project
+	  current-project
+	branch-name))))
 
 
-;; (defun persp/close-perspective (&optional project-root closed-branch)
-;;   (interactive)
-;;   (let* ((current-branch (if closed-branch
-;; 			    closed-branch
-;; 			  (magit-get-current-branch)))
-;; 	 (persp-project-root (if project-root
-;; 				 project-root
-;; 			       (persp/get-root current-branch))))
-;;     (if persp-project-root
-;; 	(progn
-;; 	  (message (concat "Saving " persp-project-root ".persp"))
-;; 	  (persp-save-state-to-file (concat persp-project-root ".persp"))
-;; 	  (close-all-buffers)))))
+(defun persp/close-perspective (&optional project-root closed-branch)
+  (interactive)
+  (let* ((current-branch (if closed-branch
+			    closed-branch
+			  (magit-get-current-branch)))
+	 (persp-project-root (if project-root
+				 project-root
+			       (persp/get-root current-branch))))
+    (if persp-project-root
+	(progn
+	  (message (concat "Saving " persp-project-root ".persp"))
+	  (persp-save-state-to-file (concat persp-project-root ".persp"))
+	  (close-all-buffers)))))
 
-;; (defun persp/switch-to-current-branch-persp ()
-;;   (interactive)
-;;   (let ((closed-branch (magit-get-previous-branch))
-;; 	(persp-project-root (persp/get-root (magit-get-current-branch)))
-;;     (persp/close-perspective persp-project-root closed-branch))
-;;     (message "Closed perspective")
-;;     (message (concat "Loading " persp-project-root ".persp"))
-;;     (persp-load-state-from-file (concat persp-project-root ".persp"))))
+(defun persp/switch-to-current-branch-persp ()
+  (interactive)
+  (let ((closed-branch (magit-get-previous-branch))
+	(persp-project-root (persp/get-root (magit-get-current-branch))))
+    (persp/close-perspective persp-project-root closed-branch)
+    (message "Closed perspective")
+    (message (concat "Loading " persp-project-root ".persp"))
+    (persp-load-state-from-file (concat persp-project-root ".persp"))))
 
-(defun codenav-get-candidates ()
-  "Fetch list of sorted imenu candidates."
-  (let* ((items (counsel-imenu-get-candidates-from (imenu--make-index-alist)))
+(defun codenav-imenu-candidates ()
+  "Get the candidates list from imenu."
+  (let* ((items (imenu--make-index-alist))
 	 (items (delete (assoc "*Rescan*" items) items)))
     items))
+
+(defun codenav-flatten-candidates (candidates)
+  "Flatten CANDIDATES of imenu list."
+  (let (result)
+    (dolist (candidate candidates result)
+      (if (imenu--subalist-p candidate)
+          (setq result (append result (codenav-flatten-candidates (cdr candidate))))
+        (add-to-list 'result candidate)))
+    result))
+
+(defun codenav-sort-candidates (candidates)
+  (sort candidates (lambda (a b) (< (cdr a) (cdr b)))))
+
+
+(defun codenav-test-flatten-candidates ()
+  (interactive)
+  (let* ((imenu-candidates (codenav-imenu-candidates))
+         (names-and-pos (codenav-sort-candidates (codenav-flatten-candidates imenu-candidates))))
+    (let ((a (nth 0 imenu-candidates)))
+      (message "First element")
+      (message "%s" a)
+      (message "%s" (nth 1 a)))
+    (message "\n\nRESULT:%s\n\n" names-and-pos)))
+
 
 (defun codenav-current-symbol (names-and-pos)
   "Figure out current definition by checking positions of NAMES-AND-POS against current position."
   (interactive)
-  (let ((current-index 0))
+  (let ((list-length (length names-and-pos))
+        (current-pos (point))
+        (current-index 0)
+        (next-index 0))
     (dolist (symbol names-and-pos)
-      (let* ((current-line (point))
-	     (current-symbol-pos (marker-position (cdr (cdr symbol))))
-	     ;; If we reaches the end, just return the last element
-	     ;; instead of returning index+1
-	     (selected-index (if (< (1+ current-index) (length names-and-pos))
-				 (1+ current-index)
-			       current-index))
-	     (next-symbol-pos
-	      (marker-position (cdr (cdr (nth selected-index names-and-pos))))))
-	(if (and (>= current-line current-symbol-pos) (< current-line next-symbol-pos))
+      ;; If we reaches the end, just return the last element
+      ;; instead of returning index+1
+      (setq next-index (if (< next-index (1- list-length))
+                          (1+ current-index)
+                         current-index))
+      (let* ((current-symbol-pos (marker-position (cdr symbol)))
+	     (next-symbol-pos (marker-position (cdr (nth next-index names-and-pos)))))
+        (if (and (= current-index 0) (< current-pos current-symbol-pos))
+            (return 0))
+	(if (and (>= current-pos current-symbol-pos) (< current-pos next-symbol-pos))
 	    (return current-index)))
       (setq current-index (1+ current-index)))
     ;; If last item, decrement index
@@ -183,18 +207,26 @@ If point was already at that position, move point to beginning of line."
 (defun codenav-next-definition ()
   "Navigate to next function/class definition."
   (interactive)
-  (let* ((names-and-pos (codenav-get-candidates))
+  (let* ((imenu-candidates (codenav-imenu-candidates))
+         (names-and-pos (codenav-sort-candidates (codenav-flatten-candidates imenu-candidates)))
 	 (current-symbol (codenav-current-symbol names-and-pos))
-	 (next-symbol (cdr (nth (1+ current-symbol) names-and-pos))))
+         (next-symbol-index (if (>= (1+ current-symbol) (length names-and-pos)) 0
+                              (1+ current-symbol)))
+	 (next-symbol (nth next-symbol-index names-and-pos)))
     (imenu next-symbol)))
 
 
 (defun codenav-prev-definition ()
   "Navigate to previous function/class definition."
   (interactive)
-  (let* ((names-and-pos (codenav-get-candidates))
+  (let* ((imenu-candidates (codenav-imenu-candidates))
+         (names-and-pos (codenav-sort-candidates (codenav-flatten-candidates imenu-candidates)))
 	 (current-symbol (codenav-current-symbol names-and-pos))
-	 (prev-symbol (cdr (nth (1- current-symbol) names-and-pos))))
+         (prev-symbol-index (if (< (1- current-symbol) 0) (1- (length names-and-pos))
+                              (1- current-symbol)))
+	 (prev-symbol (nth prev-symbol-index names-and-pos)))
     (imenu prev-symbol)))
+
+
 
 (provide 'core-functions)

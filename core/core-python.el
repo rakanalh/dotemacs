@@ -59,14 +59,12 @@
 (defun pyenv-activate-current-project ()
   "Automatically activates pyenv version if .python-version file exists."
   (interactive)
-  (f-traverse-upwards
-   (lambda (path)
-     (message path)
-     (let ((pyenv-version-path (f-expand ".python-version" path)))
-       (if (f-exists? pyenv-version-path)
-            (let ((pyenv-current-version (s-trim (f-read-text pyenv-version-path 'utf-8))))
-              (pyenv-mode-set pyenv-current-version)
-              (message (concat "Setting virtualenv to " pyenv-current-version))))))))
+  (let ((python-version-directory (locate-dominating-file (buffer-file-name) ".python-version")))
+    (if python-version-directory
+        (let* ((pyenv-version-path (f-expand ".python-version" python-version-directory))
+               (pyenv-current-version (s-trim (f-read-text pyenv-version-path 'utf-8))))
+          (pyenv-mode-set pyenv-current-version)
+          (message (concat "Setting virtualenv to " pyenv-current-version))))))
 
 (use-package pyenv-mode
   :init

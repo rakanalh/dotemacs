@@ -19,8 +19,8 @@
 (global-set-key (kbd "M-/") (lambda () (interactive) (go-back-to-point)))
 (global-set-key (kbd "C-}") (lambda () (interactive) (forward-line 5)))
 (global-set-key (kbd "C-{") (lambda () (interactive) (forward-line -5)))
-(global-set-key (kbd "M-S-<up>") (lambda () (interactive) (codenav-prev-definition)))
-(global-set-key (kbd "M-S-<down>") (lambda () (interactive) (codenav-next-definition)))
+(global-set-key (kbd "M-i") (lambda () (interactive) (codenav-prev-definition)))
+(global-set-key (kbd "M-k") (lambda () (interactive) (codenav-next-definition)))
 
 ;; iTerm2
 (global-set-key (kbd "C-'") 'iterm-focus)
