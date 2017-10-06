@@ -81,20 +81,25 @@
 (defun jsonify-python-output ()
   "Convert the output of a logged/printed dict into a pretty JSON format."
   (interactive)
-  (goto-char (point-min))
-  (while (re-search-forward "Decimal(\"\\\([0-9.]+\\\)\")" nil t)
-    (replace-match "\\1"))
+  (let* ((min (if (region-active-p) (region-beginning) (point-min)))
+        (max (if (region-active-p) (region-end) (point-max)))
+        (max-altered max))
+    (goto-char min)
+    (while (re-search-forward "Decimal(\"\\\([0-9.]+\\\)\")" max t)
+      (replace-match "\\1")
+      (setq max-altered (- max-altered 11)))
 
-  (replace-in-buffer "'" "\"")
-  (replace-in-buffer "None" "null")
-  (replace-in-buffer "True" "true")
-  (replace-in-buffer "False" "false")
+    (replace-in-buffer "'" "\"" min max)
+    (replace-in-buffer "None" "null" min max)
+    (replace-in-buffer "True" "true" min max)
+    (replace-in-buffer "False" "false" min max)
 
-  (json-pretty-print (point-min) (point-max)))
+    (json-pretty-print min max-altered)))
 
-(defun replace-in-buffer (search replace)
-  (goto-char (point-min))
-  (while (search-forward search nil t)
+(defun replace-in-buffer (search replace start end)
+  "Replace all occurances of a SEARCH with REPLACE in buffer from START to END."
+  (goto-char start)
+  (while (search-forward search end t)
     (replace-match replace t)))
 
 (provide 'core-python)
