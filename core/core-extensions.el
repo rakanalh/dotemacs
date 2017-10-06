@@ -53,6 +53,20 @@
   (setq-default ediff-highlight-all-diffs 'nil)
   (setq ediff-diff-options "-w"))
 
+(use-package elfeed
+  :bind
+  ("C-x w" . elfeed)
+  :config
+  (setq elfeed-feeds
+      '("http://nullprogram.com/feed/"
+        "http://planet.emacsen.org/atom.xml"
+        "https://hnrss.org/frontpage"))
+  ;; Entries older than 2 weeks are marked as read
+  (add-hook 'elfeed-new-entry-hook
+            (elfeed-make-tagger :before "2 weeks ago"
+                                :remove 'unread)))
+
+
 (use-package exec-path-from-shell
   :config
   ;; Add GOPATH to shell
@@ -176,10 +190,17 @@
   :config
   (setq org-directory "~/DropBox/org-mode"
         org-agenda-files (list "~/Google Drive/org-mode/ideas.org"
-                               "~/Google Drive/org-mode/calendar.org")
-        org-default-notes-file (concat org-directory "/todo.org"))
+                               "~/Google Drive/org-mode/calendar.org"
+                               "~/Google Drive/org-mode/test.org")
+        org-default-notes-file (concat org-directory "/todo.org")
+        org-confirm-babel-evaluate nil
+        org-src-fontify-natively t)
+
   (org-babel-do-load-languages
-   'org-babel-load-languages '((python . t)))
+   'org-babel-load-languages '((python . t)
+                               (sh . t)
+                               (emacs-lisp . t)
+                               (lisp . t)))
   (add-hook 'org-finalize-agenda-hook (lambda ()
                                         (setq org-agenda-tags-column (- 6 (window-width)))
                                         (org-agenda-align-tags)))
@@ -245,7 +266,8 @@
   (setq dashboard-items '((agenda . 10)
                           (recents  . 5)
                           (projects . 5)
-                          (bookmarks . 15)))
+                          (bookmarks . 15)
+                          (registers . 10)))
   (dashboard-setup-startup-hook))
 
 (if (memq window-system '(mac ns))
@@ -262,6 +284,7 @@
   (setq recentf-exclude '("/elpa/" ;; ignore all files in elpa directory
                           ".*?autoloads.el$"
                           "/tmp/" ;; ignore temporary files
+                          "*/.elfeed/index"
                           )
         recentf-save-file (recentf-expand-file-name "~/.emacs.d/private/cache/recentf"))
   (recentf-mode 1))
