@@ -4,7 +4,7 @@
 (require 'magit-git)
 (require 'magit-process)
 (require 'projectile)
-;(require 'persp-mode)
+(require 'persp-mode)
 
 (defun core-project-root (&optional strict-p)
   "Get the path to the root of your project."
