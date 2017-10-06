@@ -78,5 +78,24 @@
 (add-hook 'after-init-hook 'pyenv-init)
 (add-hook 'projectile-after-switch-project-hook 'pyenv-activate-current-project)
 
+(defun jsonify-python-output ()
+  "Convert the output of a logged/printed dict into a pretty JSON format."
+  (interactive)
+  (goto-char (point-min))
+  (while (re-search-forward "Decimal(\"\\\([0-9.]+\\\)\")" nil t)
+    (replace-match "\\1"))
+
+  (replace-in-buffer "'" "\"")
+  (replace-in-buffer "None" "null")
+  (replace-in-buffer "True" "true")
+  (replace-in-buffer "False" "false")
+
+  (json-pretty-print (point-min) (point-max)))
+
+(defun replace-in-buffer (search replace)
+  (goto-char (point-min))
+  (while (search-forward search nil t)
+    (replace-match replace t)))
+
 (provide 'core-python)
 ;;; python.el ends here
