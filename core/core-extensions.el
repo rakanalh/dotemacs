@@ -20,6 +20,7 @@
 (use-package company
   :bind
   ("M-TAB" . company-complete)
+  ("M-;" . company-yasnippet)
   :config
   (add-hook 'after-init-hook 'global-company-mode))
 
@@ -197,14 +198,14 @@
   (setq org-directory "~/DropBox/org-mode"
         org-agenda-files (list "~/Google Drive/org-mode/ideas.org"
                                "~/Google Drive/org-mode/calendar.org"
-                               "~/Google Drive/org-mode/test.org")
+                               "~/Google Drive/org-mode/learning.org")
         org-default-notes-file (concat org-directory "/todo.org")
         org-confirm-babel-evaluate nil
         org-src-fontify-natively t)
 
   (org-babel-do-load-languages
    'org-babel-load-languages '((python . t)
-                               (sh . t)
+                               (shell . t)
                                (emacs-lisp . t)
                                (lisp . t)))
   (add-hook 'org-finalize-agenda-hook (lambda ()
@@ -247,15 +248,19 @@
 
 (use-package page-break-lines)
 
-;; (use-package persp-mode
-;;   :init
-;;   (persp-mode)
-;;   (setq persp-save-dir (concat private-dir "/persp-confs/")
-;; 	persp-auto-save-opt 0)
-;;   :config
-;;   (add-hook 'kill-emacs-hook 'persp/close-perspective)
-;;   :bind
-;;   ("C-x p p" . persp/switch-to-current-branch-persp))
+(use-package persistent-scratch
+  :config
+  (persistent-scratch-setup-default))
+
+(use-package persp-mode
+  :init
+  (persp-mode)
+  (setq persp-save-dir (concat private-dir "/persp-confs/")
+	persp-auto-save-opt 0)
+  :config
+  (add-hook 'kill-emacs-hook 'persp/close-perspective)
+  :bind
+  ("C-x p p" . persp/switch-to-current-branch-persp))
 
 (use-package projectile
   :config
@@ -345,7 +350,9 @@
   ("C-c y s" . yas-insert-snippet)
   ("C-c y v" . yas-visit-snippet-file)
   :config
-  (yas-global-mode 1))
+  (yas-global-mode 1)
+  (setq yas-snippet-dirs (append yas-snippet-dirs
+                                 '("~/.emacs.d/snippets"))))
 
 (use-package zoom-window
   :bind
