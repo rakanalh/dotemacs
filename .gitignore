@@ -1,5 +1,10 @@
 .DS_Store
 .python-environments/
+.emacs.desktop*
+.custom.el
+.cask
+.local
+.mc-lists.el
 ac-comphist.dat
 auto-save-list/
 elpa/
@@ -9,7 +14,7 @@ init_bash.sh
 places
 projectile-bookmarks.eld
 recentf
-.emacs.desktop*
-.custom.el
 private/
 vendor/
+irony
+todo.org
