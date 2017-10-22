@@ -84,7 +84,9 @@ limit to buffers in the current workspace."
   ("C-x b" . +ivy/switch-buffer)
   :config
   (ivy-mode 1)
-  (setq ivy-use-virtual-buffers nil)
-  (define-key read-expression-map (kbd "C-r") 'counsel-expression-history))
+  (setq ivy-use-virtual-buffers nil
+        ivy-count-format "%d/%d ")
+  (define-key read-expression-map (kbd "C-r")
+  'counsel-expression-history))
 
 (provide 'core-ivy)

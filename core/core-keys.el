@@ -28,8 +28,9 @@
 ;; iTerm2
 (global-set-key (kbd "C-'") 'iterm-focus)
 
-;; rgrep
-(global-set-key (kbd "C-x c g") (lambda () (interactive) (call-interactively 'rgrep)))
+;; ag
+(global-set-key (kbd "C-x c g") (lambda () (interactive) (call-interactively 'ag)))
+
 (define-key ctl-x-r-map "b" 'bookmark-jump-or-find-file)
 
 (provide 'core-keys)

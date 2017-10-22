@@ -4,6 +4,7 @@
 ;; go get -u github.com/nsf/gocode
 ;; go get -u github.com/kisielk/errcheck
 
+(use-package go-guru)
 (use-package go-mode
   :config
   ; Use goimports instead of go-fmt

@@ -135,9 +135,15 @@
   :bind
   ("C-c m l" . imenu-list-minor-mode))
 
+(use-package keyfreq
+  :config
+  (keyfreq-mode 1)
+  (keyfreq-autosave-mode 1))
+
 (use-package kill-or-bury-alive
   :bind
-  ("C-x k" . kill-or-bury-alive))
+  ("C-x k" . kill-or-bury-alive)
+  ("C-c C-k" . kill-buffer))
 
 (use-package hlinum
   :config
@@ -241,15 +247,15 @@
 
 (use-package page-break-lines)
 
-(use-package persp-mode
-  :init
-  (persp-mode)
-  (setq persp-save-dir (concat private-dir "/persp-confs/")
-	persp-auto-save-opt 0)
-  :config
-  (add-hook 'kill-emacs-hook 'persp/close-perspective)
-  :bind
-  ("C-x p p" . persp/switch-to-current-branch-persp))
+;; (use-package persp-mode
+;;   :init
+;;   (persp-mode)
+;;   (setq persp-save-dir (concat private-dir "/persp-confs/")
+;; 	persp-auto-save-opt 0)
+;;   :config
+;;   (add-hook 'kill-emacs-hook 'persp/close-perspective)
+;;   :bind
+;;   ("C-x p p" . persp/switch-to-current-branch-persp))
 
 (use-package projectile
   :config

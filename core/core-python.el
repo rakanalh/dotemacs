@@ -18,7 +18,8 @@
 	      ("<M-S-right>" . elpy-nav-indent-shift-right)
 	      ("M-." . elpy-goto-definition)
 	      ("M-," . pop-tag-mark)
-	      ("C-c C-s" . nil))
+	      ("C-c C-s" . nil)
+              ("C-c C-k" . nil))
     :config
     ;; (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
     ;;flycheck-python-flake8-executable "/usr/local/bin/flake8"
