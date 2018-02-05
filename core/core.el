@@ -8,6 +8,7 @@
 
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
+(eval-when-compile (require 'use-package))
 
 (defconst private-dir  (expand-file-name "private" user-emacs-directory))
 (defconst temp-dir
@@ -27,7 +28,9 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 (global-auto-revert-mode t)
 
-(setq-default indent-tabs-mode nil)
+(setq-default indent-tabs-mode nil
+              truncate-lines t)
+
 (setq
  confirm-kill-emacs 'y-or-n-p
  confirm-nonexistent-file-or-buffer  t

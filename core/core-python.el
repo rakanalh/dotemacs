@@ -48,7 +48,11 @@
 
 (use-package py-isort
   :config
-  (add-hook 'before-save-hook 'py-isort-before-save))
+  (defun python-mode-before-save-hook ()
+    (when (eq major-mode 'python-mode) (eq major-mode 'c-mode)
+      (py-isort-before-save)))
+
+  (add-hook 'before-save-hook 'python-mode-before-save-hook))
 
 (defun pyenv-init()
   "Initialize pyenv's current version to the global one."

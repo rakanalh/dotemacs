@@ -24,12 +24,17 @@
   :config
   (add-hook 'after-init-hook 'global-company-mode))
 
+(use-package company-statistics
+  :config
+  (company-statistics-mode))
+
 (use-package counsel
   :config
   (setq counsel-find-file-ignore-regexp ".*\.egg-info\\|__pycache__\\|.cache")
   :bind
   ("M-x" . counsel-M-x)
   ("C-x C-m" . counsel-M-x)
+  ("C-x m" . counsel-M-x)
   ("C-x C-f" . counsel-find-file)
   ("C-x c k" . counsel-yank-pop)
   ("M-;" . counsel-imenu))
@@ -92,7 +97,20 @@
   (when (eq window-system 'mac)
     (require 'flycheck-pos-tip)
     (flycheck-pos-tip-mode +1))
+
+  (defun me/flycheck ()
+    "Configurate flycheck."
+    (add-to-list 'display-buffer-alist
+                 `(,(rx bos "*Flycheck errors*" eos)
+                   (display-buffer-reuse-window
+                    display-buffer-in-side-window)
+                   (side            . bottom)
+                   (reusable-frames . visible)
+                   (window-height   . 0.23)))
+    (setq flycheck-display-errors-function
+          #'flycheck-display-error-messages-unless-error-list))
   ;; Enable flycheck
+  (add-hook 'prog-mode-hook 'me/flycheck)
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
 (use-package git-gutter)
@@ -252,15 +270,15 @@
   :config
   (persistent-scratch-setup-default))
 
-(use-package persp-mode
-  :init
-  (persp-mode)
-  (setq persp-save-dir (concat private-dir "/persp-confs/")
-	persp-auto-save-opt 0)
-  :config
-  (add-hook 'kill-emacs-hook 'persp/close-perspective)
-  :bind
-  ("C-x p p" . persp/switch-to-current-branch-persp))
+;; (use-package persp-mode
+;;   :init
+;;   (persp-mode)
+;;   (setq persp-save-dir (concat private-dir "/persp-confs/")
+;; 	persp-auto-save-opt 0)
+;;   :config
+;;   (add-hook 'kill-emacs-hook 'persp/close-perspective)
+;;   :bind
+;;   ("C-x p p" . persp/switch-to-current-branch-persp))
 
 (use-package projectile
   :config
@@ -300,7 +318,9 @@
         recentf-save-file (recentf-expand-file-name "~/.emacs.d/private/cache/recentf"))
   (recentf-mode 1))
 
-(use-package resize-window)
+(use-package resize-window
+  :bind
+  ("C-x /" . resize-window))
 
 (use-package restclient
   :init
