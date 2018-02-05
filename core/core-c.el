@@ -19,38 +19,49 @@
 	tab-width 4
 	indent-tabs-mode t))
 
+(use-package cmake-ide
+  :config
+  (add-hook 'c++-mode-hook '(lambda()
+                              (cmake-ide-setup))))
+
 (use-package semantic
   :config
   (setq semanticdb-default-save-directory (expand-file-name "semanticdb/" temp-dir))
-  (add-hook 'c-mode-common-hook (lambda ()
-	    (semantic-mode 1)
-	    ;(global-semanticdb-minor-mode 1)
-	    (global-semantic-idle-scheduler-mode 1)
-	    (global-semantic-stickyfunc-mode 1))))
 
-(use-package ggtags
-  :config
-  (add-hook 'c-mode-common-hook
-          (lambda ()
-            (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
-              (ggtags-mode 1)))))
+  (let ((semantic-submodes '(global-semantic-decoration-mode
+			     global-semantic-idle-local-symbol-highlight-mode
+			     global-semantic-highlight-func-mode
+			     global-semanticdb-minor-mode
+			     global-semantic-mru-bookmark-mode
+			     global-semantic-idle-summary-mode
+			     global-semantic-stickyfunc-mode
+			     )))
+    (setq semantic-default-submodes (append semantic-default-submodes semantic-submodes)
+	  semantic-idle-scheduler-idle-time 1))
+
+  (add-hook 'c-mode-common-hook (lambda ()
+	    (semantic-mode 1))))
 
 (use-package irony
   :config
   ;; replace the `completion-at-point' and `complete-symbol' bindings in
   ;; irony-mode's buffers by irony-mode's function
+  (add-hook 'c++-mode-hook 'irony-mode)
+  (add-hook 'c-mode-hook 'irony-mode)
   (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
 
-(use-package company-irony
-  :after company-mode
+(use-package irony-eldoc
   :config
+  (add-hook 'irony-mode-hook 'irony-eldoc))
+
+(use-package company-irony
+  :config
+  (add-to-list 'company-backends 'company-keywords)
   (add-to-list 'company-backends 'company-irony))
 
 (use-package company-irony-c-headers
-  :after company-mode
   :config
-  (add-to-list
-    'company-backends '(company-irony-c-headers company-irony)))
+  (add-to-list 'company-backends 'company-irony-c-headers))
 
 
 (use-package flycheck-irony
@@ -63,16 +74,37 @@
   :config
   (add-to-list 'company-backends 'company-c-headers))
 
-(defun enable-semantic-shortcuts ()
-  (local-set-key (kbd "C-c C-j") 'semantic-ia-fast-jump)
-  (local-set-key (kbd "C-c C-s") 'semantic-ia-show-summary))
+(defun me/rtags ()
+  "Rtags configuration.
+Used only for nevigation."
+  (interactive)
+  (rtags-start-process-unless-running)
+  (setq rtags-display-result-backend 'ivy)
+  (add-hook 'kill-emacs-hook 'rtags-quit-rdm))
 
-;; hs-minor-mode for folding source code
-(add-hook 'c-mode-common-hook 'hs-minor-mode)
-(add-hook 'c-mode-common-hook 'enable-semantic-shortcuts)
-(add-hook 'c-mode-hook 'enable-semantic-shortcuts)
-(add-hook 'c++-mode-hook 'alexott/cedet-hook)
-(add-hook 'c++-mode-hook 'irony-mode)
-(add-hook 'c-mode-hook 'irony-mode)
+(use-package rtags
+  :commands rtags-start-process-unless-running
+  :bind (("M-."     .  rtags-find-symbol-at-point)
+         ("M-?"     .  rtags-find-references-at-point)
+         ("M-,"     .  rtags-location-stack-back)
+         ("C-,"   .    rtags-location-stack-forward)
+         ("C-c r r" .  rtags-rename-symbolrtags-next-match))
+  :config
+  (setq rtags-completions-enabled t)
+  (add-hook 'c++-mode 'me/rtags)
+  (add-hook 'c-mode 'me/rtags)
+  (message "Rtags loaded")
+  (use-package company-rtags))
+
+(use-package clang-format
+  :config
+  (defun c-mode-before-save-hook ()
+    (when (or (eq major-mode 'c++-mode) (eq major-mode 'c-mode))
+      (call-interactively 'clang-format)))
+
+  (add-hook 'before-save-hook #'c-mode-before-save-hook))
+
+
+
 
 (provide 'core-c)
