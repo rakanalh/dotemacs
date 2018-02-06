@@ -3,6 +3,9 @@
 ;; go get -u github.com/rogpeppe/godef
 ;; go get -u github.com/nsf/gocode
 ;; go get -u github.com/kisielk/errcheck
+;; go get -u github.com/dougm/goflymake
+;; go get -u github.com/golang/lint/golint
+
 
 (use-package go-guru)
 (use-package go-mode

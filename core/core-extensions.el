@@ -81,6 +81,7 @@
   ;; Add GOPATH to shell
   (exec-path-from-shell-copy-env "GOPATH")
   (exec-path-from-shell-copy-env "PYTHONPATH")
+  (exec-path-from-shell-copy-env "TERM")
   (exec-path-from-shell-initialize))
 
 (use-package expand-region
@@ -226,6 +227,21 @@
         org-confirm-babel-evaluate nil
         org-src-fontify-natively t)
 
+
+  (setq org-capture-templates
+      '(("t" "Todo" entry (file+headline "~/org/mygtd.org" "Tasks")
+         "* TODO %?\nAdded: %U\n" :prepend t :kill-buffer t)
+        ("w" "Web" entry (file+headline "~/www/org/index.org" "Tasks")
+         "* TODO %?\nAdded: %U\n" :prepend t :kill-buffer t)
+        ("r" "Prog. R" entry (file+headline "~/www/org/teaching/introR.org" "Tasks")
+         "* TODO %?\nAdded: %U\n" :prepend t :kill-buffer t)
+        ("i" "Idea" entry (file+headline "~/org/mygtd.org" "Someday/Maybe")
+         "* IDEA %?\nAdded: %U\n" :prepend t :kill-buffer t)
+        ("h" "Home" entry (file+headline "~/org/mygtd.org" "Home")
+         "* TODO %?\nAdded: %U\n" :prepend t :kill-buffer t)
+        )
+      )
+
   (org-babel-do-load-languages
    'org-babel-load-languages '((python . t)
                                (shell . t)
@@ -245,22 +261,14 @@
       (setq alert-default-style 'osx-notifier)
     (setq alert-default-style 'libnotify)))
 
-(use-package org-gcal
-  :config
-  (setq org-gcal-client-id (getenv "ORG_GCAL_CLIENT_ID")
-        org-gcal-client-secret (getenv "ORG_GCAL_CLIENT_SECRET")
-        org-gcal-file-alist '(("rakan.alhneiti@gmail.com" .  "~/Google Drive/org-mode/calendar.org")))
-  (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync) ))
-  (add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync))))
-
 (use-package org-projectile
+  :after org-mode
   :config
-  (org-projectile:per-repo)
-  (setq org-projectile:per-repo-filename "todo.org"
-        org-agenda-files (append org-agenda-files (org-projectile:todo-files)))
+  (org-projectile-per-project)
+  (setq org-projectile-per-project-filepath "notes.org"
+        org-agenda-files (append org-agenda-files (org-projectile-todo-files)))
   :bind
-  ("C-c c" . org-projectile:capture-for-current-project)
-  ("C-c n p" . org-projectile:project-todo-completing-read))
+  ("C-c c" . org-projectile-capture-for-current-project))
 
 (use-package org-bullets
   :config
@@ -293,6 +301,7 @@
                           (bookmarks . 15)
                           (registers . 10)))
   (dashboard-setup-startup-hook))
+  ;(setq dashboard-banner-logo-title (format "Loaded in %.02fs" loading-time)))
 
 (if (memq window-system '(mac ns))
     (use-package dash-at-point
