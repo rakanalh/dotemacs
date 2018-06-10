@@ -1,3 +1,4 @@
+
 (eval-after-load 'grep
   '(progn
     (add-to-list 'grep-find-ignored-directories "local")
@@ -271,16 +272,6 @@
 (use-package persistent-scratch
   :config
   (persistent-scratch-setup-default))
-
-;; (use-package persp-mode
-;;   :init
-;;   (persp-mode)
-;;   (setq persp-save-dir (concat private-dir "/persp-confs/")
-;; 	persp-auto-save-opt 0)
-;;   :config
-;;   (add-hook 'kill-emacs-hook 'persp/close-perspective)
-;;   :bind
-;;   ("C-x p p" . persp/switch-to-current-branch-persp))
 
 (use-package projectile
   :config

@@ -63,8 +63,6 @@
 
 ;; Custom line number stuff
 (set-face-attribute 'fringe nil)
-(set-face-foreground 'linum-highlight-face "#00B3EF")
-(set-face-background 'linum-highlight-face "#1f252b")
 
 (setq org-fontify-whole-heading-line t
       org-fontify-done-headline t

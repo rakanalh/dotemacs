@@ -4,7 +4,6 @@
 (require 'magit-git)
 (require 'magit-process)
 (require 'projectile)
-(require 'persp-mode)
 
 (defun core-project-root (&optional strict-p)
   "Get the path to the root of your project."
@@ -141,29 +140,6 @@ If point was already at that position, move point to beginning of line."
           (set-buffer-modified-p nil)
           (message "File '%s' successfully renamed to '%s'"
                    name (file-name-nondirectory new-name)))))))
-
-(defun persp/close-perspective (&optional project-root closed-branch)
-  (interactive)
-  (let* ((current-branch (if closed-branch
-			    closed-branch
-			  (magit-get-current-branch)))
-	 (persp-project-root (if project-root
-				 project-root
-			       (persp/get-root current-branch))))
-    (if persp-project-root
-	(progn
-	  (message (concat "Saving " persp-project-root ".persp"))
-	  (persp-save-state-to-file (concat persp-project-root ".persp"))
-	  (close-all-buffers)))))
-
-(defun persp/switch-to-current-branch-persp ()
-  (interactive)
-  (let ((closed-branch (magit-get-previous-branch))
-	(persp-project-root (persp/get-root (magit-get-current-branch))))
-    (persp/close-perspective persp-project-root closed-branch)
-    (message "Closed perspective")
-    (message (concat "Loading " persp-project-root ".persp"))
-    (persp-load-state-from-file (concat persp-project-root ".persp"))))
 
 (defun codenav-imenu-candidates ()
   "Get the candidates list from imenu."
