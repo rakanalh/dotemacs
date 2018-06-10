@@ -78,6 +78,11 @@
 (when (fboundp 'scroll-bar-mode)
   (scroll-bar-mode -1))
 
+(setq-default display-line-numbers t
+              display-line-numbers-current-absolute t
+              display-line-numbers-width 1
+              display-line-numbers-widen t)
+
 ;; Env vars
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin/"))
 (setenv "SHELL" "/bin/zsh")

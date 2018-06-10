@@ -32,9 +32,10 @@
 (require 'core-modeline)
 
 (require 'core-c)
-(require 'core-elixir)
+;(require 'core-elixir)
 (require 'core-go)
-(require 'core-haskell)
+;(require 'core-haskell)
 (require 'core-javascript)
 (require 'core-python)
+(require 'core-solidity)
 (require 'core-web)

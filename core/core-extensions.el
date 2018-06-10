@@ -84,6 +84,8 @@
   :bind
   ("C-=" . er/expand-region))
 
+(use-package f)
+
 (use-package flycheck
   :config
   (setq flycheck-indication-mode 'right-fringe
@@ -130,17 +132,17 @@
                   (json-mode "{" "}" "/[*/]" nil)
                   (javascript-mode  "{" "}" "/[*/]" nil)))))
 
-(use-package hl-line
-  :config
-  ;; Doesn't seem to play nice in emacs 25+
-  (setq hl-line-sticky-flag nil
-        global-hl-line-sticky-flag nil)
+;; (use-package hl-line
+;;   :config
+;;   ;; Doesn't seem to play nice in emacs 25+
+;;   (setq hl-line-sticky-flag nil
+;;         global-hl-line-sticky-flag nil)
 
-  (defvar-local current-hl-line-mode nil)
-  (defun hl-line-on ()  (if current-hl-line-mode (hl-line-mode +1)))
-  (defun hl-line-off () (if current-hl-line-mode (hl-line-mode -1)))
-  ;;(add-hook hl-line-mode (lambda () (if current-hl-line-mode (setq current-hl-line-mode t))))
-  (global-hl-line-mode))
+;;   (defvar-local current-hl-line-mode nil)
+;;   (defun hl-line-on ()  (if current-hl-line-mode (hl-line-mode +1)))
+;;   (defun hl-line-off () (if current-hl-line-mode (hl-line-mode -1)))
+;;   ;;(add-hook hl-line-mode (lambda () (if current-hl-line-mode (setq current-hl-line-mode t))))
+;;   (global-hl-line-mode))
 
 (use-package hungry-delete
   :config
@@ -164,14 +166,14 @@
   ("C-x k" . kill-or-bury-alive)
   ("C-c C-k" . kill-buffer))
 
-(use-package hlinum
-  :config
-  (hlinum-activate))
+;; (use-package hlinum
+;;   :config
+;;   (hlinum-activate))
 
-(use-package linum
-  :config
-  (setq linum-format " %3d ")
-  (global-linum-mode nil))
+;; (use-package linum
+;;   :config
+;;   (setq linum-format " %3d ")
+;;   (global-linum-mode nil))
 
 (use-package magit
   :config
