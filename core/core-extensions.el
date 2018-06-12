@@ -18,6 +18,8 @@
   :bind
   ("C-c SPC" . avy-goto-char))
 
+(use-package buffer-move)
+
 (use-package company
   :bind
   ("M-TAB" . company-complete)
