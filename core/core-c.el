@@ -26,6 +26,9 @@
 
 (use-package semantic
   :config
+  (semanticdb-enable-gnu-global-databases 'c-mode t)
+  (semanticdb-enable-gnu-global-databases 'c++-mode t)
+
   (setq semanticdb-default-save-directory (expand-file-name "semanticdb/" temp-dir))
 
   (let ((semantic-submodes '(global-semantic-decoration-mode
@@ -39,8 +42,7 @@
     (setq semantic-default-submodes (append semantic-default-submodes semantic-submodes)
 	  semantic-idle-scheduler-idle-time 1))
 
-  (add-hook 'c-mode-common-hook (lambda ()
-	    (semantic-mode 1))))
+  (add-hook 'c-mode-common-hook (lambda () (semantic-mode 1))))
 
 (use-package irony
   :config

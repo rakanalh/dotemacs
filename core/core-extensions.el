@@ -336,7 +336,9 @@
   ("C-c C-r w" . rotate-window)
   ("C-c C-r l" . rotate-layout))
 
-(use-package smartparens)
+(use-package smartparens
+  :config
+  (require 'smartparens-config))
 
 (use-package smex
   :config

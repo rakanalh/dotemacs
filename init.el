@@ -25,7 +25,7 @@
 (require 'core-ivy)
 (require 'core-functions)
 (require 'core-dired)
-(require 'core-shell)
+;;(require 'core-shell)
 (require 'core-aliases)
 (require 'core-keys)
 (require 'core-ui)
