@@ -46,13 +46,15 @@
   :bind
   ("C-x p e" . pyenv-activate-current-project))
 
-(use-package py-isort
-  :config
-  (defun python-mode-before-save-hook ()
-    (when (eq major-mode 'python-mode) (eq major-mode 'c-mode)
-      (py-isort-before-save)))
-
-  (add-hook 'before-save-hook 'python-mode-before-save-hook))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (use-package py-isort                                          ;;
+;;   :config                                                      ;;
+;;   (defun python-mode-before-save-hook ()                       ;;
+;;     (when (eq major-mode 'python-mode) (eq major-mode 'c-mode) ;;
+;;       (py-isort-before-save)))                                 ;;
+;;                                                                ;;
+;;   (add-hook 'before-save-hook 'python-mode-before-save-hook))  ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun pyenv-init()
   "Initialize pyenv's current version to the global one."
@@ -69,6 +71,7 @@
         (let* ((pyenv-version-path (f-expand ".python-version" python-version-directory))
                (pyenv-current-version (s-trim (f-read-text pyenv-version-path 'utf-8))))
           (pyenv-mode-set pyenv-current-version)
+          (pyvenv-workon pyenv-current-version)
           (message (concat "Setting virtualenv to " pyenv-current-version))))))
 
 (use-package pyenv-mode
