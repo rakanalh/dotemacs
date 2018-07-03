@@ -182,6 +182,7 @@
 (use-package magit
   :config
   (setq magit-completing-read-function 'ivy-completing-read)
+  (unbind-key "C-x g" magit-mode-map)
   :bind
   ;; Magic
   ("C-x g s" . magit-status)
