@@ -24,6 +24,7 @@
 (global-set-key (kbd "M-/") (lambda () (interactive) (go-back-to-point)))
 (global-set-key (kbd "M-i") (lambda () (interactive) (codenav-prev-definition)))
 (global-set-key (kbd "M-k") (lambda () (interactive) (codenav-next-definition)))
+(global-set-key (kbd "C-c r f") (lambda () (interactive) (call-interactively 'xref-find-references)))
 
 ;; iTerm2
 (global-set-key (kbd "C-'") 'iterm-focus)

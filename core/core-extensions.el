@@ -56,6 +56,10 @@
 
 (use-package dockerfile-mode)
 
+(use-package dumb-jump
+  :config
+  (dumb-jump-mode))
+
 (use-package ediff
   :config
   (setq ediff-window-setup-function 'ediff-setup-windows-plain)
@@ -182,9 +186,9 @@
 (use-package magit
   :config
   (setq magit-completing-read-function 'ivy-completing-read)
-  (unbind-key "C-x g" magit-mode-map)
   :bind
   ;; Magic
+  ("C-x g" . nil)
   ("C-x g s" . magit-status)
   ("C-x g x" . magit-checkout)
   ("C-x g c" . magit-commit)
