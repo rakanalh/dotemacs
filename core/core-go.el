@@ -35,7 +35,10 @@
   ; Godef jump key binding
   ("M-." . godef-jump)))
 
-(use-package flymake-go)
+(use-package flymake-go
+  :init
+  (setq flymake-run-in-place nil)
+  (setq temporary-file-directory temp-dir))
 
 (use-package go-eldoc
   :config

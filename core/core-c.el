@@ -24,25 +24,30 @@
   (add-hook 'c++-mode-hook '(lambda()
                               (cmake-ide-setup))))
 
-(use-package semantic
-  :config
-  (semanticdb-enable-gnu-global-databases 'c-mode t)
-  (semanticdb-enable-gnu-global-databases 'c++-mode t)
+;; (use-package semantic
+;;   :config
+;;   (semanticdb-enable-gnu-global-databases 'c-mode t)
+;;   (semanticdb-enable-gnu-global-databases 'c++-mode t)
 
-  (setq semanticdb-default-save-directory (expand-file-name "semanticdb/" temp-dir))
+;;   (defun my-inhibit-semantic-p ()
+;;     (not (equal major-mode 'python-mode)))
 
-  (let ((semantic-submodes '(global-semantic-decoration-mode
-			     global-semantic-idle-local-symbol-highlight-mode
-			     global-semantic-highlight-func-mode
-			     global-semanticdb-minor-mode
-			     global-semantic-mru-bookmark-mode
-			     global-semantic-idle-summary-mode
-			     global-semantic-stickyfunc-mode
-			     )))
-    (setq semantic-default-submodes (append semantic-default-submodes semantic-submodes)
-	  semantic-idle-scheduler-idle-time 1))
+;;   (add-to-list 'semantic-inhibit-functions #'my-inhibit-semantic-p)
 
-  (add-hook 'c-mode-common-hook (lambda () (semantic-mode 1))))
+;;   (setq semanticdb-default-save-directory (expand-file-name "semanticdb/" temp-dir))
+
+;;   (let ((semantic-submodes '(global-semantic-decoration-mode
+;; 			     global-semantic-idle-local-symbol-highlight-mode
+;; 			     global-semantic-highlight-func-mode
+;; 			     global-semanticdb-minor-mode
+;; 			     global-semantic-mru-bookmark-mode
+;; 			     global-semantic-idle-summary-mode
+;; 			     global-semantic-stickyfunc-mode
+;; 			     )))
+;;     (setq semantic-default-submodes (append semantic-default-submodes semantic-submodes)
+;; 	  semantic-idle-scheduler-idle-time 1))
+
+;;   (add-hook 'c-mode-common-hook (lambda () (semantic-mode 1))))
 
 (use-package irony
   :config

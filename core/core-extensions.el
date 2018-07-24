@@ -186,6 +186,7 @@
 (use-package magit
   :config
   (setq magit-completing-read-function 'ivy-completing-read)
+  (global-unset-key (kbd "C-x g"))
   :bind
   ;; Magic
   ("C-x g" . nil)
@@ -294,9 +295,10 @@
         projectile-cache-file (expand-file-name "projectile.cache" temp-dir)
         projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" temp-dir))
   (setq projectile-completion-system 'ivy)
-  (projectile-global-mode)
+  (projectile-mode)
   :bind
-  ("C-x c a" . projectile-ag))
+  ("C-x c a" . projectile-ag)
+  ("C-c p k" . projectile-kill-buffers))
 
 (use-package dashboard
   :config
