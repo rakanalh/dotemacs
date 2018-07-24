@@ -112,17 +112,11 @@ If point was already at that position, move point to beginning of line."
   (interactive)
   (mapc 'kill-buffer (buffer-list)))
 
-(defun persp/get-root (branch-name)
+(defun get-root ()
   (let ((current-project (projectile-project-name)))
-    (if (and (not current-project) (not branch-name))
-      (error "Could not find persp root"))
-
-    (if (and current-project branch-name)
-	(concat current-project "-" branch-name)
-      (if current-project
-	  current-project
-	branch-name))))
-
+    (if (not current-project)
+	(return "")
+      current-project)))
 
 (defun rename-current-buffer-file ()
   "Renames current buffer and file it is visiting."

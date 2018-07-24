@@ -1,4 +1,3 @@
-
 (eval-after-load 'grep
   '(progn
     (add-to-list 'grep-find-ignored-directories "local")
@@ -24,8 +23,19 @@
   :bind
   ("M-TAB" . company-complete)
   ("M-;" . company-yasnippet)
+  :custom
+  (company-begin-commands '(self-insert-command))
+  (company-idle-delay .1)
+  (company-minimum-prefix-length 2)
+  (company-show-numbers t)
+  (company-tooltip-align-annotations 't)
   :config
   (add-hook 'after-init-hook 'global-company-mode))
+
+(use-package company-box
+  :after company
+  :diminish
+  :hook (company-mode . company-box-mode))
 
 (use-package company-statistics
   :config
