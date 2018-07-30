@@ -18,6 +18,11 @@
   (doom-themes-neotree-config)  ; all-the-icons fonts must be installed!
   (doom-themes-org-config))
 
+(use-package doom-modeline
+      :ensure t
+      :defer t
+      :hook (after-init . doom-modeline-init))
+
 (use-package solaire-mode
   :config
   ;; brighten buffers (that represent real files)
