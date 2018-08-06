@@ -20,6 +20,7 @@
   (setq emmet-expand-jsx-className? t))
 
 (use-package js2-mode
+  :after flycheck-mode
   :mode
   ("\\.js$" . js2-mode)
   ("\\.jsx$" . js2-jsx-mode)

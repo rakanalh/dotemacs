@@ -23,13 +23,18 @@
     :config
     ;; (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
     ;;flycheck-python-flake8-executable "/usr/local/bin/flake8"
-    (setq elpy-rpc-backend "jedi"))
+    (setq elpy-rpc-backend "jedi")
+    (when (require 'flycheck nil t)
+      (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))))
 
 (use-package python
   :mode ("\\.py" . python-mode)
   :config
   (setq python-indent-offset 4)
-  (elpy-enable))
+  (elpy-enable)
+  (add-hook 'python-mode (lambda ()
+                           (flycheck-mode 1)
+                           (delete python-flake8 flycheck-disabled-checkers))))
 
 (use-package pip-requirements
   :config
@@ -72,6 +77,7 @@
                (pyenv-current-version (s-trim (f-read-text pyenv-version-path 'utf-8))))
           (pyenv-mode-set pyenv-current-version)
           (pyvenv-workon pyenv-current-version)
+          (setq doom-modeline-env-version pyenv-current-version)
           (message (concat "Setting virtualenv to " pyenv-current-version))))))
 
 (use-package pyenv-mode

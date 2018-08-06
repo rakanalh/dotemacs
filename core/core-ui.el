@@ -21,7 +21,12 @@
 (use-package doom-modeline
       :ensure t
       :defer t
-      :hook (after-init . doom-modeline-init))
+      :hook (after-init . doom-modeline-init)
+      :custom
+      (doom-modeline-env-command "pyenv local")
+      :config
+      (remove-hook 'focus-in-hook #'doom-modeline-update-env)
+      (remove-hook 'find-file-hook #'doom-modeline-update-env))
 
 (use-package solaire-mode
   :config

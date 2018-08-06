@@ -29,21 +29,16 @@
   (company-minimum-prefix-length 2)
   (company-show-numbers t)
   (company-tooltip-align-annotations 't)
-  :config
-  (add-hook 'after-init-hook 'global-company-mode))
-
-(use-package company-box
-  :after company
-  :diminish
-  :hook (company-mode . company-box-mode))
+  :hook
+  (after-init-hook . 'global-company-mode))
 
 (use-package company-statistics
   :config
   (company-statistics-mode))
 
 (use-package counsel
-  :config
-  (setq counsel-find-file-ignore-regexp ".*\.egg-info\\|__pycache__\\|.cache")
+  :custom
+  (counsel-find-file-ignore-regexp ".*\.egg-info\\|__pycache__\\|.cache")
   :bind
   ("M-x" . counsel-M-x)
   ("C-x C-m" . counsel-M-x)
@@ -71,23 +66,24 @@
   (dumb-jump-mode))
 
 (use-package ediff
+  :custom
+  (ediff-window-setup-function 'ediff-setup-windows-plain)
+  (ediff-diff-options "-w")
   :config
-  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
-  (setq-default ediff-highlight-all-diffs 'nil)
-  (setq ediff-diff-options "-w"))
+  (setq-default ediff-highlight-all-diffs 'nil))
 
 (use-package elfeed
   :bind
   ("C-x w" . elfeed)
+  :custom
+  (elfeed-feeds
+   '("http://nullprogram.com/feed/"
+     "http://planet.emacsen.org/atom.xml"
+     "https://hnrss.org/frontpage"))
   :config
-  (setq elfeed-feeds
-      '("http://nullprogram.com/feed/"
-        "http://planet.emacsen.org/atom.xml"
-        "https://hnrss.org/frontpage"))
   ;; Entries older than 2 weeks are marked as read
-  (add-hook 'elfeed-new-entry-hook
-            (elfeed-make-tagger :before "2 weeks ago"
-                                :remove 'unread)))
+  (add-hook 'elfeed-new-entry-hook #'(elfeed-make-tagger :before "2 weeks ago"
+                                               :remove 'unread)))
 
 
 (use-package exec-path-from-shell
@@ -105,50 +101,46 @@
 (use-package f)
 
 (use-package flycheck
+  :custom
+  (flycheck-indication-mode 'right-fringe)
+  ;; Removed checks on idle/change for snappiness
+  (flycheck-check-syntax-automatically '(save mode-enabled))
+  (flycheck-highlighting-mode 'symbols)
+  (flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc make))
+  ;; `flycheck-pos-tip'
+  (flycheck-pos-tip-timeout 10)
+  (flycheck-display-errors-delay 0.5)
+  (flycheck-display-errors-function #'flycheck-display-error-messages-unless-error-list)
   :config
-  (setq flycheck-indication-mode 'right-fringe
-      ;; Removed checks on idle/change for snappiness
-      flycheck-check-syntax-automatically '(save mode-enabled)
-      flycheck-highlighting-mode 'symbols
-      flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc make)
-      ;; `flycheck-pos-tip'
-      flycheck-pos-tip-timeout 10
-      flycheck-display-errors-delay 0.5)
+  (add-to-list 'display-buffer-alist
+               `(,(rx bos "*Flycheck errors*" eos)
+                 (display-buffer-reuse-window
+                  display-buffer-in-side-window)
+                 (side            . bottom)
+                 (reusable-frames . visible)
+                 (window-height   . 0.23)))
   (when (eq window-system 'mac)
     (require 'flycheck-pos-tip)
     (flycheck-pos-tip-mode +1))
-
-  (defun me/flycheck ()
-    "Configurate flycheck."
-    (add-to-list 'display-buffer-alist
-                 `(,(rx bos "*Flycheck errors*" eos)
-                   (display-buffer-reuse-window
-                    display-buffer-in-side-window)
-                   (side            . bottom)
-                   (reusable-frames . visible)
-                   (window-height   . 0.23)))
-    (setq flycheck-display-errors-function
-          #'flycheck-display-error-messages-unless-error-list))
-  ;; Enable flycheck
-  (add-hook 'prog-mode-hook 'me/flycheck)
-  (add-hook 'after-init-hook #'global-flycheck-mode))
+  (global-flycheck-mode 1))
 
 (use-package git-gutter)
 
 (use-package hideshow
   :bind (("C-\\" . hs-toggle-hiding)
          ("M-+" . hs-show-all))
-  :init (add-hook #'prog-mode-hook #'hs-minor-mode)
+  :hook
+  (prog-mode-hook hs-minor-mode)
   :diminish hs-minor-mode
-  :config
-  (setq hs-special-modes-alist
-        (mapcar 'purecopy
-                '((c-mode "{" "}" "/[*/]" nil nil)
-                  (c++-mode "{" "}" "/[*/]" nil nil)
-                  (java-mode "{" "}" "/[*/]" nil nil)
-                  (js-mode "{" "}" "/[*/]" nil)
-                  (json-mode "{" "}" "/[*/]" nil)
-                  (javascript-mode  "{" "}" "/[*/]" nil)))))
+  :custom
+  (hs-special-modes-alist
+   (mapcar 'purecopy
+           '((c-mode "{" "}" "/[*/]" nil nil)
+             (c++-mode "{" "}" "/[*/]" nil nil)
+             (java-mode "{" "}" "/[*/]" nil nil)
+             (js-mode "{" "}" "/[*/]" nil)
+             (json-mode "{" "}" "/[*/]" nil)
+             (javascript-mode  "{" "}" "/[*/]" nil)))))
 
 ;; (use-package hl-line
 ;;   :config
@@ -167,10 +159,10 @@
   (global-hungry-delete-mode))
 
 (use-package imenu-list
-  :config
-  (setq imenu-list-focus-after-activation t
-        imenu-list-size 0.2
-        imenu-list-auto-resize nil)
+  :custom
+  (imenu-list-focus-after-activation t)
+  (imenu-list-size 0.2)
+  (imenu-list-auto-resize nil)
   :bind
   ("C-c m l" . imenu-list-minor-mode))
 
@@ -184,22 +176,13 @@
   ("C-x k" . kill-or-bury-alive)
   ("C-c C-k" . kill-buffer))
 
-;; (use-package hlinum
-;;   :config
-;;   (hlinum-activate))
-
-;; (use-package linum
-;;   :config
-;;   (setq linum-format " %3d ")
-;;   (global-linum-mode nil))
-
 (use-package magit
+  :custom
+  (magit-completing-read-function 'ivy-completing-read)
   :config
-  (setq magit-completing-read-function 'ivy-completing-read)
-  (global-unset-key (kbd "C-x g"))
+  (global-magit-file-mode -1)
   :bind
   ;; Magic
-  ("C-x g" . nil)
   ("C-x g s" . magit-status)
   ("C-x g x" . magit-checkout)
   ("C-x g c" . magit-commit)
@@ -213,8 +196,8 @@
 (use-package markdown-mode)
 
 (use-package multiple-cursors
-  :config
-  (setq mc/list-file (concat temp-dir "/.mc-lists.el"))
+  :custom
+  (mc/list-file (concat temp-dir "/.mc-lists.el"))
   :bind
   ("C-S-c C-S-c" . mc/edit-lines)
   ("C->" . mc/mark-next-like-this)
@@ -223,49 +206,49 @@
   ("C-c ;" . mc/skip-to-next-like-this))
 
 (use-package neotree
+  :custom
+  (neo-theme 'arrow)
+  (neotree-smart-optn t)
+  (neo-window-fixed-size nil)
   :config
-  (setq neo-theme 'arrow
-        neotree-smart-optn t
-        neo-window-fixed-size nil)
   (neotree-projectile-action)
+  :hook
   ;; Disable linum for neotree
-  (add-hook 'neo-after-create-hook 'disable-neotree-hook)
+  (neo-after-create-hook . disable-neotree-hook)
   :bind
   ("C-x C-t" . neotree-toggle))
 
 (use-package org
-  :config
-  (setq org-directory "~/DropBox/org-mode"
-        org-agenda-files (list "~/Google Drive/org-mode/ideas.org"
+  :custom
+  (org-directory "~/DropBox/org-mode")
+  (org-agenda-files (list "~/Google Drive/org-mode/ideas.org"
                                "~/Google Drive/org-mode/calendar.org"
-                               "~/Google Drive/org-mode/learning.org")
-        org-default-notes-file (concat org-directory "/todo.org")
-        org-confirm-babel-evaluate nil
-        org-src-fontify-natively t)
-
-
-  (setq org-capture-templates
-      '(("t" "Todo" entry (file+headline "~/org/mygtd.org" "Tasks")
-         "* TODO %?\nAdded: %U\n" :prepend t :kill-buffer t)
-        ("w" "Web" entry (file+headline "~/www/org/index.org" "Tasks")
-         "* TODO %?\nAdded: %U\n" :prepend t :kill-buffer t)
-        ("r" "Prog. R" entry (file+headline "~/www/org/teaching/introR.org" "Tasks")
-         "* TODO %?\nAdded: %U\n" :prepend t :kill-buffer t)
-        ("i" "Idea" entry (file+headline "~/org/mygtd.org" "Someday/Maybe")
-         "* IDEA %?\nAdded: %U\n" :prepend t :kill-buffer t)
-        ("h" "Home" entry (file+headline "~/org/mygtd.org" "Home")
-         "* TODO %?\nAdded: %U\n" :prepend t :kill-buffer t)
-        )
-      )
-
+                               "~/Google Drive/org-mode/learning.org"))
+  (org-default-notes-file (concat org-directory "/todo.org"))
+  (org-confirm-babel-evaluate nil)
+  (org-src-fontify-natively t)
+  (org-capture-templates
+   '(("t" "Todo" entry (file+headline "~/org/mygtd.org" "Tasks")
+      "* TODO %?\nAdded: %U\n" :prepend t :kill-buffer t)
+     ("w" "Web" entry (file+headline "~/www/org/index.org" "Tasks")
+      "* TODO %?\nAdded: %U\n" :prepend t :kill-buffer t)
+     ("r" "Prog. R" entry (file+headline "~/www/org/teaching/introR.org" "Tasks")
+      "* TODO %?\nAdded: %U\n" :prepend t :kill-buffer t)
+     ("i" "Idea" entry (file+headline "~/org/mygtd.org" "Someday/Maybe")
+      "* IDEA %?\nAdded: %U\n" :prepend t :kill-buffer t)
+     ("h" "Home" entry (file+headline "~/org/mygtd.org" "Home")
+      "* TODO %?\nAdded: %U\n" :prepend t :kill-buffer t)
+     ))
+  :config
   (org-babel-do-load-languages
    'org-babel-load-languages '((python . t)
                                (shell . t)
                                (emacs-lisp . t)
                                (lisp . t)))
-  (add-hook 'org-finalize-agenda-hook (lambda ()
-                                        (setq org-agenda-tags-column (- 6 (window-width)))
-                                        (org-agenda-align-tags)))
+  :hook
+  (org-finalize-agenda-hook . (lambda ()
+                                (setq org-agenda-tags-column (- 6 (window-width)))
+                                (org-agenda-align-tags)))
   :bind
   ("\C-cl" . org-store-link)
   ("\C-ca" . org-agenda))
@@ -287,11 +270,10 @@
   ("C-c c" . org-projectile-capture-for-current-project))
 
 (use-package org-bullets
-  :config
-  (setq org-hide-leading-stars t)
-  (add-hook 'org-mode-hook
-            (lambda ()
-              (org-bullets-mode t))))
+  :custom
+  (org-hide-leading-stars t)
+  :hook
+  (org-mode-hook . (lambda () (org-bullets-mode t))))
 
 (use-package page-break-lines)
 
@@ -300,25 +282,26 @@
   (persistent-scratch-setup-default))
 
 (use-package projectile
+  :custom
+  (projectile-enable-caching t)
+  (projectile-cache-file (expand-file-name "projectile.cache" temp-dir))
+  (projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" temp-dir))
+  (projectile-completion-system 'ivy)
   :config
-  (setq projectile-enable-caching t
-        projectile-cache-file (expand-file-name "projectile.cache" temp-dir)
-        projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" temp-dir))
-  (setq projectile-completion-system 'ivy)
   (projectile-mode)
   :bind
   ("C-x c a" . projectile-ag)
   ("C-c p k" . projectile-kill-buffers))
 
 (use-package dashboard
+  :custom
+  (dashboard-items '((agenda . 10)
+                     (recents  . 5)
+                     (projects . 5)
+                     (bookmarks . 15)
+                     (registers . 10)))
   :config
-  (setq dashboard-items '((agenda . 10)
-                          (recents  . 5)
-                          (projects . 5)
-                          (bookmarks . 15)
-                          (registers . 10)))
   (dashboard-setup-startup-hook))
-  ;(setq dashboard-banner-logo-title (format "Loaded in %.02fs" loading-time)))
 
 (if (memq window-system '(mac ns))
     (use-package dash-at-point
@@ -344,9 +327,9 @@
   ("C-x /" . resize-window))
 
 (use-package restclient
-  :init
-  (setq restclient-log-request t
-        restclient-same-buffer-response t))
+  :custom
+  (restclient-log-request t)
+  (restclient-same-buffer-response t))
 
 (use-package rotate
   :bind
@@ -358,8 +341,8 @@
   (require 'smartparens-config))
 
 (use-package smex
-  :config
-  (setq smex-save-file (expand-file-name "smex-items" temp-dir)))
+  :custom
+  (smex-save-file (expand-file-name "smex-items" temp-dir)))
 
 (use-package syntax-subword
   :config
@@ -371,9 +354,10 @@
 (use-package undo-tree
   :config
   (global-undo-tree-mode 1)
+  :custom
   ;; Remember undo history
-  (setq undo-tree-auto-save-history        nil
-        undo-tree-history-directory-alist `(("." . ,(concat temp-dir "/undo/")))))
+  (undo-tree-auto-save-history nil)
+  (undo-tree-history-directory-alist `(("." . ,(concat temp-dir "/undo/")))))
 
 (use-package which-key
   :config
@@ -393,15 +377,14 @@
   ("C-c y s" . yas-insert-snippet)
   ("C-c y v" . yas-visit-snippet-file)
   :config
-  (yas-global-mode 1)
-  (setq yas-snippet-dirs (append yas-snippet-dirs
-                                 '("~/.emacs.d/snippets"))))
+  (setq yas-snippet-dirs (append yas-snippet-dirs '("~/.emacs.d/snippets")))
+  (yas-global-mode 1))
 
 (use-package zoom-window
   :bind
   ("C-x C-z" . zoom-window-zoom)
-  :config
-  (setq zoom-window-mode-line-color "#22252c"))
+  :custom
+  (zoom-window-mode-line-color "#22252c"))
 
 (use-package diminish
   :config
