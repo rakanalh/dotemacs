@@ -30,7 +30,7 @@
   (company-show-numbers t)
   (company-tooltip-align-annotations 't)
   :hook
-  (after-init . 'global-company-mode))
+  (after-init . global-company-mode))
 
 (use-package company-statistics
   :config
