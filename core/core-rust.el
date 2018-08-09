@@ -2,14 +2,14 @@
 
 (use-package flycheck-rust
   :hook
-  (flycheck-mode-hook . flycheck-rust-setup))
+  (flycheck-mode . flycheck-rust-setup))
 
 (use-package racer
   :after rust-mode
   :hook
-  (rust-mode-hook . racer-mode)
-  (racer-mode-hook .eldoc-mode)
-  (racer-mode-hook . company-mode)
+  (rust-mode . racer-mode)
+  (racer-mode .eldoc-mode)
+  (racer-mode . company-mode)
   :custom
   (company-tooltip-align-annotations t))
 

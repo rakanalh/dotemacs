@@ -30,7 +30,7 @@
   (company-show-numbers t)
   (company-tooltip-align-annotations 't)
   :hook
-  (after-init-hook . 'global-company-mode))
+  (after-init . 'global-company-mode))
 
 (use-package company-statistics
   :config
@@ -130,7 +130,7 @@
   :bind (("C-\\" . hs-toggle-hiding)
          ("M-+" . hs-show-all))
   :hook
-  (prog-mode-hook hs-minor-mode)
+  (prog-mode hs-minor-mode)
   :diminish hs-minor-mode
   :custom
   (hs-special-modes-alist
@@ -214,7 +214,7 @@
   (neotree-projectile-action)
   :hook
   ;; Disable linum for neotree
-  (neo-after-create-hook . disable-neotree-hook)
+  (neo-after-create . disable-neotree-hook)
   :bind
   ("C-x C-t" . neotree-toggle))
 
@@ -246,7 +246,7 @@
                                (emacs-lisp . t)
                                (lisp . t)))
   :hook
-  (org-finalize-agenda-hook . (lambda ()
+  (org-finalize-agenda . (lambda ()
                                 (setq org-agenda-tags-column (- 6 (window-width)))
                                 (org-agenda-align-tags)))
   :bind
@@ -273,7 +273,7 @@
   :custom
   (org-hide-leading-stars t)
   :hook
-  (org-mode-hook . (lambda () (org-bullets-mode t))))
+  (org-mode . (lambda () (org-bullets-mode t))))
 
 (use-package page-break-lines)
 

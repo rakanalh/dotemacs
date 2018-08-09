@@ -100,8 +100,12 @@ Used only for nevigation."
   (setq rtags-completions-enabled t)
   (add-hook 'c++-mode 'me/rtags)
   (add-hook 'c-mode 'me/rtags)
-  (message "Rtags loaded")
-  (use-package company-rtags))
+  (message "Rtags loaded"))
+
+(use-package company-rtags
+  :after rtags
+  :config
+  (add-to-list 'company-backends 'company-rtags))
 
 (use-package clang-format
   :config
