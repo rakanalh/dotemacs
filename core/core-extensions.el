@@ -126,21 +126,6 @@
 
 (use-package git-gutter)
 
-(use-package hideshow
-  :bind (("C-\\" . hs-toggle-hiding)
-         ("M-+" . hs-show-all))
-  :hook
-  (prog-mode hs-minor-mode)
-  :diminish hs-minor-mode
-  :custom
-  (hs-special-modes-alist
-   (mapcar 'purecopy
-           '((c-mode "{" "}" "/[*/]" nil nil)
-             (c++-mode "{" "}" "/[*/]" nil nil)
-             (java-mode "{" "}" "/[*/]" nil nil)
-             (js-mode "{" "}" "/[*/]" nil)
-             (json-mode "{" "}" "/[*/]" nil)
-             (javascript-mode  "{" "}" "/[*/]" nil)))))
 
 ;; (use-package hl-line
 ;;   :config
@@ -220,24 +205,31 @@
 
 (use-package org
   :custom
-  (org-directory "~/DropBox/org-mode")
-  (org-agenda-files (list "~/Google Drive/org-mode/ideas.org"
-                               "~/Google Drive/org-mode/calendar.org"
-                               "~/Google Drive/org-mode/learning.org"))
+  (org-todo-keywords
+   '(
+     (sequence "TODO" "PENDING" "STARTED" "|" "POSTPONED" "DONE" "CANCELED")
+     ))
+
+  (org-todo-keyword-faces
+   '(("TODO" . (:foreground "#41728e" :weight bold))
+     ("STARTED" . (:foreground "#81a2be" :weight bold))
+     ("PENDING" . (:foreground "#8abeb7" :slant italic))
+     ("CANCELED" . (:foreground "white" :background "#4d4d4d" :weight bold :strike-through))
+     ("POSTPONED" . (:foreground "#008080" :slant italic))))
+  (org-directory "~/Documents/org-mode")
+  (org-agenda-files (list "~/Documents/org-mode/ideas.org"
+                          "~/Documents/org-mode/calendar.org"
+                          "~/Documents/org-mode/learning.org"))
   (org-default-notes-file (concat org-directory "/todo.org"))
   (org-confirm-babel-evaluate nil)
   (org-src-fontify-natively t)
   (org-capture-templates
-   '(("t" "Todo" entry (file+headline "~/org/mygtd.org" "Tasks")
+   '(("t" "Todo" entry (file+headline "~/Documents/org-mode/tasks.org" "Tasks")
       "* TODO %?\nAdded: %U\n" :prepend t :kill-buffer t)
-     ("w" "Web" entry (file+headline "~/www/org/index.org" "Tasks")
-      "* TODO %?\nAdded: %U\n" :prepend t :kill-buffer t)
-     ("r" "Prog. R" entry (file+headline "~/www/org/teaching/introR.org" "Tasks")
-      "* TODO %?\nAdded: %U\n" :prepend t :kill-buffer t)
-     ("i" "Idea" entry (file+headline "~/org/mygtd.org" "Someday/Maybe")
+     ("i" "Idea" entry (file+headline "~/Documents/org-mode/ideas.org" "Ideas")
       "* IDEA %?\nAdded: %U\n" :prepend t :kill-buffer t)
-     ("h" "Home" entry (file+headline "~/org/mygtd.org" "Home")
-      "* TODO %?\nAdded: %U\n" :prepend t :kill-buffer t)
+     ("i" "Idea" entry (file+headline "~/Documents/org-mode/learning.org" "What i learned")
+      "* Learned %?\nAdded: %U\n" :prepend t :kill-buffer t)
      ))
   :config
   (org-babel-do-load-languages
