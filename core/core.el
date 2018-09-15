@@ -78,10 +78,13 @@
 (when (fboundp 'scroll-bar-mode)
   (scroll-bar-mode -1))
 
-(setq-default display-line-numbers t
-              display-line-numbers-current-absolute t
+(setq-default display-line-numbers-current-absolute t
               display-line-numbers-width 1
               display-line-numbers-widen t)
+
+(add-hook 'prog-mode-hook #'display-line-numbers-mode)
+
+(put 'narrow-to-region 'disabled nil)
 
 ;; Env vars
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin/"))
@@ -93,8 +96,8 @@
 
 (if (eq system-type 'darwin)
     (set-default-font "-*-Hack-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1" t t)
-  (set-default-font "Hack 11" t t)
-  (set-frame-font "Hack 11" t t))
+  (set-default-font "Hack 13" t t)
+  (set-frame-font "Hack 13" t t))
 
 ;; Delete trailing whitespace before save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
