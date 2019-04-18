@@ -33,12 +33,15 @@
   :after go-mode
   :bind (:map go-mode-map
   ; Godef jump key binding
-  ("M-." . godef-jump)))
+              ("M-." . godef-jump)
+              ("M-," . pop-tag-mark)))
 
-(use-package flymake-go
-  :init
-  (setq flymake-run-in-place nil)
-  (setq temporary-file-directory temp-dir))
+(use-package flycheck-gometalinter
+  :ensure t
+  :config
+  (setq flycheck-gometalinter-fast t)
+  (progn
+    (flycheck-gometalinter-setup)))
 
 (use-package go-eldoc
   :config

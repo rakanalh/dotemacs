@@ -99,9 +99,6 @@ If point was already at that position, move point to beginning of line."
   (split-window-right)
   (other-window 1))
 
-(defun disable-neotree-hook (_unused)
-  (linum-mode -1))
-
 (defun iterm-focus ()
   (interactive)
   (do-applescript
@@ -215,5 +212,17 @@ If point was already at that position, move point to beginning of line."
     (imenu prev-symbol)))
 
 
+(defun my-compile-goto-error-same-window ()
+  (interactive)
+  (let ((display-buffer-overriding-action
+         '((display-buffer-reuse-window
+            display-buffer-in-previous-window)
+           (inhibit-same-window . nil))))
+    (call-interactively #'compile-goto-error)))
+
+(defun my-compilation-mode-hook ()
+  (local-set-key (kbd "ENTER") #'my-compile-goto-error-same-window))
+
+(add-hook 'compilation-mode-hook #'my-compilation-mode-hook)
 
 (provide 'core-functions)

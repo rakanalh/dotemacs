@@ -15,12 +15,16 @@
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
-(package-initialize)
+
+;;(package-initialize)
 
 (add-to-list 'load-path (concat user-emacs-directory "core"))
 (add-to-list 'load-path "~/.emacs.d/vendor/")
+(add-to-list 'load-path "~/.emacs.d/vendor/emacs-libvterm")
+(add-to-list 'load-path "~/.emacs.d/vendor/greview")
 
 (require 'core)
+(require 'core-org)
 (require 'core-extensions)
 (require 'core-ivy)
 (require 'core-hydra)
@@ -41,3 +45,5 @@
 (require 'core-solidity)
 (require 'core-rust)
 (require 'core-web)
+(require 'vterm)
+(require 'greview)

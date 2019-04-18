@@ -27,7 +27,7 @@
   ("\\.json$" . js2-jsx-mode)
   :config
   (setq js-indent-level 2
-	js2-basic-offset 2
+	js2-basic-offset 0
 	js2-bounce-indent-p t)
   (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
   (add-hook 'js2-mode-hook #'company-mode)
@@ -55,5 +55,16 @@
   (add-hook 'js2-mode-hook 'activate-tern-hook))
 
 (use-package web-beautify)
+
+(use-package vue-mode
+  :init
+  (add-to-list 'auto-mode-alist '("\\.vue$" . vue-mode))
+  :config
+  (setq js-indent-level 2
+	js2-basic-offset 2
+	js2-bounce-indent-p t
+        web-mode-markup-indent-offset 2
+        web-mode-css-indent-offset 2
+        web-mode-code-indent-offset 2))
 
 (provide 'core-javascript)

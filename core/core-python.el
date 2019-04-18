@@ -14,16 +14,20 @@
     :bind (:map elpy-mode-map
 	      ("<M-left>" . nil)
 	      ("<M-right>" . nil)
-	      ("<M-S-left>" . elpy-nav-indent-shift-left)
-	      ("<M-S-right>" . elpy-nav-indent-shift-right)
+	      ("M-J" . elpy-nav-indent-shift-left)
+	      ("M-L" . elpy-nav-indent-shift-right)
 	      ("M-." . elpy-goto-definition)
 	      ("M-," . pop-tag-mark)
+              ("M-[" . python-nav-backward-block)
+              ("M-]" . python-nav-forward-block)
+              ("M-'" . xref-find-references)
 	      ("C-c C-s" . nil)
               ("C-c C-k" . nil))
     :config
     ;; (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
     ;;flycheck-python-flake8-executable "/usr/local/bin/flake8"
     (setq elpy-rpc-backend "jedi")
+    (setq elpy-rpc-python-command "/usr/bin/python3")
     (when (require 'flycheck nil t)
       (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))))
 
@@ -49,7 +53,8 @@
   :config
   (pyenv-mode)
   :bind
-  ("C-x p e" . pyenv-activate-current-project))
+  ("C-x p e" . pyenv-activate-current-project)
+  ("C-x p r" . elpy-rpc-restart))
 
 
 (use-package py-isort

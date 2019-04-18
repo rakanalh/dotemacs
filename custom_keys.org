@@ -37,7 +37,6 @@
 |                  |                            |                   |
 | Acejump          | Activate mode              | C-c Space         |
 |                  |                            |                   |
-| NeoTree          | Toggle                     | C-c C-d           |
 |                  |                            |                   |
 | expand-region    | Expand region              | C-=               |
 |                  |                            |                   |

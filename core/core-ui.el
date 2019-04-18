@@ -10,12 +10,14 @@
 
 (use-package all-the-icons)
 
+(use-package all-the-icons-dired
+  :ensure t
+  :config
+  (add-hook 'dired-mode-hook #'all-the-icons-dired-mode))
+
 (use-package doom-themes
   :config
   (load-theme 'doom-tomorrow-night t)
-
-  ;(require 'doom-neotree)
-  (doom-themes-neotree-config)  ; all-the-icons fonts must be installed!
   (doom-themes-org-config))
 
 (use-package doom-modeline
@@ -24,9 +26,20 @@
       :hook (after-init . doom-modeline-init)
       :custom
       (doom-modeline-env-command "pyenv local")
+      (doom-modeline-buffer-file-name-style 'relative-from-project)
+      (doom-modeline-icon t)
+      (doom-modeline-major-mode-icon t)
+      (doom-modeline-minor-modes nil)
       :config
       (remove-hook 'focus-in-hook #'doom-modeline-update-env)
-      (remove-hook 'find-file-hook #'doom-modeline-update-env))
+      (remove-hook 'find-file-hook #'doom-modeline-update-env)
+      (doom-modeline-def-modeline 'main
+        '(bar window-number matches buffer-info remote-host buffer-position parrot selection-info)
+        '(debug minor-modes input-method major-mode process vcs checker))
+      (defun setup-custom-doom-modeline ()
+        (doom-modeline-set-modeline 'main 'default))
+
+      (add-hook 'doom-modeline-mode-hook 'setup-custom-doom-modeline))
 
 (use-package solaire-mode
   :config

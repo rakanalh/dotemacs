@@ -96,7 +96,7 @@
 
 (if (eq system-type 'darwin)
     (set-default-font "-*-Hack-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1" t t)
-  (set-default-font "Hack 13" t t)
+  ;(set-default-font "Hack 13" t t)
   (set-frame-font "Hack 13" t t))
 
 ;; Delete trailing whitespace before save

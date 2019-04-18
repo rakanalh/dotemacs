@@ -7,6 +7,11 @@
 
 (use-package ag)
 
+(use-package auto-highlight-symbol
+  :config
+  (global-auto-highlight-symbol-mode t)
+  (setq ahs-case-fold-search nil))
+
 (use-package anzu
   :config
   (global-anzu-mode +1)
@@ -29,6 +34,9 @@
   (company-minimum-prefix-length 2)
   (company-show-numbers t)
   (company-tooltip-align-annotations 't)
+  :config
+  (define-key company-active-map (kbd "C-n") (lambda () (interactive) (company-complete-common-or-cycle 1)))
+  (define-key company-active-map (kbd "C-p") (lambda () (interactive) (company-complete-common-or-cycle -1)))
   :hook
   (after-init . global-company-mode))
 
@@ -53,6 +61,35 @@
   ("C-x c p" . counsel-projectile-ag)
   :config
   (counsel-projectile-mode))
+
+(use-package diffview
+  :config
+  ;; scroll-all-mode doesn't work with mouse.
+  ;; WORKAROUND: https://www.emacswiki.org/emacs/ScrollAllMode
+  (defun mwheel-scroll-all-function-all (func &optional arg)
+    (if (and scroll-all-mode arg)
+        (save-selected-window
+          (walk-windows
+           (lambda (win)
+             (select-window win)
+             (condition-case nil
+                 (funcall func arg)
+               (error nil)))))
+      (funcall func arg)))
+
+  (defun mwheel-scroll-all-scroll-up-all (&optional arg)
+    (mwheel-scroll-all-function-all 'scroll-up arg))
+
+  (defun mwheel-scroll-all-scroll-down-all (&optional arg)
+    (mwheel-scroll-all-function-all 'scroll-down arg))
+
+  (setq mwheel-scroll-up-function 'mwheel-scroll-all-scroll-up-all)
+  (setq mwheel-scroll-down-function 'mwheel-scroll-all-scroll-down-all)
+  ;; Activate scoll-all-mode when in diffview mode
+  (add-hook 'diffview-mode (lambda() (scroll-all-mode)))
+  )
+
+(use-package dired-single)
 
 (use-package dired-subtree
   :config
@@ -124,8 +161,14 @@
     (flycheck-pos-tip-mode +1))
   (global-flycheck-mode 1))
 
+(use-package forge)
+
 (use-package git-gutter)
 
+(use-package git-link
+  :config
+  (setq git-link-open-in-browser t
+        git-link-use-commit t))
 
 ;; (use-package hl-line
 ;;   :config
@@ -166,6 +209,7 @@
   (magit-completing-read-function 'ivy-completing-read)
   :config
   (global-magit-file-mode -1)
+  (setq magit-prefer-remote-upstream "origin")
   :bind
   ;; Magic
   ("C-x g s" . magit-status)
@@ -174,7 +218,8 @@
   ("C-x g p" . magit-push)
   ("C-x g u" . magit-pull)
   ("C-x g e" . magit-ediff-resolve)
-  ("C-x g r" . magit-rebase-interactive))
+  ("C-x g r" . magit-rebase-interactive)
+  ("C-x g b" . magit-blame))
 
 (use-package magit-popup)
 
@@ -190,83 +235,6 @@
   ("C-c C->" . mc/mark-all-like-this)
   ("C-c ;" . mc/skip-to-next-like-this))
 
-(use-package neotree
-  :custom
-  (neo-theme 'arrow)
-  (neotree-smart-optn t)
-  (neo-window-fixed-size nil)
-  :config
-  (neotree-projectile-action)
-  :hook
-  ;; Disable linum for neotree
-  (neo-after-create . disable-neotree-hook)
-  :bind
-  ("C-x C-t" . neotree-toggle))
-
-(use-package org
-  :custom
-  (org-todo-keywords
-   '(
-     (sequence "TODO" "PENDING" "STARTED" "|" "POSTPONED" "DONE" "CANCELED")
-     ))
-
-  (org-todo-keyword-faces
-   '(("TODO" . (:foreground "#41728e" :weight bold))
-     ("STARTED" . (:foreground "#81a2be" :weight bold))
-     ("PENDING" . (:foreground "#8abeb7" :slant italic))
-     ("CANCELED" . (:foreground "white" :background "#4d4d4d" :weight bold :strike-through))
-     ("POSTPONED" . (:foreground "#008080" :slant italic))))
-  (org-directory "~/Documents/org-mode")
-  (org-agenda-files (list "~/Documents/org-mode/ideas.org"
-                          "~/Documents/org-mode/calendar.org"
-                          "~/Documents/org-mode/learning.org"))
-  (org-default-notes-file (concat org-directory "/todo.org"))
-  (org-confirm-babel-evaluate nil)
-  (org-src-fontify-natively t)
-  (org-capture-templates
-   '(("t" "Todo" entry (file+headline "~/Documents/org-mode/tasks.org" "Tasks")
-      "* TODO %?\nAdded: %U\n" :prepend t :kill-buffer t)
-     ("i" "Idea" entry (file+headline "~/Documents/org-mode/ideas.org" "Ideas")
-      "* IDEA %?\nAdded: %U\n" :prepend t :kill-buffer t)
-     ("i" "Idea" entry (file+headline "~/Documents/org-mode/learning.org" "What i learned")
-      "* Learned %?\nAdded: %U\n" :prepend t :kill-buffer t)
-     ))
-  :config
-  (org-babel-do-load-languages
-   'org-babel-load-languages '((python . t)
-                               (shell . t)
-                               (emacs-lisp . t)
-                               (lisp . t)))
-  :hook
-  (org-finalize-agenda . (lambda ()
-                                (setq org-agenda-tags-column (- 6 (window-width)))
-                                (org-agenda-align-tags)))
-  :bind
-  ("\C-cl" . org-store-link)
-  ("\C-ca" . org-agenda))
-
-
-(use-package org-alert
-  :config
-  (if (memq window-system '(mac ns))
-      (setq alert-default-style 'osx-notifier)
-    (setq alert-default-style 'libnotify)))
-
-(use-package org-projectile
-  :after org-mode
-  :config
-  (org-projectile-per-project)
-  (setq org-projectile-per-project-filepath "notes.org"
-        org-agenda-files (append org-agenda-files (org-projectile-todo-files)))
-  :bind
-  ("C-c c" . org-projectile-capture-for-current-project))
-
-(use-package org-bullets
-  :custom
-  (org-hide-leading-stars t)
-  :hook
-  (org-mode . (lambda () (org-bullets-mode t))))
-
 (use-package page-break-lines)
 
 (use-package persistent-scratch
@@ -279,17 +247,23 @@
   (projectile-cache-file (expand-file-name "projectile.cache" temp-dir))
   (projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" temp-dir))
   (projectile-completion-system 'ivy)
+  (projectile-indexing-method 'native)
   :config
+  (add-to-list 'projectile-globally-ignored-directories "node_modules")
+  (add-to-list 'projectile-globally-ignored-directories "data/postgres")
+  (add-to-list 'projectile-globally-ignored-directories "data/solr")
+  (add-to-list 'projectile-globally-ignored-directories "data/mysql")
   (projectile-mode)
   :bind
   ("C-x c a" . projectile-ag)
   ("C-c p k" . projectile-kill-buffers))
 
 (use-package dashboard
+  :load-path "~/.emacs.d/vendor/emacs-dashboard"
   :custom
   (dashboard-items '((agenda . 10)
-                     (recents  . 5)
-                     (projects . 5)
+                     (recents  . 10)
+                     (projects . 15)
                      (bookmarks . 15)
                      (registers . 10)))
   :config
@@ -310,6 +284,9 @@
                           ".*?autoloads.el$"
                           "/tmp/" ;; ignore temporary files
                           "*/.elfeed/index"
+                          "company-statistics-cache.el"
+                          ".gitignore"
+                          "*/Documents/org-mode"
                           )
         recentf-save-file (recentf-expand-file-name "~/.emacs.d/private/cache/recentf"))
   (recentf-mode 1))
