@@ -371,7 +371,6 @@
 
   (diminish-minor-mode 'abbrev 'abbrev-mode)
   (diminish-minor-mode 'company 'company-mode)
-  (diminish-minor-mode 'elpy 'elpy-mode)
   (diminish-minor-mode 'eldoc 'eldoc-mode)
   (diminish-minor-mode 'flycheck 'flycheck-mode)
   (diminish-minor-mode 'flyspell 'flyspell-mode)
