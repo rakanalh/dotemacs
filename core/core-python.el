@@ -22,7 +22,8 @@
               ("M-]" . python-nav-forward-block)
               ("M-'" . xref-find-references)
 	      ("C-c C-s" . nil)
-              ("C-c C-k" . nil))
+              ("C-c C-k" . nil)
+              ("DEL" . backward-delete-char))
     :config
     ;; (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
     ;;flycheck-python-flake8-executable "/usr/local/bin/flake8"
@@ -80,7 +81,7 @@
     (if python-version-directory
         (let* ((pyenv-version-path (f-expand ".python-version" python-version-directory))
                (pyenv-current-version (s-trim (f-read-text pyenv-version-path 'utf-8))))
-          (pyenv-mode-set pyenv-current-version)
+          ; (pyenv-mode-set pyenv-current-version)
           (pyvenv-workon pyenv-current-version)
           (setq doom-modeline-env-version pyenv-current-version)
           (message (concat "Setting virtualenv to " pyenv-current-version))))))
