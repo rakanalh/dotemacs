@@ -118,7 +118,7 @@
   ("p" counsel-projectile-switch-project)
   ("r" projectile-replace)
   ("R" projectile-replace-regexp)
-  ("s" counsel-projectile-ag)
+  ("s" counsel-projectile-rg)
   ("S" projectile-save-project-buffers))
 
 (defhydra hydra-yasnippet (:color blue)

@@ -55,7 +55,8 @@
   :config
   (if (memq window-system '(mac ns))
       (setq alert-default-style 'osx-notifier)
-    (setq alert-default-style 'libnotify)))
+    (setq alert-default-style 'libnotify))
+  (org-alert-enable))
 
 (use-package org-projectile
   :config

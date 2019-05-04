@@ -58,7 +58,7 @@
 (use-package counsel-projectile
   :bind
   ("C-x v" . counsel-projectile)
-  ("C-x c p" . counsel-projectile-ag)
+  ("C-x c p" . counsel-projectile-rg)
   :config
   (counsel-projectile-mode))
 
@@ -161,6 +161,10 @@
     (flycheck-pos-tip-mode +1))
   (global-flycheck-mode 1))
 
+(use-package flycheck-pos-tip
+  :config
+  (flycheck-pos-tip-mode))
+
 (use-package forge)
 
 (use-package git-gutter)
@@ -255,7 +259,7 @@
   (add-to-list 'projectile-globally-ignored-directories "data/mysql")
   (projectile-mode)
   :bind
-  ("C-x c a" . projectile-ag)
+  ("C-x c a" . projectile-ripgrep)
   ("C-c p k" . projectile-kill-buffers))
 
 (use-package dashboard

@@ -58,7 +58,7 @@
 
 (use-package vue-mode
   :init
-  (add-to-list 'auto-mode-alist '("\\.vue$" . vue-mode))
+  (add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
   :config
   (setq js-indent-level 2
 	js2-basic-offset 2
