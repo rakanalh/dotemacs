@@ -118,4 +118,4 @@ Used only for nevigation."
 
 
 
-(provide 'core-c)
+(provide 'lang-c)

@@ -24,4 +24,4 @@
 
   ;; (add-hook 'web-mode-hook 'my-web-mode-hook))
 
-(provide 'core-web)
+(provide 'lang-web)

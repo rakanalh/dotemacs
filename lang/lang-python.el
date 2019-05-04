@@ -16,17 +16,18 @@
                 ))
 
 (use-package company-anaconda
-  :config
-  (eval-after-load "company"
- '(add-to-list 'company-backends 'company-anaconda)))
+  :after (anaconda-mode company)
+  :config (add-to-list 'company-backends 'company-anaconda))
 
 (use-package python
   :init
   (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
+  :hook
+  (python-mode-hook . anaconda-mode)
+  (python-mode-hook . anaconda-eldoc-mode)
+  (python-mode-hook . company-anaconda)
   :config
-  (setq python-indent-offset 4)
-  (add-hook 'python-mode-hook 'anaconda-mode)
-  (add-hook 'python-mode-hook 'anaconda-eldoc-mode))
+  (setq python-indent-offset 4))
 
 (use-package pip-requirements
   :config
@@ -97,5 +98,5 @@
   (while (search-forward search end t)
     (replace-match replace t)))
 
-(provide 'core-python)
+(provide 'lang-python)
 ;;; python.el ends here

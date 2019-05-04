@@ -46,4 +46,4 @@
   :ensure t
   :init (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
 
-(provide 'core-ivy)
+(provide 'config-ivy)

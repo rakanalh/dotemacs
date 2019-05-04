@@ -225,4 +225,4 @@ If point was already at that position, move point to beginning of line."
 
 (add-hook 'compilation-mode-hook #'my-compilation-mode-hook)
 
-(provide 'core-functions)
+(provide 'config-functions)

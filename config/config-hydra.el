@@ -167,4 +167,4 @@
 
 
 
-(provide 'core-hydra)
+(provide 'config-hydra)

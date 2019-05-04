@@ -34,4 +34,4 @@
 
 (define-key ctl-x-r-map "b" 'bookmark-jump-or-find-file)
 
-(provide 'core-keys)
+(provide 'config-keys)

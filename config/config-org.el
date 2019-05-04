@@ -26,6 +26,7 @@
   (org-default-notes-file (concat org-directory "/todo.org"))
   (org-confirm-babel-evaluate nil)
   (org-src-fontify-natively t)
+  (org-adapt-indentation nil)
   (org-capture-templates
    '(("t" "Todo" entry (file+headline "~/Documents/org-mode/inbox.org" "Tasks")
       "* TODO %?\nAdded: %U\n" :prepend t :kill-buffer t)
@@ -76,4 +77,4 @@
   :config
   (org-super-agenda-mode))
 
-(provide 'core-org)
+(provide 'config-org)

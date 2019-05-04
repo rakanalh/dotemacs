@@ -106,4 +106,4 @@ comint-replace-by-expanded-history-before-point."
 ;; for other code, e.g. emacsclient in TRAMP ssh shells and automatically
 ;; closing completions buffers, see the links above.
 
-(provide 'core-shell)
+(provide 'config-shell)

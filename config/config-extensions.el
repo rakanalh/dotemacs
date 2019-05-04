@@ -37,8 +37,15 @@
   :config
   (define-key company-active-map (kbd "C-n") (lambda () (interactive) (company-complete-common-or-cycle 1)))
   (define-key company-active-map (kbd "C-p") (lambda () (interactive) (company-complete-common-or-cycle -1)))
+  (add-to-list 'company-backends 'company-yasnippet)
+  (add-to-list 'company-backends 'company-dabbrev-code)
   :hook
   (after-init . global-company-mode))
+
+(use-package company-box
+  :after company
+  :diminish
+  :hook (company-mode . company-box-mode))
 
 (use-package company-statistics
   :config
@@ -384,4 +391,4 @@
   (diminish-major-mode 'emacs-lisp-mode-hook "el")
   (diminish-major-mode 'python-mode-hook "Py"))
 
-(provide 'core-extensions)
+(provide 'config-extensions)

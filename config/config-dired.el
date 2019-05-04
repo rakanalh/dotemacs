@@ -69,4 +69,4 @@ It added extra strings at the front and back of the default dired buffer name."
       (setq dired-omit-files
             (concat dired-omit-files "\\|^.DS_STORE$\\|^.projectile$\\|^.git$")))))
 
-(provide 'core-dired)
+(provide 'config-dired)

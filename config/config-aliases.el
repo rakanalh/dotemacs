@@ -5,4 +5,4 @@
 
 (defalias 'rg 'rgrep)
 
-(provide 'core-aliases)
+(provide 'config-aliases)

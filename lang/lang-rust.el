@@ -18,4 +18,4 @@
   :config
   (add-to-list 'company-backends 'company-racer))
 
-(provide 'core-rust)
+(provide 'lang-rust)

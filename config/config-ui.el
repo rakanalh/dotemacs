@@ -110,4 +110,4 @@
   "..XX...."
   "...X....")
 
-(provide 'core-ui)
+(provide 'config-ui)

@@ -2,7 +2,7 @@
 (defun javascript-init-flycheck-eslint ()
   (when (derived-mode-p 'js2-mode)
     (when-let ((eslint (expand-file-name "node_modules/eslint/bin/eslint.js"
-					 (core-project-root)))
+					 (lang-project-root)))
 	       (exists-p (file-exists-p eslint))
 	       (executable-p (file-executable-p eslint)))
       (setq-local flycheck-javascript-eslint-executable eslint))))
@@ -67,4 +67,4 @@
         web-mode-css-indent-offset 2
         web-mode-code-indent-offset 2))
 
-(provide 'core-javascript)
+(provide 'lang-javascript)

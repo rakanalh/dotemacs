@@ -9,4 +9,4 @@
 
 (use-package elixir-mode)
 
-(provide 'core-elixir)
+(provide 'lang-elixir)

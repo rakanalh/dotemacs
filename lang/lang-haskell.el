@@ -19,4 +19,4 @@
 				      (append '((company-capf company-dabbrev-code))
 					      company-backends)))))
 
-(provide 'core-haskell)
+(provide 'langhaskell)

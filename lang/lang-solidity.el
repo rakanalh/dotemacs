@@ -3,4 +3,4 @@
   :config
   (push 'solidity-mode irony-supported-major-modes))
 
-(provide 'core-solidity)
+(provide 'lang-solidity)
