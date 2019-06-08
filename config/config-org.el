@@ -1,5 +1,6 @@
 (use-package org
   :custom
+  (org-catch-invisible-edits 'show-and-error)
   (org-todo-keywords
    '(
      (sequence "IDEA(i)" "TODO(t)" "PENDING(p)" "STARTED(s)" "|" "POSTPONED(l)" "DONE(d)" "CANCELED(c)")

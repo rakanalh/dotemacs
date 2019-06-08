@@ -8,26 +8,38 @@
 
 (defvar pyenv-current-version nil nil)
 
-(use-package anaconda-mode
-    :bind (:map anaconda-mode-map
-                ("M-[" . python-nav-backward-block)
-                ("M-]" . python-nav-forward-block)
-                ("M-'" . anaconda-mode-find-references)
-                ))
+(defvar pyenv-current-version nil nil)
 
-(use-package company-anaconda
-  :after (anaconda-mode company)
-  :config (add-to-list 'company-backends 'company-anaconda))
+(use-package elpy
+    :bind (:map elpy-mode-map
+	      ("<M-left>" . nil)
+	      ("<M-right>" . nil)
+	      ("M-J" . elpy-nav-indent-shift-left)
+	      ("M-L" . elpy-nav-indent-shift-right)
+	      ("M-." . elpy-goto-definition)
+	      ("M-," . pop-tag-mark)
+              ("M-[" . python-nav-backward-block)
+              ("M-]" . python-nav-forward-block)
+              ("M-'" . xref-find-references)
+	      ("C-c C-s" . nil)
+              ("C-c C-k" . nil)
+              ("C-x p e" . pyenv-activate-current-project)
+              ("C-x p r" . elpy-rpc-restart)
+              ("DEL" . python-dedent-or-remove))
+    :config
+    ;; (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
+    ;;flycheck-python-flake8-executable "/usr/local/bin/flake8"
+    (setq elpy-rpc-backend "jedi")
+    (setq elpy-rpc-python-command "/usr/bin/python3")
+    (when (require 'flycheck nil t)
+      (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))))
 
 (use-package python
-  :init
-  (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
-  :hook
-  (python-mode-hook . anaconda-mode)
-  (python-mode-hook . anaconda-eldoc-mode)
-  (python-mode-hook . company-anaconda)
+  :mode ("\\.py" . python-mode)
   :config
-  (setq python-indent-offset 4))
+  (setq python-indent-offset 4)
+  :hook
+  (python-mode . elpy-enable))
 
 (use-package pip-requirements
   :config
@@ -67,6 +79,7 @@
     (if python-version-directory
         (let* ((pyenv-version-path (f-expand ".python-version" python-version-directory))
                (pyenv-current-version (s-trim (f-read-text pyenv-version-path 'utf-8))))
+          (pyvenv-workon pyenv-current-version)
           (pyenv-mode-set pyenv-current-version)
           (setq doom-modeline-env-version pyenv-current-version)
           (message (concat "Setting virtualenv to " pyenv-current-version))))))
@@ -97,6 +110,13 @@
   (goto-char start)
   (while (search-forward search end t)
     (replace-match replace t)))
+
+(defun python-dedent-or-remove ()
+  "Delete region if selected, otherwise, dedent."
+  (interactive)
+  (if (region-active-p)
+      (delete-region (region-beginning) (region-end))
+    (call-interactively #'python-indent-dedent-line-backspace 0)))
 
 (provide 'lang-python)
 ;;; python.el ends here

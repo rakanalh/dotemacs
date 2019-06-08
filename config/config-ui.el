@@ -29,7 +29,14 @@
       (doom-modeline-buffer-file-name-style 'relative-from-project)
       (doom-modeline-icon t)
       (doom-modeline-major-mode-icon t)
+      (doom-modeline-major-mode-color-icon t)
       (doom-modeline-minor-modes nil)
+      (doom-modeline-buffer-state-icon t)
+      (doom-modeline-buffer-modification-icon t)
+      (doom-modeline-vcs-max-length 30)
+      (doom-modeline-env-enable-python t)
+      (doom-modeline-env-enable-go t)
+
       :config
       (remove-hook 'focus-in-hook #'doom-modeline-update-env)
       (remove-hook 'find-file-hook #'doom-modeline-update-env)

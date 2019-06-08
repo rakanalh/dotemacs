@@ -20,7 +20,8 @@
 
 (use-package avy
   :bind
-  ("C-c SPC" . avy-goto-char))
+  ("C-c SPC" . avy-goto-word-1)
+  ("C-c C-l" . avy-goto-line))
 
 (use-package buffer-move)
 
@@ -41,11 +42,6 @@
   (add-to-list 'company-backends 'company-dabbrev-code)
   :hook
   (after-init . global-company-mode))
-
-(use-package company-box
-  :after company
-  :diminish
-  :hook (company-mode . company-box-mode))
 
 (use-package company-statistics
   :config
@@ -116,20 +112,6 @@
   :config
   (setq-default ediff-highlight-all-diffs 'nil))
 
-(use-package elfeed
-  :bind
-  ("C-x w" . elfeed)
-  :custom
-  (elfeed-feeds
-   '("http://nullprogram.com/feed/"
-     "http://planet.emacsen.org/atom.xml"
-     "https://hnrss.org/frontpage"))
-  :config
-  ;; Entries older than 2 weeks are marked as read
-  (add-hook 'elfeed-new-entry-hook #'(elfeed-make-tagger :before "2 weeks ago"
-                                               :remove 'unread)))
-
-
 (use-package exec-path-from-shell
   :config
   ;; Add GOPATH to shell
@@ -197,6 +179,10 @@
   :config
   (global-hungry-delete-mode))
 
+(use-package iedit
+  :bind
+  ("C-;" . iedit-mode))
+
 (use-package imenu-list
   :custom
   (imenu-list-focus-after-activation t)
@@ -231,6 +217,8 @@
   ("C-x g e" . magit-ediff-resolve)
   ("C-x g r" . magit-rebase-interactive)
   ("C-x g b" . magit-blame))
+
+(use-package magit-todos)
 
 (use-package magit-popup)
 
@@ -357,8 +345,9 @@
   ("C-c y s" . yas-insert-snippet)
   ("C-c y v" . yas-visit-snippet-file)
   :config
-  (setq yas-snippet-dirs (append yas-snippet-dirs '("~/.emacs.d/snippets")))
   (yas-global-mode 1))
+
+(use-package yasnippet-snippets)
 
 (use-package zoom-window
   :bind
