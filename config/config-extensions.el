@@ -20,8 +20,9 @@
 
 (use-package avy
   :bind
-  ("C-c SPC" . avy-goto-word-1)
-  ("C-c C-l" . avy-goto-line))
+  ("C-c j j" . avy-goto-char-timer)
+  ("C-c j w" . avy-goto-word-1)
+  ("C-c j l" . avy-goto-line))
 
 (use-package buffer-move)
 
@@ -56,12 +57,12 @@
   ("C-x m" . counsel-M-x)
   ("C-x C-f" . counsel-find-file)
   ("C-x c k" . counsel-yank-pop)
-  ("M-;" . counsel-imenu))
+  ("C-c j i" . counsel-imenu))
 
 (use-package counsel-projectile
   :bind
-  ("C-x v" . counsel-projectile)
-  ("C-x c p" . counsel-projectile-rg)
+  ("C-c p f" . counsel-projectile)
+  ("C-c s p" . counsel-projectile-rg)
   :config
   (counsel-projectile-mode))
 
@@ -103,6 +104,7 @@
 
 (use-package dumb-jump
   :config
+  (setq dumb-jump-force-searcher 'rg)
   (dumb-jump-mode))
 
 (use-package ediff
@@ -111,6 +113,31 @@
   (ediff-diff-options "-w")
   :config
   (setq-default ediff-highlight-all-diffs 'nil))
+
+(use-package editorconfig
+  :ensure t
+  :config
+  (editorconfig-mode 1))
+
+(use-package erc
+  :custom
+  (erc-autojoin-channels-alist '(("freenode.net" "#qutebrowser" "#emacs")))
+  (erc-autojoin-timing 'ident)
+  (erc-fill-function 'erc-fill-static)
+  (erc-fill-static-center 22)
+  (erc-hide-list '("JOIN" "PART" "QUIT"))
+  (erc-lurker-hide-list '("JOIN" "PART" "QUIT"))
+  (erc-lurker-threshold-time 43200)
+  (erc-prompt-for-nickserv-password nil)
+  (erc-server-reconnect-attempts 5)
+  (erc-server-reconnect-timeout 3)
+  (erc-track-exclude-types '("JOIN" "MODE" "NICK" "PART" "QUIT"
+                             "324" "329" "332" "333" "353" "477"))
+  :config
+  (add-to-list 'erc-modules 'notifications)
+  (add-to-list 'erc-modules 'spelling)
+  (erc-services-mode 1)
+  (erc-update-modules))
 
 (use-package exec-path-from-shell
   :config
@@ -127,6 +154,8 @@
 (use-package f)
 
 (use-package flycheck
+  :init
+  (setq flycheck-keymap-prefix (kbd "C-c e"))
   :custom
   (flycheck-indication-mode 'right-fringe)
   ;; Removed checks on idle/change for snappiness
@@ -187,9 +216,7 @@
   :custom
   (imenu-list-focus-after-activation t)
   (imenu-list-size 0.2)
-  (imenu-list-auto-resize nil)
-  :bind
-  ("C-c m l" . imenu-list-minor-mode))
+  (imenu-list-auto-resize nil))
 
 (use-package keyfreq
   :config
@@ -198,8 +225,10 @@
 
 (use-package kill-or-bury-alive
   :bind
-  ("C-x k" . kill-or-bury-alive)
-  ("C-c C-k" . kill-buffer))
+  ("C-c b x" . kill-or-bury-alive)
+  ("C-c b k" . kill-buffer))
+
+(use-package ledger-mode)
 
 (use-package magit
   :custom
@@ -209,14 +238,14 @@
   (setq magit-prefer-remote-upstream "origin")
   :bind
   ;; Magic
-  ("C-x g s" . magit-status)
-  ("C-x g x" . magit-checkout)
-  ("C-x g c" . magit-commit)
-  ("C-x g p" . magit-push)
-  ("C-x g u" . magit-pull)
-  ("C-x g e" . magit-ediff-resolve)
-  ("C-x g r" . magit-rebase-interactive)
-  ("C-x g b" . magit-blame))
+  ("C-c g s" . magit-status)
+  ("C-c g x" . magit-checkout)
+  ("C-c g c" . magit-commit)
+  ("C-c g p" . magit-push)
+  ("C-c g u" . magit-pull)
+  ("C-c g e" . magit-ediff-resolve)
+  ("C-c g r" . magit-rebase-interactive)
+  ("C-c g b" . magit-blame))
 
 (use-package magit-todos)
 
@@ -225,16 +254,24 @@
 (use-package markdown-mode)
 
 (use-package multiple-cursors
-  :custom
-  (mc/list-file (concat temp-dir "/.mc-lists.el"))
   :bind
-  ("C-S-c C-S-c" . mc/edit-lines)
-  ("C->" . mc/mark-next-like-this)
-  ("C-<" . mc/mark-previous-like-this)
-  ("C-c C->" . mc/mark-all-like-this)
-  ("C-c ;" . mc/skip-to-next-like-this))
+  ("C-c s ." . mc/mark-next-like-this)
+  ("C-c s ," . mc/mark-previous-like-this)
+  ("C-c s >" . mc/mark-all-like-this)
+  ("C-c s ;" . mc/skip-to-next-like-this)
+  :custom
+  (mc/list-file (concat temp-dir "/.mc-lists.el")))
 
 (use-package page-break-lines)
+
+(use-package perspective
+  :config
+  (persp-mode)
+  (setf (cdr persp-mode-map) nil))
+
+(use-package persp-projectile
+  :bind
+  ("C-c p l" . projectile-persp-switch-project))
 
 (use-package persistent-scratch
   :config
@@ -247,6 +284,7 @@
   (projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" temp-dir))
   (projectile-completion-system 'ivy)
   (projectile-indexing-method 'native)
+  (projectile-sort-order 'recently-active)
   :config
   (add-to-list 'projectile-globally-ignored-directories "node_modules")
   (add-to-list 'projectile-globally-ignored-directories "data/postgres")
@@ -260,22 +298,31 @@
 (use-package dashboard
   :load-path "~/.emacs.d/vendor/emacs-dashboard"
   :custom
-  (dashboard-items '((agenda . 10)
-                     (recents  . 10)
+  (dashboard-items '((recents  . 10)
                      (projects . 15)
                      (bookmarks . 15)
                      (registers . 10)))
   :config
+  (setq dashboard-set-init-info t)
+  (setq dashboard-set-navigator t)
+  (setq dashboard-set-heading-icons t)
+  (setq dashboard-set-file-icons t)
+  (setq dashboard-center-content t)
+  (setq dashboard-footer "Enjoy!")
+  (setq dashboard-footer-icon
+        (all-the-icons-octicon "dashboard"
+                               :height 1.1
+                               :v-adjust -0.05
+                               :face 'font-lock-keyword-face))
   (dashboard-setup-startup-hook))
 
 (if (memq window-system '(mac ns))
     (use-package dash-at-point
       :bind
-      ("C-c d" . dash-at-point)
-      ("C-c e" . dash-at-point-with-docset))
+      ("C-c j x" . dash-at-point))
   (use-package zeal-at-point
     :bind
-    ("C-c d" . zeal-at-point)))
+    ("C-c j x" . zeal-at-point)))
 
 (use-package recentf
   :config
@@ -292,7 +339,7 @@
 
 (use-package resize-window
   :bind
-  ("C-x /" . resize-window))
+  ("C-w /" . resize-window))
 
 (use-package restclient
   :custom
@@ -301,8 +348,8 @@
 
 (use-package rotate
   :bind
-  ("C-c C-r w" . rotate-window)
-  ("C-c C-r l" . rotate-layout))
+  ("C-w r w" . rotate-window)
+  ("C-w r l" . rotate-layout))
 
 (use-package smartparens
   :config
@@ -311,6 +358,10 @@
 (use-package smex
   :custom
   (smex-save-file (expand-file-name "smex-items" temp-dir)))
+
+(use-package sql
+  :config
+  (add-to-list 'auto-mode-alist '("\\.psql$" . sql-mode)))
 
 (use-package syntax-subword
   :config
@@ -327,23 +378,70 @@
   (undo-tree-auto-save-history nil)
   (undo-tree-history-directory-alist `(("." . ,(concat temp-dir "/undo/")))))
 
+(use-package window-purpose
+  :config
+  (purpose-x-magit-single-on))
+
 (use-package which-key
   :config
+  (which-key-add-key-based-replacements
+    "C-c b" "Buffers")
+  (which-key-add-key-based-replacements
+    "C-c e" "Errors")
+  (which-key-add-key-based-replacements
+    "C-c g" "Magit")
+  (which-key-add-key-based-replacements
+    "C-c h" "Hydras")
+  (which-key-add-key-based-replacements
+    "C-c j" "Jump")
+  (which-key-add-key-based-replacements
+    "C-c C-m" "Menu")
+  (which-key-add-key-based-replacements
+    "C-c m" "Major mode keys")
+  (which-key-add-key-based-replacements
+    "C-c o" "Org")
+  (which-key-add-key-based-replacements
+    "C-c p" "Projectile")
+  (which-key-add-key-based-replacements
+    "C-c r" "Resume")
+  (which-key-add-key-based-replacements
+    "C-c s" "Search")
+  (which-key-add-key-based-replacements
+    "C-c t" "Text")
+  (which-key-add-key-based-replacements
+    "C-c y" "Snippets")
+  (which-key-add-key-based-replacements
+    "C-w 5" "Frames")
   (which-key-mode))
+
+(use-package winner
+  :bind
+  ("C-w u" . winner-undo)
+  ("C-w r" . winner-redo)
+  :config
+  (winner-mode 1))
 
 (use-package windmove
   :bind
-  ("C-c i" . windmove-up)
-  ("C-c k" . windmove-down)
-  ("C-c j" . windmove-left)
-  ("C-c l" . windmove-right))
+  ("C-w C-w" . other-window)
+  ("C-w w" . other-window)
+  ("C-w i" . windmove-up)
+  ("C-w k" . windmove-down)
+  ("C-w j" . windmove-left)
+  ("C-w l" . windmove-right))
 
 (use-package wgrep)
 
+(use-package yaml-mode)
+
 (use-package yasnippet
-  :bind
-  ("C-c y s" . yas-insert-snippet)
-  ("C-c y v" . yas-visit-snippet-file)
+  :bind (:map yas-minor-mode-map
+         ("C-c &" . nil)
+         ("C-c y i" . yas-insert-snippet)
+         ("C-c y n" . yas-new-snippet)
+         ("C-c y v" . yas-visit-snippet-file)
+         ("C-c y s" . yas-insert-snippet)
+         ("C-c y v" . yas-visit-snippet-file))
   :config
   (yas-global-mode 1))
 
@@ -351,7 +449,7 @@
 
 (use-package zoom-window
   :bind
-  ("C-x C-z" . zoom-window-zoom)
+  ("C-w z" . zoom-window-zoom)
   :custom
   (zoom-window-mode-line-color "#22252c"))
 

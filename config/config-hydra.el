@@ -1,7 +1,11 @@
+;; mc/num-cursors is not autoloaded
+(require 'multiple-cursors)
+
 (use-package hydra
   :defer 0.5
   :bind (
          ("C-c h p" . hydra-projectile/body)
+         ("C-c h c" . hydra-multiple-cursors/body)
          ("C-c h b" . hydra-buffer/body)
          ("C-c h f" . hydra-flycheck/body)
          ("C-c h m" . hydra-magit/body)
@@ -9,6 +13,30 @@
          ("C-c h y" . hydra-yasnippet/body)
          ("C-c h w" . hydra-windows/body)))
 
+(defhydra hydra-multiple-cursors (:color blue :hint nil)
+  "
+ Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cursor%s(if (> (mc/num-cursors) 1) \"s\" \"\")
+------------------------------------------------------------------
+ [_p_]   Next     [_n_]   Next     [_l_] Edit lines  [_0_] Insert numbers
+ [_P_]   Skip     [_N_]   Skip     [_a_] Mark all    [_A_] Insert letters
+ [_M-p_] Unmark   [_M-n_] Unmark   [_s_] Search
+ [Click] Cursor at point       [_q_] Quit"
+  ("l" mc/edit-lines :exit t)
+  ("a" mc/mark-all-like-this :exit t)
+  ("n" mc/mark-next-like-this :exit nil)
+  ("N" mc/skip-to-next-like-this :exit nil)
+  ("M-n" mc/unmark-next-like-this :exit nil)
+  ("p" mc/mark-previous-like-this :exit nil)
+  ("P" mc/skip-to-previous-like-this :exit nil)
+  ("M-p" mc/unmark-previous-like-this :exit nil)
+  ("s" mc/mark-all-in-region-regexp :exit t)
+  ("0" mc/insert-numbers :exit t)
+  ("A" mc/insert-letters :exit t)
+  ("<mouse-1>" mc/add-cursor-on-click)
+  ;; Help with click recognition in this hydra
+  ("<down-mouse-1>" ignore)
+  ("<drag-mouse-1>" ignore)
+  ("q" nil))
 
 (defhydra hydra-buffer (:color blue)
   "

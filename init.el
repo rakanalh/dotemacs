@@ -39,6 +39,7 @@
 (require 'lang-go)
 (require 'lang-javascript)
 (require 'lang-python)
+(require 'lang-rust)
 (require 'lang-solidity)
 (require 'lang-web)
 (require 'greview)

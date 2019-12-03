@@ -1,9 +1,11 @@
 (use-package ivy
   :bind
-  ("C-s" . swiper)
-  ("C-x C-r" . ivy-resume)
-  ("C-x b" . ivy-switch-buffer)
-  ("C-x B" . ivy-switch-buffer-other-window)
+  ("C-c s s" . swiper)
+  ("C-c r l" . ivy-resume)
+  ("C-c b b" . ivy-switch-buffer)
+  ("C-c b o" . ivy-switch-buffer-other-window)
+  ("C-c b n" . next-buffer)
+  ("C-c b p" . previous-buffer)
   :custom
   (ivy-display-style 'fancy)
   :config

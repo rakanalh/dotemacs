@@ -10,36 +10,33 @@
 
 (defvar pyenv-current-version nil nil)
 
-(use-package elpy
-    :bind (:map elpy-mode-map
-	      ("<M-left>" . nil)
-	      ("<M-right>" . nil)
-	      ("M-J" . elpy-nav-indent-shift-left)
-	      ("M-L" . elpy-nav-indent-shift-right)
-	      ("M-." . elpy-goto-definition)
-	      ("M-," . pop-tag-mark)
-              ("M-[" . python-nav-backward-block)
-              ("M-]" . python-nav-forward-block)
-              ("M-'" . xref-find-references)
-	      ("C-c C-s" . nil)
-              ("C-c C-k" . nil)
-              ("C-x p e" . pyenv-activate-current-project)
-              ("C-x p r" . elpy-rpc-restart)
-              ("DEL" . python-dedent-or-remove))
-    :config
-    ;; (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
-    ;;flycheck-python-flake8-executable "/usr/local/bin/flake8"
-    (setq elpy-rpc-backend "jedi")
-    (setq elpy-rpc-python-command "/usr/bin/python3")
-    (when (require 'flycheck nil t)
-      (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))))
-
 (use-package python
   :mode ("\\.py" . python-mode)
   :config
   (setq python-indent-offset 4)
+  (setq python-mode-map (make-sparse-keymap))
   :hook
-  (python-mode . elpy-enable))
+  (python-mode . anaconda-mode)
+  (python-mode . anaconda-eldoc-mode))
+
+(use-package anaconda-mode
+  :config
+  (add-to-list 'company-backends 'company-yasnippet)
+  :bind (:map anaconda-mode-map
+              ("M-[" . python-nav-backward-block)
+              ("M-]" . python-nav-forward-block)
+              ("M-J" . indent-rigidly-left-to-tab-stop)
+              ("M-L" . indent-rigidly-right-to-tab-stop)
+              ("M-'" . anaconda-mode-find-references)
+              ("M-." . anaconda-mode-find-definitions)
+              ("M-," . pop-tag-mark)
+              ("DEL" . python-dedent-or-remove)))
+
+(use-package company-anaconda
+  :config
+  (eval-after-load "company"
+    '(add-to-list 'company-backends 'company-anaconda)))
+
 
 (use-package pip-requirements
   :config
@@ -51,10 +48,14 @@
   :init
   (add-to-list 'exec-path "~/.pyenv/shims")
   (setenv "WORKON_HOME" "~/.pyenv/versions/")
+  :bind (:map pyenv-mode-map
+              ("C-c C-s" . nil)
+              ("C-c C-u" . nil)
+              ("C-c m v s" . pyenv-mode-set)
+              ("C-c m v u" . pyenv-mode-unset)
+              ("C-c m v e" . pyenv-activate-current-project))
   :config
-  (pyenv-mode)
-  :bind
-  ("C-x p e" . pyenv-activate-current-project))
+  (pyenv-mode))
 
 (use-package py-isort
   :config
@@ -81,6 +82,8 @@
                (pyenv-current-version (s-trim (f-read-text pyenv-version-path 'utf-8))))
           (pyvenv-workon pyenv-current-version)
           (pyenv-mode-set pyenv-current-version)
+          (setq python-shell-interpreter (expand-file-name (concat "~/.pyenv/versions/" pyenv-current-version "/bin/python")))
+          (setq importmagic-python-interpreter python-shell-interpreter)
           (setq doom-modeline-env-version pyenv-current-version)
           (message (concat "Setting virtualenv to " pyenv-current-version))))))
 

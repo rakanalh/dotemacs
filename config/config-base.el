@@ -1,7 +1,6 @@
 (package-initialize)
 (add-to-list 'package-archives
-	     '("melpa" . "https://melpa.org/packages/")
-             '("elpy" . "http://jorgenschaefer.github.io/packages/"))
+	     '("melpa" . "https://melpa.org/packages/"))
 
 (when (not package-archive-contents)
   (package-refresh-contents))
@@ -92,7 +91,6 @@
 
 (show-paren-mode 1)
 (desktop-save-mode 0)
-(winner-mode 1)
 
 (if (eq system-type 'darwin)
     (set-default-font "-*-Hack-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1" t t)
@@ -101,7 +99,37 @@
 
 ;; Delete trailing whitespace before save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-(add-to-list 'auto-mode-alist '("\\.psql$" . sql-mode))
+
+(use-package emacs
+  :init
+  (global-unset-key (kbd "C-w"))
+  ;; (global-unset-key (kbd "C-x +"))
+  ;; (global-unset-key (kbd "C-x -"))
+  ;; (global-unset-key (kbd "C-x 0"))
+  ;; (global-unset-key (kbd "C-x 1"))
+  ;; (global-unset-key (kbd "C-x 2"))
+  ;; (global-unset-key (kbd "C-x 3"))
+  ;; (global-unset-key (kbd "C-x 4"))
+  ;; (global-unset-key (kbd "C-x 5")
+  :bind
+  ("C-x C-x" . kill-region)
+  ("C-c t +" . text-scale-increase)
+  ("C-c t -" . text-scale-decrease)
+  ("C-c t =" . text-scale-adjust)
+  ("C-w =" . balance-windows)
+  ("C-w -" . shrink-window-if-larger-than-buffer)
+  ("C-w 0" . delete-window)
+  ("C-w 1" . delete-other-windows)
+  ("C-w 2" . delete-window-below-and-switch)
+  ("C-w 3" . delete-window-right-and-switch)
+  ("C-w 5 0" . delete-frame)
+  ("C-w 5 1" . delete-other-frames)
+  ("C-w 5 2" . make-frame)
+  ("C-w 5 o" . other-frame)
+  ("C-w }" . shrink-window-horizontally)
+  ("C-w {" . enlarge-window-horizontally))
+
+
 
 (provide 'config-base)
 ;;; core ends here
