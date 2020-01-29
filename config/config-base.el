@@ -95,7 +95,7 @@
 (if (eq system-type 'darwin)
     (set-default-font "-*-Hack-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1" t t)
   ;(set-default-font "Hack 13" t t)
-  (set-frame-font "Hack 13" t t))
+  (set-frame-font "Hack 12" t t))
 
 ;; Delete trailing whitespace before save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -116,6 +116,7 @@
   ("C-c t +" . text-scale-increase)
   ("C-c t -" . text-scale-decrease)
   ("C-c t =" . text-scale-adjust)
+  ("C-c g g" . goto-line)
   ("C-w =" . balance-windows)
   ("C-w -" . shrink-window-if-larger-than-buffer)
   ("C-w 0" . delete-window)
